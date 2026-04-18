@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JavaScript Mastery — Vipin Singh</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --bg: #0f1117;
+        --surface: #1a1d27;
+        --surface2: #22263a;
+        --border: #2e3352;
+        --accent: #7c6af7;
+        --accent2: #5eead4;
+        --accent3: #fb923c;
+        --text: #e2e8f0;
+        --muted: #8892b0;
+        --green: #4ade80;
+        --yellow: #fbbf24;
+        --red: #f87171;
+        --blue: #60a5fa;
+        --code-bg: #111827;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Segoe UI", system-ui, sans-serif;
+        font-size: 16px;
+        line-height: 1.7;
+      }
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--bg);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--border);
+        border-radius: 3px;
+      }
+
+      /* Layout */
+      .layout {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      /* Main */
+      .main {
+        flex: 1;
+        padding: 44px 52px;
+        overflow-x: hidden;
+      }
+
+      /* Page header */
+      .page-header {
+        margin-bottom: 44px;
+        padding-bottom: 28px;
+        border-bottom: 1px solid var(--border);
+      }
+      .badge-tag {
+        display: inline-block;
+        background: rgba(124, 106, 247, 0.15);
+        color: var(--accent);
+        font-size: 11px;
+        font-weight: 600;
+        padding: 3px 10px;
+        border-radius: 20px;
+        margin-bottom: 14px;
+        border: 1px solid rgba(124, 106, 247, 0.3);
+      }
+      .page-header h1 {
+        font-size: 34px;
+        font-weight: 800;
+        letter-spacing: -1px;
+        line-height: 1.2;
+      }
+      .page-header p {
+        margin-top: 10px;
+        font-size: 15px;
+        color: var(--muted);
+        max-width: 580px;
+      }
+
+      .card-main {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+        color: var(--text);
+      }
+      .card-main a {
+        color: var(--text);
+        font-size: 32px;
+        font-weight: 400;
+        text-align: center;
+        text-decoration: none;
+        letter-spacing: 1px;
+      }
+      .card {
+        padding: 30px;
+        border-radius: 16px;
+        border: 1px solid var(--border);
+      }
+
+      /* Phase banner */
+      .phase-banner {
+        background: linear-gradient(135deg, var(--surface2), var(--surface));
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 20px 24px;
+        margin-bottom: 36px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .phase-icon {
+        font-size: 28px;
+      }
+      .phase-info h2 {
+        font-size: 18px;
+        font-weight: 700;
+      }
+      .phase-info p {
+        font-size: 13px;
+        color: var(--muted);
+        margin-top: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+
+      <!-- MAIN -->
+      <main class="main">
+        <div class="page-header">
+          <div class="badge-tag">JavaScript Mastery Curriculum</div>
+          <h1>Learn -- <br/> JavaScript, Typescript, ES6</h1>
+        </div>
+        <div class="card-main">
+            <a href="./javascript-mastry.html" class="card">
+                <span>JavaScript</span>
+            </a>
+            <a href="./typescript.html" class="card">
+                <span>Typescript</span>
+            </a>
+            <a href="./es6.html" class="card">
+                <span>ES6</span>
+            </a>
+            <a href="./linux.html" class="card">
+                <span>Linux</span>
+            </a>
+            <a href="./docker.html" class="card">
+                <span>Docker</span>
+            </a>
+            <a href="./git-hub.html"class="card">
+                <span>Git and Github</span>
+            </a>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

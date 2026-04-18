@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>JavaScript Mastery — Vipin Singh</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0f1117;--surface:#1a1d27;--surface2:#22263a;--border:#2e3352;
+  --accent:#7c6af7;--accent2:#5eead4;--accent3:#fb923c;
+  --text:#e2e8f0;--muted:#8892b0;--green:#4ade80;--yellow:#fbbf24;
+  --red:#f87171;--blue:#60a5fa;--code-bg:#111827;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;font-size:16px;line-height:1.7}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+/* Layout */
+.layout{display:flex;min-height:100vh}
+
+/* Sidebar */
+.sidebar{width:250px;min-width:250px;background:var(--surface);border-right:1px solid var(--border);padding:20px 0;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sidebar-logo{padding:0 18px 16px;border-bottom:1px solid var(--border);margin-bottom:12px}
+.sidebar-logo h1{font-size:17px;font-weight:700;color:var(--accent)}
+.sidebar-logo p{font-size:11px;color:var(--muted);margin-top:3px}
+.phase-label{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);padding:10px 18px 3px}
+.sidebar a{display:flex;align-items:center;gap:8px;padding:7px 18px;font-size:13px;color:var(--muted);text-decoration:none;border-left:3px solid transparent;transition:all .15s}
+.sidebar a:hover,.sidebar a.done{color:var(--text);background:var(--surface2);border-left-color:var(--accent)}
+.sidebar a.active{color:var(--accent);background:var(--surface2);border-left-color:var(--accent);font-weight:600}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+
+/* Main */
+.main{flex:1;max-width:880px;padding:44px 52px;overflow-x:hidden}
+
+/* Page header */
+.page-header{margin-bottom:44px;padding-bottom:28px;border-bottom:1px solid var(--border)}
+.badge-tag{display:inline-block;background:rgba(124,106,247,.15);color:var(--accent);font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;margin-bottom:14px;border:1px solid rgba(124,106,247,.3)}
+.page-header h1{font-size:34px;font-weight:800;letter-spacing:-1px;line-height:1.2}
+.page-header p{margin-top:10px;font-size:15px;color:var(--muted);max-width:580px}
+
+/* Phase banner */
+.phase-banner{background:linear-gradient(135deg,var(--surface2),var(--surface));border:1px solid var(--border);border-radius:12px;padding:20px 24px;margin-bottom:36px;display:flex;align-items:center;gap:14px}
+.phase-icon{font-size:28px}
+.phase-info h2{font-size:18px;font-weight:700}
+.phase-info p{font-size:13px;color:var(--muted);margin-top:3px}
+
+/* Section */
+.section{margin-bottom:56px;scroll-margin-top:20px}
+.section-header{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.s-num{width:34px;height:34px;background:rgba(124,106,247,.12);border:1px solid rgba(124,106,247,.35);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--accent);flex-shrink:0}
+.section-header h2{font-size:21px;font-weight:700}
+h3{font-size:15px;font-weight:600;color:var(--accent2);margin:22px 0 9px}
+h4{font-size:13px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;margin:18px 0 7px}
+p{margin-bottom:11px}
+ul,ol{padding-left:20px;color:var(--muted);font-size:14px;line-height:2.1;margin-bottom:11px}
+li{margin-bottom:2px}
+
+/* Sub-section numbers */
+.sub-num{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.sub-num.teal{background:rgba(94,234,212,.1);border:1px solid rgba(94,234,212,.3);color:var(--accent2)}
+.sub-num.red{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);color:var(--red)}
+.sub-num.green{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);color:var(--green)}
+.sub-num.orange{background:rgba(251,146,60,.1);border:1px solid rgba(251,146,60,.3);color:var(--accent3)}
+.sub-num.purple{background:rgba(124,106,247,.1);border:1px solid rgba(124,106,247,.3);color:var(--accent)}
+.sub-header{display:flex;align-items:center;gap:10px;margin:32px 0 12px}
+.sub-header h3{margin:0;font-size:16px}
+
+/* Table */
+.tbl-wrap{overflow-x:auto;margin:14px 0;border-radius:10px;border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{background:var(--surface2);color:var(--muted);font-weight:600;text-transform:uppercase;font-size:11px;letter-spacing:.7px;padding:11px 14px;text-align:left;border-bottom:1px solid var(--border)}
+td{padding:11px 14px;border-bottom:1px solid var(--border)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,.02)}
+.y{display:inline-block;background:rgba(74,222,128,.1);color:var(--green);border:1px solid rgba(74,222,128,.3);padding:1px 7px;border-radius:4px;font-size:11px;font-weight:600}
+.n{display:inline-block;background:rgba(248,113,113,.1);color:var(--red);border:1px solid rgba(248,113,113,.3);padding:1px 7px;border-radius:4px;font-size:11px;font-weight:600}
+
+/* Code */
+.cb{background:var(--code-bg);border:1px solid var(--border);border-radius:10px;margin:14px 0;overflow:hidden}
+.cb-head{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;background:var(--surface2);border-bottom:1px solid var(--border)}
+.cb-lang{font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.4px}
+.cb-lbl{font-size:10px;color:var(--accent2);background:rgba(94,234,212,.08);border:1px solid rgba(94,234,212,.22);padding:2px 7px;border-radius:3px}
+.cb-lbl.warn{color:var(--red);background:rgba(248,113,113,.08);border-color:rgba(248,113,113,.22)}
+.cb-lbl.ok{color:var(--green);background:rgba(74,222,128,.08);border-color:rgba(74,222,128,.22)}
+pre{margin:0;padding:18px;overflow-x:auto;font-family:'Cascadia Code','Fira Code','JetBrains Mono',monospace;font-size:13px;line-height:1.75}
+code{font-family:'Cascadia Code','Fira Code',monospace;font-size:12.5px}
+p code,li code{background:rgba(124,106,247,.1);border:1px solid rgba(124,106,247,.22);color:var(--accent);padding:1px 5px;border-radius:3px}
+
+/* Syntax */
+.kw{color:#c678dd}.fn{color:#61afef}.str{color:#98c379}.num{color:#d19a66}
+.cmt{color:#5c6370;font-style:italic}.op{color:#56b6c2}.bool{color:#d19a66}
+.tp{color:#e5c07b}
+
+/* Cards */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px 22px;margin:14px 0}
+.card.al{border-left:3px solid var(--accent)}
+.card.gl{border-left:3px solid var(--green)}
+.card.rl{border-left:3px solid var(--red)}
+.card.yl{border-left:3px solid var(--yellow)}
+
+/* Alert boxes */
+.warn{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.22);border-radius:9px;padding:14px 18px;margin:12px 0}
+.warn .wt{font-size:11px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.7px;margin-bottom:7px}
+.ok{background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.22);border-radius:9px;padding:14px 18px;margin:12px 0}
+.ok .wt{font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.7px;margin-bottom:7px}
+.info{background:rgba(124,106,247,.07);border:1px solid rgba(124,106,247,.22);border-radius:9px;padding:14px 18px;margin:12px 0}
+.info .wt{font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.7px;margin-bottom:7px}
+
+/* Memory diagram */
+.mem{font-family:'Cascadia Code','Fira Code',monospace;font-size:12.5px;background:var(--code-bg);border:1px dashed var(--border);border-radius:9px;padding:18px 22px;color:var(--muted);margin:12px 0;line-height:1.9}
+.mem .hi{color:var(--accent2);font-weight:600}
+.mem .dim{color:#3d4357}
+
+/* Mental model */
+.mm{background:linear-gradient(135deg,rgba(124,106,247,.07),rgba(94,234,212,.04));border:1px solid rgba(124,106,247,.22);border-radius:10px;padding:18px 22px;margin:14px 0}
+.mm-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.9px;color:var(--accent);margin-bottom:9px}
+
+/* Tasks */
+.task{display:flex;gap:12px;align-items:flex-start;padding:14px;border-radius:9px;margin:9px 0;border:1px solid var(--border);background:var(--surface)}
+.tbadge{padding:2px 9px;border-radius:5px;font-size:10px;font-weight:700;letter-spacing:.4px;white-space:nowrap;margin-top:3px}
+.easy{background:rgba(74,222,128,.12);color:var(--green);border:1px solid rgba(74,222,128,.28)}
+.med{background:rgba(251,191,36,.12);color:var(--yellow);border:1px solid rgba(251,191,36,.28)}
+.hard{background:rgba(248,113,113,.12);color:var(--red);border:1px solid rgba(248,113,113,.28)}
+.task-body h4{font-size:14px;font-weight:600;color:var(--text);margin:0 0 5px;text-transform:none;letter-spacing:0}
+.task-body p{font-size:13px;color:var(--muted);margin:0}
+
+/* Questions */
+.qs{counter-reset:q}
+.q{padding:12px 16px 12px 42px;border-radius:7px;border:1px solid var(--border);background:var(--surface);margin:7px 0;font-size:13.5px;color:var(--muted);counter-increment:q;position:relative}
+.q::before{content:"Q"counter(q);position:absolute;left:12px;top:12px;font-size:10px;font-weight:700;color:var(--accent);background:rgba(124,106,247,.1);border:1px solid rgba(124,106,247,.28);padding:1px 5px;border-radius:3px}
+
+hr{border:none;border-top:1px solid var(--border);margin:36px 0}
+
+@media(max-width:768px){.sidebar{display:none}.main{padding:22px 18px}}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <h1>JS Mastery</h1>
+    <p>Vipin Singh · 2026</p>
+  </div>
+
+  <div class="phase-label">🟢 Phase 1 — Basics</div>
+  <a href="#variables" class="done"><span class="dot" style="background:var(--green)"></span>01. Variables</a>
+  <a href="#primitives" class="done"><span class="dot" style="background:var(--green)"></span>02. Primitives vs Reference</a>
+  <a href="#null-undefined" class="done"><span class="dot" style="background:var(--green)"></span>03. null vs undefined</a>
+  <a href="#global-object" class="done"><span class="dot" style="background:var(--green)"></span>04. Global Object</a>
+  <a href="#data-types" class="done"><span class="dot" style="background:var(--green)"></span>05. Data Types</a>
+  <a href="#operators-intro" class="done"><span class="dot" style="background:var(--green)"></span>06. Operators Overview</a>
+  <a href="#coercion" class="done"><span class="dot" style="background:var(--green)"></span>07. Type Coercion</a>
+  <a href="#decl-vs-assign" class="done"><span class="dot" style="background:var(--green)"></span>08. Decl vs Assignment</a>
+
+  <div class="phase-label">🟡 Phase 2 — Expressions</div>
+  <a href="#expr-vs-stmt" class="done"><span class="dot" style="background:var(--green)"></span>01. Expression vs Statement</a>
+  <a href="#precedence" class="done"><span class="dot" style="background:var(--green)"></span>02. Operator Precedence</a>
+  <a href="#logical-ops" class="done"><span class="dot" style="background:var(--green)"></span>03. Logical &amp; Comparison</a>
+  <a href="#short-circuit" class="done"><span class="dot" style="background:var(--green)"></span>04. Short-Circuiting</a>
+
+  <div class="phase-label">🟡 Phase 3 — Statements</div>
+  <a href="#"><span class="dot" style="background:#3d4357"></span>if / switch</a>
+  <a href="#"><span class="dot" style="background:#3d4357"></span>Loops</a>
+  <a href="#"><span class="dot" style="background:#3d4357"></span>Control Flow</a>
+
+  <div class="phase-label">🔵 Phase 4 — Objects</div>
+  <a href="#"><span class="dot" style="background:#3d4357"></span>Object Fundamentals</a>
+  <a href="#"><span class="dot" style="background:#3d4357"></span>this keyword</a>
+
+  <div class="phase-label">🔵 Phase 5 — Arrays</div>
+  <a href="#"><span class="dot" style="background:#3d4357"></span>Array Internals</a>
+
+  <div class="phase-label">🟣 Phase 6 — Functions</div>
+  <a href="#"><span class="dot" style="background:#3d4357"></span>Functions Deep Dive</a>
+  <a href="#"><span class="dot" style="background:#3d4357"></span>Closures</a>
+
+  <div class="phase-label">🔴 Phase 8 — Classes</div>
+  <a href="#"><span class="dot" style="background:#3d4357"></span>Class Syntax</a>
+
+  <div class="phase-label">🔥 Phase 12 — Async</div>
+  <a href="#"><span class="dot" style="background:#3d4357"></span>Event Loop</a>
+  <a href="#"><span class="dot" style="background:#3d4357"></span>Promises</a>
+  <a href="#"><span class="dot" style="background:#3d4357"></span>Async / Await</a>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+<div class="page-header">
+  <div class="badge-tag">JavaScript Mastery Curriculum</div>
+  <h1>JavaScript<br>From First Principles</h1>
+  <p>A structured, senior-level guide covering Phases 1 &amp; 2 — from variables and types through expressions, operators, and short-circuiting.</p>
+</div>
+
+<!-- ══════════════════════════════════════
+     PHASE 1
+══════════════════════════════════════ -->
+<div class="phase-banner">
+  <div class="phase-icon">🟢</div>
+  <div class="phase-info">
+    <h2>Phase 1 — JavaScript Basics</h2>
+    <p>Variables · Types · null/undefined · Global Object · Data Types · Operators · Coercion · Declaration vs Assignment</p>
+  </div>
+</div>
+
+<!-- ─── TOPIC 01: VARIABLES ─── -->
+<section class="section" id="variables">
+  <div class="section-header">
+    <div class="s-num">01</div>
+    <h2>Variables — <code>var</code>, <code>let</code>, <code>const</code></h2>
+  </div>
+
+  <div class="sub-header"><div class="sub-num teal">1️⃣</div><h3>Concept Explanation</h3></div>
+  <p>A <strong>variable</strong> is a named container that holds a value in memory. JavaScript has three keywords — <code>var</code>, <code>let</code>, <code>const</code> — each with different rules for scope, hoisting, and reassignment.</p>
+
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Keyword</th><th>Scope</th><th>Hoisted</th><th>Re-declarable</th><th>Reassignable</th><th>TDZ</th></tr></thead>
+    <tbody>
+      <tr><td><code>var</code></td><td>Function</td><td><span class="y">✅ as undefined</span></td><td><span class="y">✅ Yes</span></td><td><span class="y">✅ Yes</span></td><td><span class="n">❌ No</span></td></tr>
+      <tr><td><code>let</code></td><td>Block</td><td><span class="y">✅ uninitialized</span></td><td><span class="n">❌ No</span></td><td><span class="y">✅ Yes</span></td><td><span class="y">✅ Yes</span></td></tr>
+      <tr><td><code>const</code></td><td>Block</td><td><span class="y">✅ uninitialized</span></td><td><span class="n">❌ No</span></td><td><span class="n">❌ No</span></td><td><span class="y">✅ Yes</span></td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Internal Working — Two-Phase Execution</h3>
+  <div class="mem">
+    Phase 1 — Compilation (before any code runs):<br>
+    ┌──────────────────────────────────────────┐<br>
+    │ <span class="hi">var</span>   x  →  <span style="color:var(--yellow)">undefined</span>                 │  ← hoisted &amp; initialized<br>
+    │ <span class="hi">let</span>   y  →  <span style="color:var(--red)">&lt;TDZ — not initialized&gt;</span>   │  ← hoisted, NOT initialized<br>
+    │ <span class="hi">const</span> z  →  <span style="color:var(--red)">&lt;TDZ — not initialized&gt;</span>   │  ← hoisted, NOT initialized<br>
+    └──────────────────────────────────────────┘<br><br>
+    Phase 2 — Execution (line by line):<br>
+    values assigned when engine reaches those lines
+  </div>
+
+  <div class="warn"><div class="wt">⚠️ var leaks out of blocks</div>
+  <p style="margin:0;font-size:13.5px"><code>var</code> does NOT respect <code>{}</code> blocks. It leaks into the nearest <strong>function scope</strong>. This is the #1 source of <code>var</code> bugs.</p></div>
+
+  <div class="warn"><div class="wt">⚠️ const ≠ immutable</div>
+  <p style="margin:0;font-size:13.5px"><code>const</code> prevents the <strong>binding</strong> from being reassigned. The object's properties can still change.</p></div>
+
+  <div class="mm"><div class="mm-title">🧠 Mental Model — Labeled Boxes</div>
+  <p><strong>var</strong> — A box in the whole room (function). Exists before you fill it. Works anywhere in the room.</p>
+  <p><strong>let</strong> — A box on one shelf (block). Cannot leave the shelf. You can refill it.</p>
+  <p style="margin:0"><strong>const</strong> — A permanently labeled box. You can't re-label it, but you can rearrange what's inside (for objects/arrays).</p></div>
+
+  <div class="sub-header"><div class="sub-num teal">2️⃣</div><h3>Code Examples</h3></div>
+
+  <div class="cb"><div class="cb-head"><span class="cb-lang">JavaScript</span><span class="cb-lbl">Basic</span></div>
+  <pre><code><span class="cmt">// var — re-declarable, function scoped</span>
+<span class="kw">var</span> city = <span class="str">"Delhi"</span>;
+<span class="kw">var</span> city = <span class="str">"Mumbai"</span>; <span class="cmt">// ✅ no error</span>
+
+<span class="cmt">// let — block scoped, reassignable</span>
+<span class="kw">let</span> score = <span class="num">0</span>;
+score = <span class="num">100</span>; <span class="cmt">// ✅</span>
+
+<span class="cmt">// const — binding cannot be reassigned</span>
+<span class="kw">const</span> PI = <span class="num">3.14159</span>;
+<span class="cmt">// PI = 3; // ❌ TypeError</span></code></pre></div>
+
+  <div class="cb"><div class="cb-head"><span class="cb-lang">JavaScript</span><span class="cb-lbl">Real-World — Loop Bug</span></div>
+  <pre><code><span class="cmt">// ❌ var: all callbacks share same i</span>
+<span class="kw">for</span> (<span class="kw">var</span> i = <span class="num">0</span>; i &lt; <span class="num">3</span>; i++) {
+  <span class="fn">setTimeout</span>(() =&gt; <span class="fn">console</span>.log(<span class="str">"var:"</span>, i), <span class="num">100</span>);
+}
+<span class="cmt">// Output: var: 3, var: 3, var: 3</span>
+
+<span class="cmt">// ✅ let: each iteration gets its own scoped i</span>
+<span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">0</span>; i &lt; <span class="num">3</span>; i++) {
+  <span class="fn">setTimeout</span>(() =&gt; <span class="fn">console</span>.log(<span class="str">"let:"</span>, i), <span class="num">100</span>);
+}
+<span class="cmt">// Output: let: 0, let: 1, let: 2</span></code></pre></div>
+
+  <div class="sub-header"><div class="sub-num red">3️⃣</div><h3>Common Mistakes</h3></div>
+  <div class="warn"><div class="wt">❌ Mistake — Accessing let before declaration (TDZ)</div>
+  <div class="cb" style="margin:8px 0"><div class="cb-head"><span class="cb-lang">JS</span><span class="cb-lbl warn">Wrong</span></div>
+  <pre><code><span class="fn">console</span>.log(config); <span class="cmt">// ❌ ReferenceError — TDZ</span>
+<span class="kw">let</span> config = { debug: <span class="bool">true</span> };</code></pre></div>
+  <p style="font-size:13px;margin:4px 0 0;color:var(--muted)">Why: <code>let</code> is hoisted but uninitialized. Accessing it before its declaration is a TDZ violation.</p></div>
+
+  <div class="sub-header"><div class="sub-num green">4️⃣</div><h3>Practice Tasks</h3></div>
+  <div class="task"><span class="tbadge easy">🟢 EASY</span><div class="task-body"><h4>Basic Declaration</h4><p>Declare <code>firstName</code> with <code>const</code>, <code>score</code> with <code>let</code> starting at 0, update to 100. Try re-declaring <code>firstName</code> — observe the error.</p></div></div>
+  <div class="task"><span class="tbadge med">🟡 MEDIUM</span><div class="task-body"><h4>Predict the Output</h4><p>Before running: predict <code>console.log</code> output for hoisting, TDZ, and <code>const</code>-with-object mutation code. Write reasons first.</p></div></div>
+  <div class="task"><span class="tbadge hard">🔴 REAL-WORLD</span><div class="task-body"><h4>Fix the Shopping Cart Bug</h4><p><code>createButtons(items)</code> uses <code>var i</code> in a <code>for</code> loop with <code>setTimeout</code>. All logs show <code>undefined</code>. Diagnose and fix with <code>let</code>.</p></div></div>
+
+  <div class="sub-header"><div class="sub-num orange">5️⃣</div><h3>Interview Questions</h3></div>
+  <div class="qs">
+    <div class="q">What is hoisting? How does <code>var</code> hoisting differ from <code>let</code>? What happens in the compilation phase?</div>
+    <div class="q">What is the Temporal Dead Zone? Write a code example triggering it and explain exactly why it occurs.</div>
+    <div class="q">Why does <code>const</code> not make objects immutable? What would you use for a truly immutable object?</div>
+    <div class="q">In a <code>for</code> loop with <code>setTimeout</code>, why does <code>var</code> produce unexpected results but <code>let</code> does not?</div>
+    <div class="q">When would you ever use <code>var</code> in modern JavaScript?</div>
+  </div>
+</section>
+
+<!-- ─── TOPIC 02: PRIMITIVES VS REFERENCE ─── -->
+<section class="section" id="primitives">
+  <div class="section-header">
+    <div class="s-num">02</div>
+    <h2>Primitive vs Reference Types</h2>
+  </div>
+
+  <div class="sub-header"><div class="sub-num teal">1️⃣</div><h3>Concept Explanation</h3></div>
+  <p>Every JavaScript value is either a <strong>primitive</strong> (stored by value) or a <strong>reference type</strong> (stored by reference). The difference determines how values are <em>copied</em> and <em>compared</em>.</p>
+
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Category</th><th>Types</th><th>Stored In</th><th>Copied By</th><th>Mutable?</th></tr></thead>
+    <tbody>
+      <tr><td>Primitive</td><td><code>string number bigint boolean undefined null symbol</code></td><td>Stack</td><td>Value</td><td><span class="n">❌ No</span></td></tr>
+      <tr><td>Reference</td><td><code>Object Array Function Date Map Set</code></td><td>Heap (pointer on stack)</td><td>Reference</td><td><span class="y">✅ Yes</span></td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Internal Working — Stack vs Heap</h3>
+  <div class="mem">
+STACK (fast, fixed-size)            HEAP (large, dynamic)<br>
+┌──────────────────────┐           ┌───────────────────────────┐<br>
+│ a = <span class="hi">10</span>              │           │                           │<br>
+│ b = <span class="hi">10</span>  ← full copy  │           │  { name: "Vipin" }  ←─────┼── user1<br>
+│                      │           │  (same object)      ←─────┼── user2<br>
+│ user1 = [ref:0x001] ─┼──────────►│  [address: 0x001]         │<br>
+│ user2 = [ref:0x001] ─┼──────────►│                           │<br>
+└──────────────────────┘           └───────────────────────────┘<br>
+<br>
+<span class="dim">Changing b does NOT affect a (different stack slots)</span><br>
+<span class="hi">Changing user2.name DOES affect user1 (same heap object)</span>
+  </div>
+
+  <div class="mm"><div class="mm-title">🧠 Mental Model</div>
+  <p><strong>Primitive = photocopy.</strong> Give someone a copy — they mark it up, your original is fine.</p>
+  <p style="margin:0"><strong>Reference = Google Doc link.</strong> Share the link — they edit it, and you both see the changes.</p></div>
+
+  <div class="sub-header"><div class="sub-num teal">2️⃣</div><h3>Code Examples</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">JavaScript</span><span class="cb-lbl">Basic → Advanced</span></div>
+  <pre><code><span class="cmt">// PRIMITIVES — copied by value</span>
+<span class="kw">let</span> a = <span class="num">10</span>;
+<span class="kw">let</span> b = a;        <span class="cmt">// b gets a full COPY of 10</span>
+b = <span class="num">99</span>;
+<span class="fn">console</span>.log(a);   <span class="cmt">// 10 — unchanged</span>
+<span class="fn">console</span>.log(b);   <span class="cmt">// 99</span>
+
+<span class="cmt">// REFERENCE — copied by pointer</span>
+<span class="kw">let</span> user1 = { name: <span class="str">"Vipin"</span> };
+<span class="kw">let</span> user2 = user1;           <span class="cmt">// same object in memory</span>
+user2.name = <span class="str">"Singh"</span>;
+<span class="fn">console</span>.log(user1.name);     <span class="cmt">// "Singh" — user1 affected!</span>
+
+<span class="cmt">// COMPARISON</span>
+<span class="fn">console</span>.log({} === {});      <span class="cmt">// false — different objects</span>
+<span class="fn">console</span>.log([] === []);      <span class="cmt">// false — different arrays</span>
+<span class="fn">console</span>.log(<span class="str">"hi"</span> === <span class="str">"hi"</span>); <span class="cmt">// true  — same primitive value</span>
+
+<span class="cmt">// SHALLOW COPY — spread operator</span>
+<span class="kw">const</span> original = { score: <span class="num">100</span> };
+<span class="kw">const</span> clone = { ...original };
+clone.score = <span class="num">0</span>;
+<span class="fn">console</span>.log(original.score);  <span class="cmt">// 100 — untouched ✅</span>
+
+<span class="cmt">// DEEP COPY — JSON (flat objects only)</span>
+<span class="kw">const</span> deep = { user: { prefs: { theme: <span class="str">"dark"</span> } } };
+<span class="kw">const</span> copy = <span class="fn">JSON</span>.parse(<span class="fn">JSON</span>.stringify(deep));
+copy.user.prefs.theme = <span class="str">"light"</span>;
+<span class="fn">console</span>.log(deep.user.prefs.theme); <span class="cmt">// "dark" — untouched ✅</span>
+<span class="cmt">// ⚠️ JSON.stringify drops: functions, undefined, Dates, Symbols</span>
+
+<span class="cmt">// REAL-WORLD: Settings draft isolation</span>
+<span class="kw">const</span> liveSettings = { theme: <span class="str">"dark"</span>, fontSize: <span class="num">16</span> };
+<span class="kw">let</span> draft = { ...liveSettings };     <span class="cmt">// isolated copy</span>
+draft.theme = <span class="str">"light"</span>;              <span class="cmt">// editing draft doesn't affect live</span>
+<span class="cmt">// On save:</span>
+<span class="cmt">// Object.assign(liveSettings, draft);</span></code></pre></div>
+
+  <div class="sub-header"><div class="sub-num red">3️⃣</div><h3>Common Mistakes</h3></div>
+  <div class="warn"><div class="wt">❌ Assuming arrays copy by value</div>
+  <div class="cb" style="margin:8px 0"><div class="cb-head"><span class="cb-lang">JS</span><span class="cb-lbl warn">Wrong → Fixed</span></div>
+  <pre><code><span class="kw">const</span> arr1 = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>];
+<span class="kw">const</span> arr2 = arr1;         <span class="cmt">// ❌ same reference!</span>
+arr2.push(<span class="num">4</span>);
+<span class="fn">console</span>.log(arr1);         <span class="cmt">// [1, 2, 3, 4] — arr1 mutated!</span>
+
+<span class="kw">const</span> arr3 = [...arr1];    <span class="cmt">// ✅ shallow copy with spread</span>
+arr3.push(<span class="num">5</span>);
+<span class="fn">console</span>.log(arr1);         <span class="cmt">// [1, 2, 3, 4] — safe ✅</span></code></pre></div></div>
+
+  <div class="sub-header"><div class="sub-num green">4️⃣</div><h3>Practice Tasks</h3></div>
+  <div class="task"><span class="tbadge easy">🟢 EASY</span><div class="task-body"><h4>Copy &amp; Observe</h4><p>Declare <code>x = 5</code>, copy to <code>y</code>, change <code>y</code> to 50. Log both. Do the same with an object. Observe the difference.</p></div></div>
+  <div class="task"><span class="tbadge med">🟡 MEDIUM</span><div class="task-body"><h4>Shallow vs Deep</h4><p>Create <code>{ user: { name: "Vipin", prefs: { theme: "dark" } } }</code>. Make a shallow copy with spread. Change the nested <code>theme</code>. Check if the original changed. Fix with a deep copy.</p></div></div>
+  <div class="task"><span class="tbadge hard">🔴 REAL-WORLD</span><div class="task-body"><h4>Settings Draft</h4><p>Build a settings panel: <code>liveSettings</code> is the active config. User opens a "draft" (copy). They edit it. On "Save", apply draft to live. On "Cancel", discard. Implement without mutating live settings during editing.</p></div></div>
+
+  <div class="sub-header"><div class="sub-num orange">5️⃣</div><h3>Interview Questions</h3></div>
+  <div class="qs">
+    <div class="q">What is the difference between pass-by-value and pass-by-reference? Is JavaScript truly pass-by-reference for objects?</div>
+    <div class="q">Why does <code>{} === {}</code> return <code>false</code>?</div>
+    <div class="q">What is the difference between a shallow copy and a deep copy? When does a shallow copy fail?</div>
+    <div class="q">If I pass an object to a function and mutate it inside, does the original change? Why?</div>
+    <div class="q">What are all 7 primitive types in JavaScript?</div>
+  </div>
+</section>
+
+<!-- ─── TOPIC 03: NULL VS UNDEFINED ─── -->
+<section class="section" id="null-undefined">
+  <div class="section-header">
+    <div class="s-num">03</div>
+    <h2><code>null</code> vs <code>undefined</code></h2>
+  </div>
+
+  <div class="sub-header"><div class="sub-num teal">1️⃣</div><h3>Concept Explanation</h3></div>
+  <p>Both represent "no value" — but their <strong>origin and intent differ fundamentally</strong>.</p>
+
+  <div class="tbl-wrap"><table>
+    <thead><tr><th></th><th><code>undefined</code></th><th><code>null</code></th></tr></thead>
+    <tbody>
+      <tr><td>Set by</td><td>JS engine (automatically)</td><td>Developer (intentionally)</td></tr>
+      <tr><td><code>typeof</code></td><td><code>"undefined"</code></td><td><code>"object"</code> ← historical bug</td></tr>
+      <tr><td><code>== null</code></td><td><span class="y">true</span></td><td><span class="y">true</span></td></tr>
+      <tr><td><code>=== null</code></td><td><span class="n">false</span></td><td><span class="y">true</span></td></tr>
+      <tr><td>Falsy?</td><td><span class="y">Yes</span></td><td><span class="y">Yes</span></td></tr>
+      <tr><td>JSON serialized</td><td>omitted</td><td><code>null</code></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="info"><div class="wt">📌 When does undefined appear automatically?</div>
+  <ul style="margin:0">
+    <li>Variable declared but not assigned: <code>let x;</code></li>
+    <li>Function parameter not provided</li>
+    <li>Function returns nothing (implicit <code>return;</code>)</li>
+    <li>Accessing a non-existent object property: <code>obj.missing</code></li>
+  </ul></div>
+
+  <div class="mm"><div class="mm-title">🧠 Mental Model</div>
+  <p><strong>undefined</strong> = An empty mailbox. Nothing was ever put there.</p>
+  <p style="margin:0"><strong>null</strong> = An empty mailbox with a sign saying "Empty on purpose."</p></div>
+
+  <div class="sub-header"><div class="sub-num teal">2️⃣</div><h3>Code Examples</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">JavaScript</span><span class="cb-lbl">All Cases</span></div>
+  <pre><code><span class="cmt">// undefined — set by engine</span>
+<span class="kw">let</span> x;
+<span class="fn">console</span>.log(x);                          <span class="cmt">// undefined</span>
+
+<span class="kw">function</span> <span class="fn">greet</span>(name) { <span class="kw">return</span> name; }
+<span class="fn">console</span>.log(<span class="fn">greet</span>());                    <span class="cmt">// undefined — no arg</span>
+
+<span class="kw">const</span> obj = { a: <span class="num">1</span> };
+<span class="fn">console</span>.log(obj.b);                      <span class="cmt">// undefined — no property</span>
+
+<span class="cmt">// null — set by developer</span>
+<span class="kw">let</span> currentUser = <span class="bool">null</span>;                  <span class="cmt">// intentional: no user logged in</span>
+currentUser = { name: <span class="str">"Vipin"</span> };        <span class="cmt">// now assigned</span>
+
+<span class="cmt">// The equality trap</span>
+<span class="fn">console</span>.log(<span class="bool">null</span> == <span class="bool">undefined</span>);         <span class="cmt">// true  — loose eq</span>
+<span class="fn">console</span>.log(<span class="bool">null</span> === <span class="bool">undefined</span>);        <span class="cmt">// false — strict eq</span>
+<span class="fn">console</span>.log(<span class="kw">typeof</span> <span class="bool">null</span>);               <span class="cmt">// "object" ← JS bug!</span>
+<span class="fn">console</span>.log(<span class="kw">typeof</span> <span class="bool">undefined</span>);          <span class="cmt">// "undefined"</span>
+
+<span class="cmt">// Safe check for BOTH null AND undefined</span>
+<span class="kw">function</span> <span class="fn">process</span>(value) {
+  <span class="kw">if</span> (value == <span class="bool">null</span>) {                   <span class="cmt">// catches null AND undefined</span>
+    <span class="fn">console</span>.log(<span class="str">"No value provided"</span>);
+    <span class="kw">return</span>;
+  }
+  <span class="fn">console</span>.log(value);
+}
+<span class="fn">process</span>(<span class="bool">null</span>);       <span class="cmt">// "No value provided"</span>
+<span class="fn">process</span>(<span class="bool">undefined</span>);  <span class="cmt">// "No value provided"</span>
+<span class="fn">process</span>(<span class="num">42</span>);         <span class="cmt">// 42</span>
+
+<span class="cmt">// JSON behaviour difference</span>
+<span class="fn">console</span>.log(<span class="fn">JSON</span>.stringify({ a: <span class="bool">undefined</span>, b: <span class="bool">null</span> }));
+<span class="cmt">// {"b":null}  — undefined is omitted, null is kept</span></code></pre></div>
+
+  <div class="sub-header"><div class="sub-num green">4️⃣</div><h3>Practice Tasks</h3></div>
+  <div class="task"><span class="tbadge easy">🟢 EASY</span><div class="task-body"><h4>typeof quiz</h4><p>Log <code>typeof null</code> and <code>typeof undefined</code>. Explain the results.</p></div></div>
+  <div class="task"><span class="tbadge med">🟡 MEDIUM</span><div class="task-body"><h4>isEmpty utility</h4><p>Write <code>isEmpty(val)</code> returning <code>true</code> if <code>val</code> is <code>null</code>, <code>undefined</code>, or empty string <code>""</code>.</p></div></div>
+  <div class="task"><span class="tbadge hard">🔴 REAL-WORLD</span><div class="task-body"><h4>API Field Handling</h4><p>An API returns some fields as <code>null</code> (explicitly cleared by user) and others as <code>undefined</code> (not returned). Write code that distinguishes and handles each case differently.</p></div></div>
+
+  <div class="sub-header"><div class="sub-num orange">5️⃣</div><h3>Interview Questions</h3></div>
+  <div class="qs">
+    <div class="q">What is the difference between <code>null</code> and <code>undefined</code> in intent? Who sets each?</div>
+    <div class="q">Why does <code>typeof null === "object"</code>? Is <code>null</code> an object?</div>
+    <div class="q">Why is <code>value == null</code> a useful check? What does it catch?</div>
+    <div class="q">What happens when you <code>JSON.stringify</code> an object with <code>undefined</code> vs <code>null</code> values?</div>
+  </div>
+</section>
+
+<!-- ─── TOPIC 04: GLOBAL OBJECT ─── -->
+<section class="section" id="global-object">
+  <div class="section-header">
+    <div class="s-num">04</div>
+    <h2>The Global Object</h2>
+  </div>
+
+  <div class="sub-header"><div class="sub-num teal">1️⃣</div><h3>Concept Explanation</h3></div>
+  <p>The <strong>global object</strong> is the top-level container in a JavaScript runtime. Every built-in (<code>Math</code>, <code>JSON</code>, <code>setTimeout</code>) and every <code>var</code> declared at the top level lives on it.</p>
+
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Environment</th><th>Global Object</th><th>Universal (ES2020+)</th></tr></thead>
+    <tbody>
+      <tr><td>Browser</td><td><code>window</code></td><td rowspan="3" style="vertical-align:middle"><code>globalThis</code></td></tr>
+      <tr><td>Node.js</td><td><code>global</code></td></tr>
+      <tr><td>Web Worker</td><td><code>self</code></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="info"><div class="wt">📌 Key Behavior</div>
+  <ul style="margin:0">
+    <li><code>var</code> declarations at top level → become properties of the global object</li>
+    <li><code>let</code> / <code>const</code> at top level → do NOT become global object properties</li>
+    <li>All built-ins (<code>Math</code>, <code>parseInt</code>, <code>setTimeout</code>) live on the global object</li>
+  </ul></div>
+
+  <div class="cb"><div class="cb-head"><span class="cb-lang">JavaScript</span><span class="cb-lbl">Browser</span></div>
+  <pre><code><span class="kw">var</span> appName = <span class="str">"MyApp"</span>;
+<span class="fn">console</span>.log(window.appName);         <span class="cmt">// "MyApp" — on window!</span>
+
+<span class="kw">let</span> version = <span class="str">"1.0"</span>;
+<span class="fn">console</span>.log(window.version);         <span class="cmt">// undefined — not on window</span>
+
+<span class="cmt">// globalThis works everywhere</span>
+<span class="fn">console</span>.log(globalThis.Math.PI);     <span class="cmt">// 3.14...</span>
+<span class="fn">console</span>.log(globalThis.parseInt(<span class="str">"42"</span>)); <span class="cmt">// 42</span>
+
+<span class="cmt">// Environment detection</span>
+<span class="kw">const</span> isBrowser = <span class="kw">typeof</span> window !== <span class="str">"undefined"</span>;
+<span class="kw">const</span> isNode = <span class="kw">typeof</span> process !== <span class="str">"undefined"</span> &amp;&amp; process.versions?.node;
+<span class="fn">console</span>.log(isBrowser ? <span class="str">"Browser"</span> : <span class="str">"Node"</span>);</code></pre></div>
+
+  <div class="sub-header"><div class="sub-num green">4️⃣</div><h3>Practice Tasks</h3></div>
+  <div class="task"><span class="tbadge easy">🟢 EASY</span><div class="task-body"><h4>Global Inspection</h4><p>In the browser console: type <code>window</code>. Scroll the properties. Declare a <code>var</code> and a <code>let</code>. Check which appears on <code>window</code>.</p></div></div>
+  <div class="task"><span class="tbadge hard">🔴 REAL-WORLD</span><div class="task-body"><h4>Cross-env Utility</h4><p>Write a helper function <code>getEnv()</code> that returns <code>"browser"</code>, <code>"node"</code>, or <code>"worker"</code> by checking the global object, using <code>globalThis</code> as the entry point.</p></div></div>
+</section>
+
+<!-- ─── TOPIC 05: DATA TYPES ─── -->
+<section class="section" id="data-types">
+  <div class="section-header">
+    <div class="s-num">05</div>
+    <h2>Data Types — Deep Dive</h2>
+  </div>
+
+  <div class="sub-header"><div class="sub-num teal">1️⃣</div><h3>Concept Explanation</h3></div>
+  <p>JavaScript has <strong>8 data types</strong>: 7 primitives and 1 structural type (<code>object</code>). Every value you ever work with is one of these.</p>
+
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Type</th><th>Example</th><th>typeof result</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td><code>number</code></td><td><code>42, 3.14, NaN, Infinity</code></td><td><code>"number"</code></td><td>IEEE 754 double-precision</td></tr>
+      <tr><td><code>string</code></td><td><code>"hi", 'hi', `hi`</code></td><td><code>"string"</code></td><td>Immutable UTF-16</td></tr>
+      <tr><td><code>boolean</code></td><td><code>true, false</code></td><td><code>"boolean"</code></td><td></td></tr>
+      <tr><td><code>undefined</code></td><td><code>undefined</code></td><td><code>"undefined"</code></td><td>Uninitialized</td></tr>
+      <tr><td><code>null</code></td><td><code>null</code></td><td><code>"object"</code> ⚠️</td><td>Historical bug</td></tr>
+      <tr><td><code>symbol</code></td><td><code>Symbol("id")</code></td><td><code>"symbol"</code></td><td>Always unique</td></tr>
+      <tr><td><code>bigint</code></td><td><code>9007199254740991n</code></td><td><code>"bigint"</code></td><td>Arbitrary precision</td></tr>
+      <tr><td><code>object</code></td><td><code>{}, [], function(){}</code></td><td><code>"object"</code> / <code>"function"</code></td><td>All non-primitives</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="warn"><div class="wt">⚠️ Number type internals — IEEE 754 gotchas</div>
+  <div class="cb" style="margin:8px 0"><div class="cb-head"><span class="cb-lang">JS</span></div>
+  <pre><code>0.1 + 0.2 === 0.3          <span class="cmt">// false! (result: 0.30000000000000004)</span>
+Number.MAX_SAFE_INTEGER    <span class="cmt">// 9007199254740991 (2^53 - 1)</span>
+
+<span class="cmt">// NaN is type "number" and never equals itself</span>
+<span class="kw">typeof</span> NaN                 <span class="cmt">// "number" ← surprising</span>
+NaN === NaN                <span class="cmt">// false ← use Number.isNaN() instead</span>
+Number.isNaN(NaN)          <span class="cmt">// true ✅</span>
+Number.isNaN(<span class="str">"hello"</span>)     <span class="cmt">// false ✅ (does NOT coerce)</span>
+isNaN(<span class="str">"hello"</span>)            <span class="cmt">// true ← isNaN coerces first (unreliable!)</span>
+
+<span class="num">1</span> / <span class="num">0</span>                     <span class="cmt">// Infinity</span>
+-<span class="num">1</span> / <span class="num">0</span>                    <span class="cmt">// -Infinity</span>
+<span class="num">0</span> / <span class="num">0</span>                     <span class="cmt">// NaN</span></code></pre></div></div>
+
+  <div class="cb"><div class="cb-head"><span class="cb-lang">JavaScript</span><span class="cb-lbl">typeof all types</span></div>
+  <pre><code><span class="kw">typeof</span> <span class="num">42</span>              <span class="cmt">// "number"</span>
+<span class="kw">typeof</span> <span class="str">"hello"</span>         <span class="cmt">// "string"</span>
+<span class="kw">typeof</span> <span class="bool">true</span>            <span class="cmt">// "boolean"</span>
+<span class="kw">typeof</span> <span class="bool">undefined</span>       <span class="cmt">// "undefined"</span>
+<span class="kw">typeof</span> <span class="bool">null</span>            <span class="cmt">// "object"  ← historical bug</span>
+<span class="kw">typeof</span> Symbol()        <span class="cmt">// "symbol"</span>
+<span class="kw">typeof</span> <span class="num">42n</span>             <span class="cmt">// "bigint"</span>
+<span class="kw">typeof</span> {}              <span class="cmt">// "object"</span>
+<span class="kw">typeof</span> []              <span class="cmt">// "object"  ← arrays are objects!</span>
+<span class="kw">typeof</span> <span class="kw">function</span>(){}    <span class="cmt">// "function" ← special case</span>
+
+<span class="cmt">// Correct array check</span>
+Array.isArray([])      <span class="cmt">// true  ✅</span>
+Array.isArray({})      <span class="cmt">// false ✅</span>
+
+<span class="cmt">// Symbol — always unique</span>
+<span class="kw">const</span> id1 = Symbol(<span class="str">"id"</span>);
+<span class="kw">const</span> id2 = Symbol(<span class="str">"id"</span>);
+<span class="fn">console</span>.log(id1 === id2);  <span class="cmt">// false — always unique</span>
+
+<span class="cmt">// BigInt — beyond MAX_SAFE_INTEGER</span>
+<span class="kw">const</span> huge = <span class="num">9007199254740991n</span> + <span class="num">1n</span>;  <span class="cmt">// ✅ precise</span>
+<span class="kw">const</span> bad  = <span class="num">9007199254740991</span> + <span class="num">1</span>;    <span class="cmt">// ❌ loses precision</span></code></pre></div>
+
+  <div class="sub-header"><div class="sub-num green">4️⃣</div><h3>Practice Tasks</h3></div>
+  <div class="task"><span class="tbadge easy">🟢 EASY</span><div class="task-body"><h4>getType utility</h4><p>Write <code>getType(val)</code> that returns a correct human-readable type for any value — including <code>"null"</code> and <code>"array"</code> (not just <code>"object"</code>).</p></div></div>
+  <div class="task"><span class="tbadge med">🟡 MEDIUM</span><div class="task-body"><h4>Floating point comparison</h4><p>Why does <code>0.1 + 0.2 !== 0.3</code>? Write a <code>approximatelyEqual(a, b)</code> function using <code>Number.EPSILON</code>.</p></div></div>
+  <div class="task"><span class="tbadge hard">🔴 REAL-WORLD</span><div class="task-body"><h4>Type Validator</h4><p>Build <code>typeValidator(value, expected)</code> where <code>expected</code> can be <code>"string"</code>, <code>"number"</code>, <code>"null"</code>, <code>"array"</code>, <code>"object"</code>. Handle all typeof quirks correctly.</p></div></div>
+
+  <div class="sub-header"><div class="sub-num orange">5️⃣</div><h3>Interview Questions</h3></div>
+  <div class="qs">
+    <div class="q">What are all 8 JavaScript data types? Which is not a primitive?</div>
+    <div class="q">Why is <code>NaN === NaN</code> false? How do you correctly check for NaN?</div>
+    <div class="q">Why does <code>0.1 + 0.2</code> not equal <code>0.3</code> in JavaScript?</div>
+    <div class="q">Why does <code>typeof []</code> return <code>"object"</code>? How do you correctly detect arrays?</div>
+    <div class="q">What is the difference between <code>isNaN()</code> and <code>Number.isNaN()</code>?</div>
+  </div>
+</section>
+
+<!-- ─── TOPIC 06: OPERATORS OVERVIEW ─── -->
+<section class="section" id="operators-intro">
+  <div class="section-header">
+    <div class="s-num">06</div>
+    <h2>Operators Overview</h2>
+  </div>
+
+  <div class="sub-header"><div class="sub-num teal">1️⃣</div><h3>Concept Explanation</h3></div>
+  <p>Operators are symbols that perform operations on values (operands). JavaScript has several categories. Phase 2 covers precedence and logical operators in depth — here we cover the full category map.</p>
+
+  <div class="cb"><div class="cb-head"><span class="cb-lang">JavaScript</span><span class="cb-lbl">All Operator Categories</span></div>
+  <pre><code><span class="cmt">// ARITHMETIC</span>
+<span class="num">5</span> + <span class="num">3</span>       <span class="cmt">// 8</span>
+<span class="num">10</span> - <span class="num">4</span>     <span class="cmt">// 6</span>
+<span class="num">3</span> * <span class="num">4</span>       <span class="cmt">// 12</span>
+<span class="num">10</span> / <span class="num">3</span>     <span class="cmt">// 3.333...</span>
+<span class="num">10</span> % <span class="num">3</span>     <span class="cmt">// 1 (remainder)</span>
+<span class="num">2</span> ** <span class="num">10</span>    <span class="cmt">// 1024 (exponentiation)</span>
+<span class="kw">let</span> x = <span class="num">5</span>;
+x++;         <span class="cmt">// post-increment: returns 5, then x becomes 6</span>
+++x;         <span class="cmt">// pre-increment: x becomes 7, returns 7</span>
+
+<span class="cmt">// UNARY</span>
+<span class="kw">typeof</span> <span class="str">"hi"</span>  <span class="cmt">// "string"</span>
+!<span class="bool">true</span>        <span class="cmt">// false</span>
+-(-<span class="num">5</span>)        <span class="cmt">// 5</span>
++<span class="str">"42"</span>        <span class="cmt">// 42  — unary + coerces to number</span>
+<span class="kw">void</span> <span class="num">0</span>       <span class="cmt">// undefined — evaluates expr, discards result</span>
+
+<span class="cmt">// TERNARY (only 3-operand operator)</span>
+<span class="kw">const</span> label = score > <span class="num">50</span> ? <span class="str">"Pass"</span> : <span class="str">"Fail"</span>;
+
+<span class="cmt">// DELETE</span>
+<span class="kw">const</span> obj = { a: <span class="num">1</span>, b: <span class="num">2</span> };
+<span class="kw">delete</span> obj.a;
+<span class="fn">console</span>.log(obj); <span class="cmt">// { b: 2 }</span>
+
+<span class="cmt">// IN — checks if property exists in object</span>
+<span class="fn">console</span>.log(<span class="str">"b"</span> <span class="kw">in</span> obj); <span class="cmt">// true</span>
+
+<span class="cmt">// INSTANCEOF — checks prototype chain</span>
+<span class="fn">console</span>.log([] <span class="kw">instanceof</span> Array);   <span class="cmt">// true</span>
+<span class="fn">console</span>.log([] <span class="kw">instanceof</span> Object);  <span class="cmt">// true — arrays are objects</span></code></pre></div>
+
+  <div class="sub-header"><div class="sub-num green">4️⃣</div><h3>Practice Tasks</h3></div>
+  <div class="task"><span class="tbadge easy">🟢 EASY</span><div class="task-body"><h4>Pre vs Post increment</h4><p>Predict: <code>let a = 5; let b = a++; let c = ++a;</code> — what are <code>a</code>, <code>b</code>, <code>c</code>?</p></div></div>
+  <div class="task"><span class="tbadge med">🟡 MEDIUM</span><div class="task-body"><h4>Unary + coercion</h4><p>What does <code>+"" </code>, <code>+true</code>, <code>+null</code>, <code>+undefined</code>, <code>+"3.5px"</code> evaluate to? Run and explain each.</p></div></div>
+</section>
+
+<!-- ─── TOPIC 07: TYPE COERCION ─── -->
+<section class="section" id="coercion">
+  <div class="section-header">
+    <div class="s-num">07</div>
+    <h2>Type Conversion &amp; Coercion</h2>
+  </div>
+
+  <div class="sub-header"><div class="sub-num teal">1️⃣</div><h3>Concept Explanation</h3></div>
+  <p><strong>Explicit conversion</strong> — you control it: <code>Number()</code>, <code>String()</code>, <code>Boolean()</code>.<br>
+  <strong>Implicit coercion</strong> — JavaScript converts types automatically in certain operations.</p>
+
+  <div class="info"><div class="wt">🔑 The 8 Falsy Values — memorize these</div>
+  <p style="margin:4px 0;font-size:14px;font-family:'Cascadia Code',monospace;color:var(--accent2)">false &nbsp; 0 &nbsp; -0 &nbsp; 0n &nbsp; "" &nbsp; null &nbsp; undefined &nbsp; NaN</p>
+  <p style="margin:0;font-size:13px">Everything else is <strong>truthy</strong> — including <code>"0"</code>, <code>[]</code>, <code>{}</code>, <code>"false"</code>.</p></div>
+
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Input</th><th>Number()</th><th>String()</th><th>Boolean()</th></tr></thead>
+    <tbody>
+      <tr><td><code>true</code></td><td><code>1</code></td><td><code>"true"</code></td><td><code>true</code></td></tr>
+      <tr><td><code>false</code></td><td><code>0</code></td><td><code>"false"</code></td><td><code>false</code></td></tr>
+      <tr><td><code>null</code></td><td><code>0</code></td><td><code>"null"</code></td><td><code>false</code></td></tr>
+      <tr><td><code>undefined</code></td><td><code>NaN</code></td><td><code>"undefined"</code></td><td><code>false</code></td></tr>
+      <tr><td><code>""</code></td><td><code>0</code></td><td><code>""</code></td><td><code>false</code></td></tr>
+      <tr><td><code>"42"</code></td><td><code>42</code></td><td><code>"42"</code></td><td><code>true</code></td></tr>
+      <tr><td><code>[]</code></td><td><code>0</code></td><td><code>""</code></td><td><code>true</code> ⚠️</td></tr>
+      <tr><td><code>{}</code></td><td><code>NaN</code></td><td><code>"[object Object]"</code></td><td><code>true</code> ⚠️</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="cb"><div class="cb-head"><span class="cb-lang">JavaScript</span><span class="cb-lbl">Implicit Coercion Traps</span></div>
+  <pre><code><span class="cmt">// + with string → concatenation</span>
+<span class="num">1</span> + <span class="str">"2"</span>        <span class="cmt">// "12"  — number coerced to string</span>
+<span class="str">"3"</span> - <span class="num">1</span>        <span class="cmt">// 2     — string coerced to number (- has no string form)</span>
+<span class="bool">true</span> + <span class="bool">true</span>    <span class="cmt">// 2     — booleans to numbers</span>
+<span class="bool">null</span> + <span class="num">1</span>       <span class="cmt">// 1     — null → 0</span>
+<span class="bool">undefined</span> + <span class="num">1</span>  <span class="cmt">// NaN   — undefined → NaN</span>
+<span class="str">"1"</span> + <span class="num">2</span> + <span class="num">3</span>   <span class="cmt">// "123" — left-to-right: "12" then "123"</span>
+<span class="num">1</span> + <span class="num">2</span> + <span class="str">"3"</span>   <span class="cmt">// "33"  — left-to-right: 3 then "33"</span>
+
+<span class="cmt">// == loose equality coercion</span>
+<span class="num">0</span> == <span class="bool">false</span>         <span class="cmt">// true  — false → 0</span>
+<span class="str">""</span> == <span class="bool">false</span>        <span class="cmt">// true  — both → 0</span>
+<span class="bool">null</span> == <span class="num">0</span>          <span class="cmt">// false — null only == null/undefined</span>
+<span class="bool">null</span> == <span class="bool">undefined</span>  <span class="cmt">// true  — special pair</span>
+
+<span class="cmt">// REAL-WORLD: Safe form input parsing</span>
+<span class="kw">function</span> <span class="fn">getAge</span>(input) {
+  <span class="kw">const</span> parsed = parseInt(input, <span class="num">10</span>);   <span class="cmt">// always specify radix!</span>
+  <span class="kw">if</span> (Number.isNaN(parsed) || parsed &lt; <span class="num">0</span>) {
+    <span class="kw">throw new</span> Error(<span class="str">"Invalid age"</span>);
+  }
+  <span class="kw">return</span> parsed;
+}
+<span class="fn">console</span>.log(<span class="fn">getAge</span>(<span class="str">"25"</span>));     <span class="cmt">// 25</span>
+<span class="fn">console</span>.log(<span class="fn">getAge</span>(<span class="str">"25abc"</span>)); <span class="cmt">// 25 — stops at non-numeric</span>
+<span class="cmt">// getAge("abc")               // ❌ Error: Invalid age</span></code></pre></div>
+
+  <div class="sub-header"><div class="sub-num red">3️⃣</div><h3>Common Mistakes</h3></div>
+  <div class="warn"><div class="wt">❌ Using == instead of ===</div>
+  <p style="font-size:13.5px;margin:4px 0 0">Loose equality triggers coercion. <code>userInput == 0</code> is true for <code>""</code>, <code>false</code>, <code>null</code>, <code>"0"</code>. Always use <code>===</code>.</p></div>
+  <div class="warn"><div class="wt">❌ Assuming [] and {} are falsy</div>
+  <p style="font-size:13.5px;margin:4px 0 0"><code>if ([]) console.log("truthy")</code> — this runs! Empty array and object are <strong>truthy</strong>.</p></div>
+  <div class="warn"><div class="wt">❌ parseInt without radix</div>
+  <p style="font-size:13.5px;margin:4px 0 0"><code>parseInt("010")</code> could be 8 (octal) in some environments. Always: <code>parseInt("010", 10)</code>.</p></div>
+
+  <div class="sub-header"><div class="sub-num green">4️⃣</div><h3>Practice Tasks</h3></div>
+  <div class="task"><span class="tbadge easy">🟢 EASY</span><div class="task-body"><h4>Predict coercion output</h4><p>Before running: predict <code>"5" - 3</code>, <code>"5" + 3</code>, <code>true + false</code>, <code>null + 1</code>, <code>[] + []</code>, <code>{} + []</code>.</p></div></div>
+  <div class="task"><span class="tbadge med">🟡 MEDIUM</span><div class="task-body"><h4>toSafeNumber</h4><p>Write <code>toSafeNumber(val)</code> that converts any value to a number, returning <code>0</code> as fallback for <code>NaN</code>.</p></div></div>
+  <div class="task"><span class="tbadge hard">🔴 REAL-WORLD</span><div class="task-body"><h4>Form Data Parser</h4><p>You receive all form values as strings. Write <code>parseFormData(form)</code> that converts <code>age</code> to integer, <code>price</code> to float, <code>isActive</code> to boolean, validating each field.</p></div></div>
+
+  <div class="sub-header"><div class="sub-num orange">5️⃣</div><h3>Interview Questions</h3></div>
+  <div class="qs">
+    <div class="q">What are the 8 falsy values in JavaScript? What is the surprising one most devs miss?</div>
+    <div class="q">Why does <code>[] + []</code> produce <code>""</code> and <code>{} + []</code> produce <code>0</code> (or <code>"[object Object]"</code>)?</div>
+    <div class="q">What is the difference between <code>==</code> and <code>===</code>? Give a case where <code>==</code> produces a surprising result.</div>
+    <div class="q">Why should you always pass a radix to <code>parseInt</code>?</div>
+  </div>
+</section>
+
+<!-- ─── TOPIC 08: DECLARATION VS ASSIGNMENT ─── -->
+<section class="section" id="decl-vs-assign">
+  <div class="section-header">
+    <div class="s-num">08</div>
+    <h2>Variable Declaration vs Assignment</h2>
+  </div>
+
+  <div class="sub-header"><div class="sub-num teal">1️⃣</div><h3>Concept Explanation</h3></div>
+
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Operation</th><th>Example</th><th>What JS does</th></tr></thead>
+    <tbody>
+      <tr><td>Declaration</td><td><code>let x;</code></td><td>Creates variable in scope, sets to <code>undefined</code></td></tr>
+      <tr><td>Assignment</td><td><code>x = 5;</code></td><td>Stores value 5 at x's memory address</td></tr>
+      <tr><td>Initialization</td><td><code>let x = 5;</code></td><td>Declaration + Assignment in one step</td></tr>
+      <tr><td>Re-assignment</td><td><code>x = 10;</code></td><td>Updates the stored value</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="cb"><div class="cb-head"><span class="cb-lang">JavaScript</span><span class="cb-lbl">Destructuring Assignment</span></div>
+  <pre><code><span class="cmt">// Array destructuring</span>
+<span class="kw">const</span> [first, second, ...rest] = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>];
+<span class="fn">console</span>.log(first);   <span class="cmt">// 1</span>
+<span class="fn">console</span>.log(rest);    <span class="cmt">// [3, 4, 5]</span>
+
+<span class="cmt">// Object destructuring with rename and default</span>
+<span class="kw">const</span> { name: userName, age, city = <span class="str">"Unknown"</span> } = { name: <span class="str">"Vipin"</span>, age: <span class="num">25</span> };
+<span class="fn">console</span>.log(userName); <span class="cmt">// "Vipin" — renamed from name</span>
+<span class="fn">console</span>.log(city);     <span class="cmt">// "Unknown" — default applied</span>
+
+<span class="cmt">// Swap variables without temp</span>
+<span class="kw">let</span> a = <span class="num">1</span>, b = <span class="num">2</span>;
+[a, b] = [b, a];
+<span class="fn">console</span>.log(a, b);    <span class="cmt">// 2, 1 ✅</span>
+
+<span class="cmt">// Nested destructuring</span>
+<span class="kw">const</span> { user: { name, address: { city: userCity } } } =
+  { user: { name: <span class="str">"Vipin"</span>, address: { city: <span class="str">"Delhi"</span> } } };
+<span class="fn">console</span>.log(userCity); <span class="cmt">// "Delhi"</span>
+
+<span class="cmt">// Function parameter destructuring — real-world pattern</span>
+<span class="kw">function</span> <span class="fn">renderUser</span>({ name, age = <span class="num">0</span>, role = <span class="str">"user"</span> }) {
+  <span class="kw">return</span> `<span class="str">${name} (${age}) — ${role}</span>`;
+}
+<span class="fn">console</span>.log(<span class="fn">renderUser</span>({ name: <span class="str">"Vipin"</span>, age: <span class="num">25</span> })); <span class="cmt">// "Vipin (25) — user"</span></code></pre></div>
+
+  <div class="sub-header"><div class="sub-num green">4️⃣</div><h3>Practice Tasks</h3></div>
+  <div class="task"><span class="tbadge easy">🟢 EASY</span><div class="task-body"><h4>Destructure a game state</h4><p>Destructure <code>{ name, score, level }</code> from a game state object, with <code>level</code> defaulting to <code>1</code>.</p></div></div>
+  <div class="task"><span class="tbadge med">🟡 MEDIUM</span><div class="task-body"><h4>Swap without temp variable</h4><p>Swap two variables using array destructuring in one line.</p></div></div>
+  <div class="task"><span class="tbadge hard">🔴 REAL-WORLD</span><div class="task-body"><h4>API response destructuring</h4><p>Given a deeply nested API response, destructure and rename fields, apply defaults, and extract nested values in a single destructuring statement.</p></div></div>
+</section>
+
+<hr>
+
+<!-- ══════════════════════════════════════
+     PHASE 2
+══════════════════════════════════════ -->
+<div class="phase-banner" style="margin-top:8px">
+  <div class="phase-icon">🟡</div>
+  <div class="phase-info">
+    <h2>Phase 2 — Expressions &amp; Operators</h2>
+    <p>Expression vs Statement · Operator Precedence · Logical &amp; Comparison Operators · Short-Circuiting</p>
+  </div>
+</div>
+
+<!-- ─── P2 TOPIC 01: EXPRESSION VS STATEMENT ─── -->
+<section class="section" id="expr-vs-stmt">
+  <div class="section-header">
+    <div class="s-num">P2·01</div>
+    <h2>Expression vs Statement</h2>
+  </div>
+
+  <div class="sub-header"><div class="sub-num teal">1️⃣</div><h3>Concept Explanation</h3></div>
+
+  <div class="tbl-wrap"><table>
+    <thead><tr><th></th><th>Expression</th><th>Statement</th></tr></thead>
+    <tbody>
+      <tr><td>Produces a value?</td><td><span class="y">✅ Always</span></td><td><span class="n">❌ No</span></td></tr>
+      <tr><td>Can be argument?</td><td><span class="y">✅ Yes</span></td><td><span class="n">❌ No</span></td></tr>
+      <tr><td>Examples</td><td><code>2+2, x>5, fn()</code></td><td><code>if(){}, for(){}, let x;</code></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="info"><div class="wt">🔑 The Key Test</div>
+  <p style="margin:0;font-size:14px">Can you use it as a function argument? If yes → expression. <code>console.log(2+2)</code> ✅ works. <code>console.log(if(x){})</code> ❌ SyntaxError.</p></div>
+
+  <div class="cb"><div class="cb-head"><span class="cb-lang">JavaScript</span><span class="cb-lbl">All Cases</span></div>
+  <pre><code><span class="cmt">// EXPRESSIONS — all produce values</span>
+<span class="num">42</span>                          <span class="cmt">// literal → 42</span>
+x + y                        <span class="cmt">// binary → some number</span>
+isAdmin ? <span class="str">"admin"</span> : <span class="str">"user"</span>  <span class="cmt">// ternary → one of two strings</span>
+<span class="fn">Math</span>.max(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>)           <span class="cmt">// call → 3</span>
+
+<span class="cmt">// STATEMENTS — perform actions</span>
+<span class="kw">let</span> score = <span class="num">0</span>;              <span class="cmt">// declaration statement</span>
+<span class="kw">if</span> (score > <span class="num">10</span>) { }         <span class="cmt">// if statement</span>
+<span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">0</span>; i &lt; <span class="num">5</span>; i++) {} <span class="cmt">// for statement</span>
+
+<span class="cmt">// Function Declaration (statement) vs Expression</span>
+<span class="kw">function</span> <span class="fn">foo</span>() {}            <span class="cmt">// declaration — hoisted completely</span>
+<span class="kw">const</span> bar = <span class="kw">function</span>() {}   <span class="cmt">// expression — NOT hoisted</span>
+
+<span class="cmt">// IIFE — Immediately Invoked Function Expression</span>
+<span class="kw">const</span> result = (<span class="kw">function</span>() {
+  <span class="kw">const</span> x = <span class="num">10</span>;             <span class="cmt">// private scope</span>
+  <span class="kw">return</span> x * <span class="num">2</span>;
+})();
+<span class="fn">console</span>.log(result);         <span class="cmt">// 20</span>
+
+<span class="cmt">// Expression in template literal (must be expression, not statement)</span>
+<span class="kw">const</span> greeting = `Hello, ${isLoggedIn ? user.name : <span class="str">"Guest"</span>}`;
+<span class="cmt">// ❌ Cannot use: `Hello, ${if(isLoggedIn){...}}`</span></code></pre></div>
+
+  <div class="sub-header"><div class="sub-num green">4️⃣</div><h3>Practice Tasks</h3></div>
+  <div class="task"><span class="tbadge easy">🟢 EASY</span><div class="task-body"><h4>Classify each</h4><p>Expression or statement: <code>x = 5</code>, <code>let y</code>, <code>x > 3</code>, <code>for(...){}</code>, <code>Math.random()</code>, <code>"hello"</code>, <code>x++</code>.</p></div></div>
+  <div class="task"><span class="tbadge med">🟡 MEDIUM</span><div class="task-body"><h4>Statement → Expression</h4><p>Rewrite: <code>let label; if (score &gt;= 50) { label = "Pass"; } else { label = "Fail"; }</code> using a ternary expression.</p></div></div>
+  <div class="task"><span class="tbadge hard">🔴 REAL-WORLD</span><div class="task-body"><h4>Expression-only config</h4><p>Build a config object where every value is computed via an expression (ternary, function call, template literal). No statements inside the object literal.</p></div></div>
+
+  <div class="sub-header"><div class="sub-num orange">5️⃣</div><h3>Interview Questions</h3></div>
+  <div class="qs">
+    <div class="q">What is the difference between a function declaration and a function expression? How does hoisting differ between them?</div>
+    <div class="q">Why can't you use an <code>if</code> statement inside a template literal <code>${ }</code>? What can you use instead?</div>
+    <div class="q">What is an IIFE? When would you use one in modern JavaScript?</div>
+  </div>
+</section>
+
+<!-- ─── P2 TOPIC 02: OPERATOR PRECEDENCE ─── -->
+<section class="section" id="precedence">
+  <div class="section-header">
+    <div class="s-num">P2·02</div>
+    <h2>Operator Precedence &amp; Associativity</h2>
+  </div>
+
+  <div class="sub-header"><div class="sub-num teal">1️⃣</div><h3>Concept Explanation</h3></div>
+  <p><strong>Precedence</strong> — which operator "binds tighter" to its operands (higher number = evaluated first).<br>
+  <strong>Associativity</strong> — when two operators have the same precedence, do we go left-to-right or right-to-left?</p>
+
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Precedence</th><th>Operator(s)</th><th>Associativity</th></tr></thead>
+    <tbody>
+      <tr><td>19</td><td><code>()</code> grouping</td><td>n/a</td></tr>
+      <tr><td>18</td><td><code>. [] ?.</code> member access</td><td>Left</td></tr>
+      <tr><td>16</td><td><code>++ --</code> postfix</td><td>n/a</td></tr>
+      <tr><td>15</td><td><code>! ~ + - typeof void delete ++ --</code> (unary/prefix)</td><td>Right</td></tr>
+      <tr><td>14</td><td><code>**</code> exponentiation</td><td><strong>Right</strong></td></tr>
+      <tr><td>13</td><td><code>* / %</code></td><td>Left</td></tr>
+      <tr><td>12</td><td><code>+ -</code></td><td>Left</td></tr>
+      <tr><td>10</td><td><code>&lt; &lt;= &gt; &gt;= in instanceof</code></td><td>Left</td></tr>
+      <tr><td>9</td><td><code>== != === !==</code></td><td>Left</td></tr>
+      <tr><td>5</td><td><code>&amp;&amp;</code></td><td>Left</td></tr>
+      <tr><td>4</td><td><code>|| ??</code></td><td>Left</td></tr>
+      <tr><td>3</td><td><code>?:</code> ternary</td><td>Right</td></tr>
+      <tr><td>2</td><td><code>= += -= *=</code> etc.</td><td>Right</td></tr>
+      <tr><td>1</td><td><code>,</code> comma</td><td>Left</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="cb"><div class="cb-head"><span class="cb-lang">JavaScript</span><span class="cb-lbl">Precedence in Action</span></div>
+  <pre><code><span class="cmt">// Arithmetic</span>
+<span class="num">2</span> + <span class="num">3</span> * <span class="num">4</span>       <span class="cmt">// 14 — * before +</span>
+(<span class="num">2</span> + <span class="num">3</span>) * <span class="num">4</span>     <span class="cmt">// 20 — () overrides</span>
+
+<span class="cmt">// Right-to-left: exponentiation</span>
+<span class="num">2</span> ** <span class="num">3</span> ** <span class="num">2</span>     <span class="cmt">// 512 — 2**(3**2) = 2**9, NOT (2**3)**2 = 64!</span>
+
+<span class="cmt">// && has higher precedence than ||</span>
+<span class="bool">true</span> || <span class="bool">false</span> &amp;&amp; <span class="bool">false</span>  <span class="cmt">// true — evaluated as: true || (false && false)</span>
+
+<span class="cmt">// The + concatenation trap</span>
+<span class="str">"1"</span> + <span class="num">2</span> + <span class="num">3</span>    <span class="cmt">// "123" — "1"+"2" = "12", "12"+"3" = "123"</span>
+<span class="num">1</span> + <span class="num">2</span> + <span class="str">"3"</span>    <span class="cmt">// "33"  — 1+2 = 3, 3+"3" = "33"</span>
+
+<span class="cmt">// typeof binds tighter than +</span>
+<span class="kw">typeof</span> <span class="num">1</span> + <span class="str">"2"</span>  <span class="cmt">// "number2" — (typeof 1) + "2"</span>
+<span class="kw">typeof</span> (<span class="num">1</span> + <span class="str">"2"</span>) <span class="cmt">// "string"  — typeof("12")</span>
+
+<span class="cmt">// Assignment is right-to-left</span>
+<span class="kw">let</span> a, b, c;
+a = b = c = <span class="num">5</span>;  <span class="cmt">// c=5, b=5, a=5 ✅</span>
+
+<span class="cmt">// Real-world: always use parens for complex logic</span>
+<span class="cmt">// ❌ Ambiguous</span>
+<span class="kw">const</span> access = isLoggedIn &amp;&amp; hasPermission || isAdmin;
+<span class="cmt">// ✅ Explicit intent</span>
+<span class="kw">const</span> access2 = (isLoggedIn &amp;&amp; hasPermission) || isAdmin;</code></pre></div>
+
+  <div class="sub-header"><div class="sub-num green">4️⃣</div><h3>Practice Tasks</h3></div>
+  <div class="task"><span class="tbadge easy">🟢 EASY</span><div class="task-body"><h4>Predict output</h4><p>Before running: <code>3 + 4 * 2</code>, <code>(3 + 4) * 2</code>, <code>"1" + 2 + 3</code>, <code>1 + 2 + "3"</code>, <code>2 ** 3 ** 2</code>.</p></div></div>
+  <div class="task"><span class="tbadge hard">🔴 REAL-WORLD</span><div class="task-body"><h4>Add parentheses for clarity</h4><p>Given: <code>const access = role === "admin" || role === "editor" &amp;&amp; isVerified &amp;&amp; !isBanned</code>. Add parentheses for clear intent, then evaluate what the original produces step-by-step.</p></div></div>
+</section>
+
+<!-- ─── P2 TOPIC 03: LOGICAL & COMPARISON ─── -->
+<section class="section" id="logical-ops">
+  <div class="section-header">
+    <div class="s-num">P2·03</div>
+    <h2>Logical, Comparison &amp; Assignment Operators</h2>
+  </div>
+
+  <div class="sub-header"><div class="sub-num teal">1️⃣</div><h3>Concept Explanation</h3></div>
+
+  <h3>Comparison Operators</h3>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">JavaScript</span><span class="cb-lbl">== vs ===</span></div>
+  <pre><code><span class="cmt">// == loose — coerces types</span>
+<span class="num">1</span> == <span class="str">"1"</span>              <span class="cmt">// true  — "1" coerced to 1</span>
+<span class="bool">null</span> == <span class="bool">undefined</span>    <span class="cmt">// true  — special rule</span>
+
+<span class="cmt">// === strict — NO coercion (always prefer this)</span>
+<span class="num">1</span> === <span class="str">"1"</span>             <span class="cmt">// false — different types</span>
+<span class="num">1</span> === <span class="num">1</span>              <span class="cmt">// true</span>
+
+<span class="cmt">// Quirky null comparisons</span>
+<span class="bool">null</span> > <span class="num">0</span>             <span class="cmt">// false</span>
+<span class="bool">null</span> == <span class="num">0</span>            <span class="cmt">// false — null only == null/undefined</span>
+<span class="bool">null</span> >= <span class="num">0</span>            <span class="cmt">// true  ← known JS inconsistency</span></code></pre></div>
+
+  <h3>Nullish Coalescing <code>??</code> and Optional Chaining <code>?.</code></h3>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">JavaScript</span><span class="cb-lbl">ES2020 Operators</span></div>
+  <pre><code><span class="cmt">// ?? — returns right side ONLY if left is null or undefined</span>
+<span class="num">0</span> || <span class="str">"default"</span>       <span class="cmt">// "default" — 0 is falsy, || triggers</span>
+<span class="num">0</span> ?? <span class="str">"default"</span>       <span class="cmt">// 0         — 0 is not null/undefined, ?? keeps it</span>
+<span class="bool">null</span> ?? <span class="str">"fallback"</span>  <span class="cmt">// "fallback"</span>
+<span class="str">""</span> ?? <span class="str">"fallback"</span>    <span class="cmt">// ""         — empty string kept by ??</span>
+
+<span class="cmt">// ?. — optional chaining: safe nested access</span>
+<span class="kw">const</span> user = <span class="bool">null</span>;
+<span class="cmt">// user.name              // ❌ TypeError</span>
+user?.name               <span class="cmt">// ✅ undefined — no throw</span>
+
+<span class="kw">const</span> config = { db: { host: <span class="str">"localhost"</span> } };
+config?.db?.host         <span class="cmt">// "localhost"</span>
+config?.cache?.host      <span class="cmt">// undefined — safe</span>
+config?.db?.connect?.()  <span class="cmt">// undefined — optional method call</span>
+
+<span class="cmt">// Combine: safe nested access with fallback</span>
+<span class="kw">const</span> city = response?.data?.user?.address?.city ?? <span class="str">"Unknown"</span>;</code></pre></div>
+
+  <h3>Logical Assignment Operators (ES2021)</h3>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">JavaScript</span><span class="cb-lbl">||= &&= ??=</span></div>
+  <pre><code><span class="kw">let</span> a = <span class="bool">null</span>;
+a ||= <span class="str">"default"</span>;   <span class="cmt">// a = a || "default" → "default"</span>
+a &amp;&amp;= <span class="str">"updated"</span>;   <span class="cmt">// a = a && "updated" → "updated" (a was truthy)</span>
+
+<span class="kw">let</span> b = <span class="bool">null</span>;
+b ??= <span class="str">"fallback"</span>;  <span class="cmt">// b = b ?? "fallback" → "fallback"</span>
+
+<span class="cmt">// Real-world: initialize only if empty</span>
+<span class="kw">const</span> cache = {};
+cache.users ??= [];     <span class="cmt">// set to [] only if null/undefined</span>
+cache.users.push(<span class="str">"Vipin"</span>);</code></pre></div>
+
+  <div class="sub-header"><div class="sub-num red">3️⃣</div><h3>Common Mistakes</h3></div>
+  <div class="warn"><div class="wt">❌ Using || for defaults when 0 or "" are valid</div>
+  <div class="cb" style="margin:8px 0"><div class="cb-head"><span class="cb-lang">JS</span><span class="cb-lbl warn">Wrong → Fixed</span></div>
+  <pre><code><span class="cmt">// ❌ || triggers on 0</span>
+<span class="kw">function</span> <span class="fn">setVolume</span>(vol) {
+  <span class="kw">return</span> vol || <span class="num">50</span>;  <span class="cmt">// vol=0 → returns 50! Wrong</span>
+}
+<span class="cmt">// ✅ ?? only triggers on null/undefined</span>
+<span class="kw">function</span> <span class="fn">setVolume</span>(vol) {
+  <span class="kw">return</span> vol ?? <span class="num">50</span>;  <span class="cmt">// vol=0 → returns 0 ✅</span>
+}</code></pre></div></div>
+
+  <div class="sub-header"><div class="sub-num green">4️⃣</div><h3>Practice Tasks</h3></div>
+  <div class="task"><span class="tbadge easy">🟢 EASY</span><div class="task-body"><h4>getDisplayName</h4><p>Write <code>getDisplayName(user)</code> returning <code>user.name</code> if it exists, else <code>"Anonymous"</code> — using <code>??</code>.</p></div></div>
+  <div class="task"><span class="tbadge med">🟡 MEDIUM</span><div class="task-body"><h4>?? vs || difference</h4><p>Given <code>const s = { volume: 0, theme: null }</code>, show the difference in behavior using <code>??</code> and <code>||</code> for each field.</p></div></div>
+  <div class="task"><span class="tbadge hard">🔴 REAL-WORLD</span><div class="task-body"><h4>safeGet utility</h4><p>Write <code>safeGet(obj, path, fallback)</code> that safely accesses nested paths like <code>"user.address.city"</code> without throwing, returning fallback if anything is nullish.</p></div></div>
+
+  <div class="sub-header"><div class="sub-num orange">5️⃣</div><h3>Interview Questions</h3></div>
+  <div class="qs">
+    <div class="q">What is the difference between <code>??</code> and <code>||</code>? Give a case where they produce different results.</div>
+    <div class="q">What does optional chaining <code>?.</code> return when the chain encounters a <code>null</code>? Does it throw?</div>
+    <div class="q">Why does <code>null >= 0</code> return <code>true</code> while <code>null == 0</code> returns <code>false</code>?</div>
+    <div class="q">What is the difference between <code>||=</code> and <code>??=</code>?</div>
+  </div>
+</section>
+
+<!-- ─── P2 TOPIC 04: SHORT-CIRCUITING ─── -->
+<section class="section" id="short-circuit">
+  <div class="section-header">
+    <div class="s-num">P2·04</div>
+    <h2>Short-Circuiting</h2>
+  </div>
+
+  <div class="sub-header"><div class="sub-num teal">1️⃣</div><h3>Concept Explanation</h3></div>
+  <p>Short-circuiting means JavaScript <strong>stops evaluating an expression</strong> as soon as the result is determined. The right side may <strong>never execute</strong>.</p>
+
+  <div class="mem">
+<span class="hi">&&</span>  → stops at FIRST FALSY   → returns that falsy value (or last if all truthy)<br>
+<span class="hi">||</span>  → stops at FIRST TRUTHY  → returns that truthy value (or last if all falsy)<br>
+<span class="hi">??</span>  → stops at FIRST non-null/undefined → returns it<br><br>
+<span class="dim">Return values are NOT necessarily boolean — they return the actual operand value</span>
+  </div>
+
+  <div class="cb"><div class="cb-head"><span class="cb-lang">JavaScript</span><span class="cb-lbl">All Patterns</span></div>
+  <pre><code><span class="cmt">// Side effect test — right side may never run</span>
+<span class="kw">let</span> count = <span class="num">0</span>;
+<span class="bool">false</span> &amp;&amp; count++;   <span class="cmt">// count stays 0 — right side NOT evaluated</span>
+<span class="bool">true</span> &amp;&amp; count++;    <span class="cmt">// count becomes 1 — right side IS evaluated</span>
+
+<span class="cmt">// Pattern 1: Conditional execution</span>
+user.isAdmin &amp;&amp; <span class="fn">showAdminPanel</span>(); <span class="cmt">// only runs if isAdmin is truthy</span>
+
+<span class="cmt">// Pattern 2: Default value with || (triggers on ANY falsy)</span>
+<span class="kw">function</span> <span class="fn">greet</span>(name) {
+  name = name || <span class="str">"Guest"</span>;    <span class="cmt">// "" triggers this — careful!</span>
+  <span class="kw">return</span> `Hello, ${name}!`;
+}
+
+<span class="cmt">// Pattern 3: Default value with ?? (only null/undefined)</span>
+<span class="kw">function</span> <span class="fn">greet2</span>(name) {
+  name = name ?? <span class="str">"Guest"</span>;    <span class="cmt">// "" is preserved ✅</span>
+  <span class="kw">return</span> `Hello, ${name}!`;
+}
+
+<span class="cmt">// Pattern 4: Lazy initialization / memoization</span>
+<span class="kw">let</span> cache = <span class="bool">null</span>;
+<span class="kw">function</span> <span class="fn">getData</span>() {
+  <span class="kw">return</span> cache || (cache = <span class="fn">fetchFromServer</span>()); <span class="cmt">// fetches once, then cached</span>
+}
+
+<span class="cmt">// Pattern 5: Conditional rendering (React-style)</span>
+<span class="kw">const</span> isLoggedIn = <span class="bool">true</span>;
+<span class="kw">const</span> ui = isLoggedIn &amp;&amp; <span class="str">'&lt;div&gt;Dashboard&lt;/div&gt;'</span>; <span class="cmt">// shows div</span>
+
+<span class="cmt">// ❌ Danger: number as condition renders "0" in React</span>
+<span class="kw">const</span> count = <span class="num">0</span>;
+<span class="kw">const</span> bad = count &amp;&amp; <span class="str">'&lt;span&gt;items&lt;/span&gt;'</span>; <span class="cmt">// renders 0, not nothing!</span>
+<span class="cmt">// ✅ Fix: use boolean condition</span>
+<span class="kw">const</span> good = count > <span class="num">0</span> &amp;&amp; <span class="str">'&lt;span&gt;items&lt;/span&gt;'</span>;</code></pre></div>
+
+  <div class="sub-header"><div class="sub-num red">3️⃣</div><h3>Common Mistakes</h3></div>
+  <div class="warn"><div class="wt">❌ Number condition in JSX/templates renders "0"</div>
+  <p style="font-size:13.5px;margin:4px 0 0">When count is 0, <code>count &amp;&amp; &lt;span&gt;</code> renders the number <code>0</code> to the DOM, not nothing. Always use <code>count &gt; 0 &amp;&amp;</code> or a ternary.</p></div>
+  <div class="warn"><div class="wt">❌ Side effects inside short-circuit — hard to debug</div>
+  <p style="font-size:13.5px;margin:4px 0 0"><code>false &amp;&amp; (x = 10)</code> — the assignment NEVER runs. If you depend on a side effect, don't hide it inside a short-circuit expression.</p></div>
+
+  <div class="sub-header"><div class="sub-num green">4️⃣</div><h3>Practice Tasks</h3></div>
+  <div class="task"><span class="tbadge easy">🟢 EASY</span><div class="task-body"><h4>Convert if to short-circuit</h4><p>Rewrite using short-circuiting: <code>if (user) { logUser(user); }</code></p></div></div>
+  <div class="task"><span class="tbadge med">🟡 MEDIUM</span><div class="task-body"><h4>memoize function</h4><p>Write a simple <code>memoize(fn)</code> that uses short-circuiting to return a cached result if available, otherwise compute and store it.</p></div></div>
+  <div class="task"><span class="tbadge hard">🔴 REAL-WORLD</span><div class="task-body"><h4>Notification system</h4><p>Write <code>notify(user, message)</code> that: (1) checks user exists, (2) checks notifications enabled, (3) checks email present — using short-circuiting. Log specific failure messages at each step.</p></div></div>
+
+  <div class="sub-header"><div class="sub-num orange">5️⃣</div><h3>Interview Questions</h3></div>
+  <div class="qs">
+    <div class="q">What is the difference between <code>||</code> and <code>??</code>? Give a specific case where they differ.</div>
+    <div class="q">If I write <code>a &amp;&amp; b()</code>, when is <code>b()</code> NOT called?</div>
+    <div class="q">What does <code>null || undefined || 0 || "" || false || "found"</code> evaluate to? Walk through each step.</div>
+    <div class="q">Why is using <code>&amp;&amp;</code> for conditional rendering dangerous when the condition is a number?</div>
+    <div class="q">Does <code>||</code> always return <code>true</code> or <code>false</code>? What does it actually return?</div>
+  </div>
+</section>
+
+</main>
+</div>
+</body>
+</html>
