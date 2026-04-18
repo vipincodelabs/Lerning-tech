@@ -94,9 +94,19 @@
 
       .card-main {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(1, 1fr);
         gap: 30px;
         color: var(--text);
+      }
+      @media(min-width: 800px) {
+        .card-main {
+           grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media(min-width: 1200px) {
+        .card-main {
+           grid-template-columns: repeat(3, 1fr);
+        }
       }
       .card-main a {
         color: var(--text);
@@ -105,6 +115,11 @@
         text-align: center;
         text-decoration: none;
         letter-spacing: 1px;
+      }
+      @media(min-width: 800px) {
+        .card-main a {
+            font-size: 26px;
+        }
       }
       .card {
         padding: 30px;
