@@ -70,7 +70,7 @@ For every topic, follow:
 
 ## 📚 Learning Roadmap
 
-### 🟢 Beginner (Foundation)
+### Step-1.🟢 Beginner (Foundation)
 
 - What is TypeScript & how it differs from JavaScript
 - Type system basics
@@ -90,8 +90,9 @@ For every topic, follow:
 
 ---
 
-### 🟡 Intermediate
+### Step-2. 🟡 Intermediate
 
+- What is generics
 - Advanced generics
 - Utility types (Partial, Pick, Omit, Record)
 - Type narrowing & control flow analysis
@@ -103,7 +104,7 @@ For every topic, follow:
 
 ---
 
-### 🔴 Advanced
+### Step-3.🔴 Advanced
 
 - Conditional types
 - Mapped types

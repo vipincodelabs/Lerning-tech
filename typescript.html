@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>JavaScript Mastery — Vipin Singh</title>
+<title>TypeScript Mastery — Vipin Singh</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -22,7 +22,7 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,san
 .layout{display:flex;min-height:100vh}
 
 /* Sidebar */
-.sidebar{width:250px;min-width:250px;background:var(--surface);border-right:1px solid var(--border);padding:20px 0;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sidebar{width:260px;min-width:260px;background:var(--surface);border-right:1px solid var(--border);padding:20px 0;position:sticky;top:0;height:100vh;overflow-y:auto}
 .sidebar-logo{padding:0 18px 16px;border-bottom:1px solid var(--border);margin-bottom:12px}
 .sidebar-logo h1{font-size:17px;font-weight:700;color:var(--accent)}
 .sidebar-logo p{font-size:11px;color:var(--muted);margin-top:3px}
@@ -33,7 +33,7 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,san
 .dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
 
 /* Main */
-.main{flex:1;max-width:880px;padding:44px 52px;overflow-x:hidden}
+.main{flex:1;max-width:900px;padding:44px 52px;overflow-x:hidden}
 
 /* Page header */
 .page-header{margin-bottom:44px;padding-bottom:28px;border-bottom:1px solid var(--border)}
@@ -92,7 +92,7 @@ p code,li code{background:rgba(124,106,247,.1);border:1px solid rgba(124,106,247
 /* Syntax */
 .kw{color:#c678dd}.fn{color:#61afef}.str{color:#98c379}.num{color:#d19a66}
 .cmt{color:#5c6370;font-style:italic}.op{color:#56b6c2}.bool{color:#d19a66}
-.tp{color:#e5c07b}
+.tp{color:#e5c07b}.iface{color:#e5c07b}.gen{color:#61afef}
 
 /* Cards */
 .card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px 22px;margin:14px 0}
@@ -102,14 +102,14 @@ p code,li code{background:rgba(124,106,247,.1);border:1px solid rgba(124,106,247
 .card.yl{border-left:3px solid var(--yellow)}
 
 /* Alert boxes */
-.warn{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.22);border-radius:9px;padding:14px 18px;margin:12px 0}
-.warn .wt{font-size:11px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.7px;margin-bottom:7px}
-.ok{background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.22);border-radius:9px;padding:14px 18px;margin:12px 0}
-.ok .wt{font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.7px;margin-bottom:7px}
-.info{background:rgba(124,106,247,.07);border:1px solid rgba(124,106,247,.22);border-radius:9px;padding:14px 18px;margin:12px 0}
-.info .wt{font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.7px;margin-bottom:7px}
+.warn-box{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.22);border-radius:9px;padding:14px 18px;margin:12px 0}
+.warn-box .wt{font-size:11px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.7px;margin-bottom:7px}
+.ok-box{background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.22);border-radius:9px;padding:14px 18px;margin:12px 0}
+.ok-box .wt{font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.7px;margin-bottom:7px}
+.info-box{background:rgba(124,106,247,.07);border:1px solid rgba(124,106,247,.22);border-radius:9px;padding:14px 18px;margin:12px 0}
+.info-box .wt{font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.7px;margin-bottom:7px}
 
-/* Memory diagram */
+/* Memory / diagram */
 .mem{font-family:'Cascadia Code','Fira Code',monospace;font-size:12.5px;background:var(--code-bg);border:1px dashed var(--border);border-radius:9px;padding:18px 22px;color:var(--muted);margin:12px 0;line-height:1.9}
 .mem .hi{color:var(--accent2);font-weight:600}
 .mem .dim{color:#3d4357}
@@ -117,6 +117,10 @@ p code,li code{background:rgba(124,106,247,.1);border:1px solid rgba(124,106,247
 /* Mental model */
 .mm{background:linear-gradient(135deg,rgba(124,106,247,.07),rgba(94,234,212,.04));border:1px solid rgba(124,106,247,.22);border-radius:10px;padding:18px 22px;margin:14px 0}
 .mm-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.9px;color:var(--accent);margin-bottom:9px}
+
+/* Official doc callout */
+.official{background:rgba(94,234,212,.05);border:1px solid rgba(94,234,212,.25);border-radius:9px;padding:14px 18px;margin:12px 0}
+.official .wt{font-size:11px;font-weight:700;color:var(--accent2);text-transform:uppercase;letter-spacing:.7px;margin-bottom:7px}
 
 /* Tasks */
 .task{display:flex;gap:12px;align-items:flex-start;padding:14px;border-radius:9px;margin:9px 0;border:1px solid var(--border);background:var(--surface)}
@@ -133,7 +137,6 @@ p code,li code{background:rgba(124,106,247,.1);border:1px solid rgba(124,106,247
 .q::before{content:"Q"counter(q);position:absolute;left:12px;top:12px;font-size:10px;font-weight:700;color:var(--accent);background:rgba(124,106,247,.1);border:1px solid rgba(124,106,247,.28);padding:1px 5px;border-radius:3px}
 
 hr{border:none;border-top:1px solid var(--border);margin:36px 0}
-
 @media(max-width:768px){.sidebar{display:none}.main{padding:22px 18px}}
 </style>
 </head>
@@ -143,960 +146,997 @@ hr{border:none;border-top:1px solid var(--border);margin:36px 0}
 <!-- SIDEBAR -->
 <nav class="sidebar">
   <div class="sidebar-logo">
-    <h1>JS Mastery</h1>
+    <h1>TypeScript Mastery</h1>
     <p>Vipin Singh · 2026</p>
+     <a href="./index.html" style="font-size: 8px; text-transform: uppercase; font-weight: 500; color: var(--muted); position: absolute; right: 0; top: 0;"> Back to home</a>
   </div>
 
-  <div class="phase-label">🟢 Phase 1 — Basics</div>
-  <a href="#variables" class="done"><span class="dot" style="background:var(--green)"></span>01. Variables</a>
-  <a href="#primitives" class="done"><span class="dot" style="background:var(--green)"></span>02. Primitives vs Reference</a>
-  <a href="#null-undefined" class="done"><span class="dot" style="background:var(--green)"></span>03. null vs undefined</a>
-  <a href="#global-object" class="done"><span class="dot" style="background:var(--green)"></span>04. Global Object</a>
-  <a href="#data-types" class="done"><span class="dot" style="background:var(--green)"></span>05. Data Types</a>
-  <a href="#operators-intro" class="done"><span class="dot" style="background:var(--green)"></span>06. Operators Overview</a>
-  <a href="#coercion" class="done"><span class="dot" style="background:var(--green)"></span>07. Type Coercion</a>
-  <a href="#decl-vs-assign" class="done"><span class="dot" style="background:var(--green)"></span>08. Decl vs Assignment</a>
+  <div class="phase-label">🟢 Beginner — Foundation</div>
+  <a href="#what-is-ts" class="active"><span class="dot" style="background:var(--green)"></span>01. What is TypeScript?</a>
+  <a href="#type-system"><span class="dot" style="background:var(--accent)"></span>02. Type System Basics</a>
+  <a href="#type-inference"><span class="dot" style="background:var(--accent)"></span>03. Type Inference</a>
+  <a href="#primitives"><span class="dot" style="background:var(--accent)"></span>04. Primitive &amp; Special Types</a>
+  <a href="#functions"><span class="dot" style="background:var(--accent)"></span>05. Functions &amp; Objects</a>
+  <a href="#interfaces"><span class="dot" style="background:var(--accent)"></span>06. Interfaces vs Type Aliases</a>
+  <a href="#arrays-tuples"><span class="dot" style="background:var(--accent)"></span>07. Arrays &amp; Tuples</a>
+  <a href="#unions-intersections"><span class="dot" style="background:var(--accent)"></span>08. Unions &amp; Intersections</a>
+  <a href="#generics-intro"><span class="dot" style="background:var(--accent)"></span>09. Intro to Generics</a>
+  <a href="#enums"><span class="dot" style="background:var(--accent)"></span>10. Enums</a>
 
-  <div class="phase-label">🟡 Phase 2 — Expressions</div>
-  <a href="#expr-vs-stmt" class="done"><span class="dot" style="background:var(--green)"></span>01. Expression vs Statement</a>
-  <a href="#precedence" class="done"><span class="dot" style="background:var(--green)"></span>02. Operator Precedence</a>
-  <a href="#logical-ops" class="done"><span class="dot" style="background:var(--green)"></span>03. Logical &amp; Comparison</a>
-  <a href="#short-circuit" class="done"><span class="dot" style="background:var(--green)"></span>04. Short-Circuiting</a>
+  <div class="phase-label">🟡 Intermediate</div>
+  <a href="#"><span class="dot" style="background:#3d4357"></span>Advanced Generics</a>
+  <a href="#"><span class="dot" style="background:#3d4357"></span>Utility Types</a>
+  <a href="#"><span class="dot" style="background:#3d4357"></span>Type Narrowing</a>
+  <a href="#"><span class="dot" style="background:#3d4357"></span>Type Guards</a>
+  <a href="#"><span class="dot" style="background:#3d4357"></span>Function Overloading</a>
+  <a href="#"><span class="dot" style="background:#3d4357"></span>Modules &amp; Architecture</a>
+  <a href="#"><span class="dot" style="background:#3d4357"></span>External Libraries</a>
+  <a href="#"><span class="dot" style="background:#3d4357"></span>Error Typing</a>
 
-  <div class="phase-label">🟡 Phase 3 — Statements</div>
-  <a href="#"><span class="dot" style="background:#3d4357"></span>if / switch</a>
-  <a href="#"><span class="dot" style="background:#3d4357"></span>Loops</a>
-  <a href="#"><span class="dot" style="background:#3d4357"></span>Control Flow</a>
-
-  <div class="phase-label">🔵 Phase 4 — Objects</div>
-  <a href="#"><span class="dot" style="background:#3d4357"></span>Object Fundamentals</a>
-  <a href="#"><span class="dot" style="background:#3d4357"></span>this keyword</a>
-
-  <div class="phase-label">🔵 Phase 5 — Arrays</div>
-  <a href="#"><span class="dot" style="background:#3d4357"></span>Array Internals</a>
-
-  <div class="phase-label">🟣 Phase 6 — Functions</div>
-  <a href="#"><span class="dot" style="background:#3d4357"></span>Functions Deep Dive</a>
-  <a href="#"><span class="dot" style="background:#3d4357"></span>Closures</a>
-
-  <div class="phase-label">🔴 Phase 8 — Classes</div>
-  <a href="#"><span class="dot" style="background:#3d4357"></span>Class Syntax</a>
-
-  <div class="phase-label">🔥 Phase 12 — Async</div>
-  <a href="#"><span class="dot" style="background:#3d4357"></span>Event Loop</a>
-  <a href="#"><span class="dot" style="background:#3d4357"></span>Promises</a>
-  <a href="#"><span class="dot" style="background:#3d4357"></span>Async / Await</a>
+  <div class="phase-label">🔴 Advanced</div>
+  <a href="#"><span class="dot" style="background:#3d4357"></span>Conditional Types</a>
+  <a href="#"><span class="dot" style="background:#3d4357"></span>Mapped Types</a>
+  <a href="#"><span class="dot" style="background:#3d4357"></span>infer Keyword</a>
+  <a href="#"><span class="dot" style="background:#3d4357"></span>Type Transformations</a>
+  <a href="#"><span class="dot" style="background:#3d4357"></span>Reusable Type Systems</a>
 </nav>
 
 <!-- MAIN -->
 <main class="main">
 
 <div class="page-header">
-  <div class="badge-tag">JavaScript Mastery Curriculum</div>
-  <h1>JavaScript<br>From First Principles</h1>
-  <p>A structured, senior-level guide covering Phases 1 &amp; 2 — from variables and types through expressions, operators, and short-circuiting.</p>
+  <div class="badge-tag">TypeScript Mastery Curriculum</div>
+  <h1>TypeScript<br>From First Principles</h1>
+  <p>A structured, mentor-guided journey from Beginner → Advanced with real-world usage in React, Next.js, Zod, Prisma, and more.</p>
 </div>
 
 <!-- ══════════════════════════════════════
-     PHASE 1
+     BEGINNER PHASE
 ══════════════════════════════════════ -->
 <div class="phase-banner">
   <div class="phase-icon">🟢</div>
   <div class="phase-info">
-    <h2>Phase 1 — JavaScript Basics</h2>
-    <p>Variables · Types · null/undefined · Global Object · Data Types · Operators · Coercion · Declaration vs Assignment</p>
+    <h2>Step 1 — Beginner (Foundation)</h2>
+    <p>What is TypeScript · Type System · Inference · Primitives · Functions · Interfaces · Arrays · Unions · Generics · Enums</p>
   </div>
 </div>
 
-<!-- ─── TOPIC 01: VARIABLES ─── -->
-<section class="section" id="variables">
+<!-- ─── TOPIC 01: WHAT IS TYPESCRIPT ─── -->
+<section class="section" id="what-is-ts">
   <div class="section-header">
     <div class="s-num">01</div>
-    <h2>Variables — <code>var</code>, <code>let</code>, <code>const</code></h2>
+    <h2>What is TypeScript &amp; How it Differs from JavaScript</h2>
   </div>
 
-  <div class="sub-header"><div class="sub-num teal">1️⃣</div><h3>Concept Explanation</h3></div>
-  <p>A <strong>variable</strong> is a named container that holds a value in memory. JavaScript has three keywords — <code>var</code>, <code>let</code>, <code>const</code> — each with different rules for scope, hoisting, and reassignment.</p>
+  <div class="sub-header"><div class="sub-num teal">1</div><h3>📘 Definition</h3></div>
+  <p><strong>TypeScript</strong> is a <em>strongly typed programming language</em> that builds on JavaScript. It adds a <strong>static type system</strong> — meaning types are checked at <em>compile time</em>, before your code ever runs in a browser or Node.js.</p>
+  <p>TypeScript is a <strong>superset of JavaScript</strong>: every valid JavaScript file is also valid TypeScript. You add types on top; TypeScript compiles away to plain JavaScript.</p>
 
   <div class="tbl-wrap"><table>
-    <thead><tr><th>Keyword</th><th>Scope</th><th>Hoisted</th><th>Re-declarable</th><th>Reassignable</th><th>TDZ</th></tr></thead>
+    <thead><tr><th>Feature</th><th>JavaScript</th><th>TypeScript</th></tr></thead>
     <tbody>
-      <tr><td><code>var</code></td><td>Function</td><td><span class="y">✅ as undefined</span></td><td><span class="y">✅ Yes</span></td><td><span class="y">✅ Yes</span></td><td><span class="n">❌ No</span></td></tr>
-      <tr><td><code>let</code></td><td>Block</td><td><span class="y">✅ uninitialized</span></td><td><span class="n">❌ No</span></td><td><span class="y">✅ Yes</span></td><td><span class="y">✅ Yes</span></td></tr>
-      <tr><td><code>const</code></td><td>Block</td><td><span class="y">✅ uninitialized</span></td><td><span class="n">❌ No</span></td><td><span class="n">❌ No</span></td><td><span class="y">✅ Yes</span></td></tr>
+      <tr><td>Typing</td><td>Dynamic (at runtime)</td><td>Static (at compile time)</td></tr>
+      <tr><td>Error detection</td><td>Runtime errors</td><td>Compile-time errors</td></tr>
+      <tr><td>Runs in browser</td><td><span class="y">✅ Directly</span></td><td><span class="n">❌ Must compile first</span></td></tr>
+      <tr><td>IDE support</td><td>Limited autocomplete</td><td>Full IntelliSense + type hints</td></tr>
+      <tr><td>Refactoring safety</td><td>Risky</td><td>Safe (types catch regressions)</td></tr>
+      <tr><td>File extension</td><td><code>.js</code></td><td><code>.ts</code> / <code>.tsx</code></td></tr>
     </tbody>
   </table></div>
 
-  <h3>Internal Working — Two-Phase Execution</h3>
+  <div class="sub-header"><div class="sub-num purple">2</div><h3>📖 Official Insight</h3></div>
+  <div class="official"><div class="wt">📖 TypeScript Docs say…</div>
+  <p style="margin:0;font-size:13.5px">"TypeScript is a <strong>typed superset of JavaScript</strong> that compiles to plain JavaScript." — The TypeScript team describes it as a tool that <em>"adds optional static typing"</em> to JavaScript. The compiler is called <strong>tsc</strong> (TypeScript Compiler). The type annotations you write are <strong>erased at compile time</strong> — they have zero runtime cost.</p></div>
+
+  <div class="sub-header"><div class="sub-num teal">3</div><h3>🧠 Core Concept — The TypeScript Pipeline</h3></div>
   <div class="mem">
-    Phase 1 — Compilation (before any code runs):<br>
-    ┌──────────────────────────────────────────┐<br>
-    │ <span class="hi">var</span>   x  →  <span style="color:var(--yellow)">undefined</span>                 │  ← hoisted &amp; initialized<br>
-    │ <span class="hi">let</span>   y  →  <span style="color:var(--red)">&lt;TDZ — not initialized&gt;</span>   │  ← hoisted, NOT initialized<br>
-    │ <span class="hi">const</span> z  →  <span style="color:var(--red)">&lt;TDZ — not initialized&gt;</span>   │  ← hoisted, NOT initialized<br>
-    └──────────────────────────────────────────┘<br><br>
-    Phase 2 — Execution (line by line):<br>
-    values assigned when engine reaches those lines
+Your code (.ts):   <span class="hi">const age: number = 25;</span><br>
+                         ↓<br>
+TypeScript Compiler (tsc):<br>
+  ┌─────────────────────────────────────────┐<br>
+  │  1. Parse → AST (Abstract Syntax Tree)  │<br>
+  │  2. Type-check → errors reported HERE   │<br>
+  │  3. Emit → strip types, output .js      │<br>
+  └─────────────────────────────────────────┘<br>
+                         ↓<br>
+Output (.js):      <span class="hi">const age = 25;</span>  <span class="dim">← types erased</span>
   </div>
 
-  <div class="warn"><div class="wt">⚠️ var leaks out of blocks</div>
-  <p style="margin:0;font-size:13.5px"><code>var</code> does NOT respect <code>{}</code> blocks. It leaks into the nearest <strong>function scope</strong>. This is the #1 source of <code>var</code> bugs.</p></div>
+  <p>This is the key insight: <strong>TypeScript types exist only during development</strong>. At runtime, JavaScript has no knowledge of them. TypeScript is purely a <em>developer tool</em>.</p>
 
-  <div class="warn"><div class="wt">⚠️ const ≠ immutable</div>
-  <p style="margin:0;font-size:13.5px"><code>const</code> prevents the <strong>binding</strong> from being reassigned. The object's properties can still change.</p></div>
+  <div class="mm"><div class="mm-title">🧠 Mental Model</div>
+  <p><strong>JavaScript</strong> is like writing code without spell-check. Errors show up only when you run it — often in production.</p>
+  <p style="margin:0"><strong>TypeScript</strong> is like writing with a smart editor that underlines mistakes before you even save the file. The spell-check disappears once the document is printed (compiled), but it saved you from errors.</p></div>
 
-  <div class="mm"><div class="mm-title">🧠 Mental Model — Labeled Boxes</div>
-  <p><strong>var</strong> — A box in the whole room (function). Exists before you fill it. Works anywhere in the room.</p>
-  <p><strong>let</strong> — A box on one shelf (block). Cannot leave the shelf. You can refill it.</p>
-  <p style="margin:0"><strong>const</strong> — A permanently labeled box. You can't re-label it, but you can rearrange what's inside (for objects/arrays).</p></div>
+  <div class="sub-header"><div class="sub-num orange">4</div><h3>⚙️ Syntax — Your First TypeScript</h3></div>
 
-  <div class="sub-header"><div class="sub-num teal">2️⃣</div><h3>Code Examples</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">Basic</span></div>
+  <pre><code><span class="cmt">// JavaScript — no type annotation</span>
+<span class="kw">let</span> username = <span class="str">"Vipin"</span>;
+username = <span class="num">42</span>; <span class="cmt">// ⚠️ No error in JS — silently wrong</span>
 
-  <div class="cb"><div class="cb-head"><span class="cb-lang">JavaScript</span><span class="cb-lbl">Basic</span></div>
-  <pre><code><span class="cmt">// var — re-declarable, function scoped</span>
-<span class="kw">var</span> city = <span class="str">"Delhi"</span>;
-<span class="kw">var</span> city = <span class="str">"Mumbai"</span>; <span class="cmt">// ✅ no error</span>
+<span class="cmt">// TypeScript — explicit type annotation</span>
+<span class="kw">let</span> username: <span class="tp">string</span> = <span class="str">"Vipin"</span>;
+<span class="cmt">// username = 42; ❌ Type 'number' is not assignable to type 'string'</span>
 
-<span class="cmt">// let — block scoped, reassignable</span>
-<span class="kw">let</span> score = <span class="num">0</span>;
-score = <span class="num">100</span>; <span class="cmt">// ✅</span>
+<span class="cmt">// Type annotation syntax: variableName: Type</span>
+<span class="kw">let</span> age: <span class="tp">number</span> = <span class="num">25</span>;
+<span class="kw">let</span> isLoggedIn: <span class="tp">boolean</span> = <span class="bool">true</span>;
+<span class="kw">let</span> greeting: <span class="tp">string</span> = <span class="str">"Hello"</span>;</code></pre></div>
 
-<span class="cmt">// const — binding cannot be reassigned</span>
-<span class="kw">const</span> PI = <span class="num">3.14159</span>;
-<span class="cmt">// PI = 3; // ❌ TypeError</span></code></pre></div>
+  <div class="sub-header"><div class="sub-num green">5</div><h3>🔥 Real-World Examples</h3></div>
 
-  <div class="cb"><div class="cb-head"><span class="cb-lang">JavaScript</span><span class="cb-lbl">Real-World — Loop Bug</span></div>
-  <pre><code><span class="cmt">// ❌ var: all callbacks share same i</span>
-<span class="kw">for</span> (<span class="kw">var</span> i = <span class="num">0</span>; i &lt; <span class="num">3</span>; i++) {
-  <span class="fn">setTimeout</span>(() =&gt; <span class="fn">console</span>.log(<span class="str">"var:"</span>, i), <span class="num">100</span>);
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">Why JS alone fails at scale</span></div>
+  <pre><code><span class="cmt">// JavaScript — no guardrails</span>
+<span class="kw">function</span> <span class="fn">createUser</span>(name, age, role) {
+  <span class="kw">return</span> { name, age, role };
 }
-<span class="cmt">// Output: var: 3, var: 3, var: 3</span>
 
-<span class="cmt">// ✅ let: each iteration gets its own scoped i</span>
-<span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">0</span>; i &lt; <span class="num">3</span>; i++) {
-  <span class="fn">setTimeout</span>(() =&gt; <span class="fn">console</span>.log(<span class="str">"let:"</span>, i), <span class="num">100</span>);
+<span class="cmt">// What if a caller passes wrong args? JS has NO idea:</span>
+<span class="fn">createUser</span>(<span class="num">42</span>, <span class="str">"admin"</span>, <span class="bool">true</span>); <span class="cmt">// silently accepted ❌</span>
+
+<span class="cmt">// ─────────────────────────────────────────────────</span>
+<span class="cmt">// TypeScript — contract enforced by the compiler</span>
+<span class="kw">function</span> <span class="fn">createUser</span>(name: <span class="tp">string</span>, age: <span class="tp">number</span>, role: <span class="tp">string</span>) {
+  <span class="kw">return</span> { name, age, role };
 }
-<span class="cmt">// Output: let: 0, let: 1, let: 2</span></code></pre></div>
 
-  <div class="sub-header"><div class="sub-num red">3️⃣</div><h3>Common Mistakes</h3></div>
-  <div class="warn"><div class="wt">❌ Mistake — Accessing let before declaration (TDZ)</div>
-  <div class="cb" style="margin:8px 0"><div class="cb-head"><span class="cb-lang">JS</span><span class="cb-lbl warn">Wrong</span></div>
-  <pre><code><span class="fn">console</span>.log(config); <span class="cmt">// ❌ ReferenceError — TDZ</span>
-<span class="kw">let</span> config = { debug: <span class="bool">true</span> };</code></pre></div>
-  <p style="font-size:13px;margin:4px 0 0;color:var(--muted)">Why: <code>let</code> is hoisted but uninitialized. Accessing it before its declaration is a TDZ violation.</p></div>
+<span class="fn">createUser</span>(<span class="num">42</span>, <span class="str">"admin"</span>, <span class="bool">true</span>);
+<span class="cmt">// ❌ Argument of type 'number' is not assignable to parameter of type 'string'</span>
+<span class="cmt">// Caught at compile time, not in production ✅</span></code></pre></div>
 
-  <div class="sub-header"><div class="sub-num green">4️⃣</div><h3>Practice Tasks</h3></div>
-  <div class="task"><span class="tbadge easy">🟢 EASY</span><div class="task-body"><h4>Basic Declaration</h4><p>Declare <code>firstName</code> with <code>const</code>, <code>score</code> with <code>let</code> starting at 0, update to 100. Try re-declaring <code>firstName</code> — observe the error.</p></div></div>
-  <div class="task"><span class="tbadge med">🟡 MEDIUM</span><div class="task-body"><h4>Predict the Output</h4><p>Before running: predict <code>console.log</code> output for hoisting, TDZ, and <code>const</code>-with-object mutation code. Write reasons first.</p></div></div>
-  <div class="task"><span class="tbadge hard">🔴 REAL-WORLD</span><div class="task-body"><h4>Fix the Shopping Cart Bug</h4><p><code>createButtons(items)</code> uses <code>var i</code> in a <code>for</code> loop with <code>setTimeout</code>. All logs show <code>undefined</code>. Diagnose and fix with <code>let</code>.</p></div></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript + React</span><span class="cb-lbl">Props typing</span></div>
+  <pre><code><span class="cmt">// Without TypeScript — any prop can be passed, no warnings</span>
+<span class="kw">function</span> <span class="fn">UserCard</span>({ name, age }) {
+  <span class="kw">return</span> &lt;div&gt;{name} — {age}&lt;/div&gt;;
+}
 
-  <div class="sub-header"><div class="sub-num orange">5️⃣</div><h3>Interview Questions</h3></div>
-  <div class="qs">
-    <div class="q">What is hoisting? How does <code>var</code> hoisting differ from <code>let</code>? What happens in the compilation phase?</div>
-    <div class="q">What is the Temporal Dead Zone? Write a code example triggering it and explain exactly why it occurs.</div>
-    <div class="q">Why does <code>const</code> not make objects immutable? What would you use for a truly immutable object?</div>
-    <div class="q">In a <code>for</code> loop with <code>setTimeout</code>, why does <code>var</code> produce unexpected results but <code>let</code> does not?</div>
-    <div class="q">When would you ever use <code>var</code> in modern JavaScript?</div>
-  </div>
+<span class="cmt">// With TypeScript — caller knows exactly what to pass</span>
+<span class="kw">type</span> <span class="iface">UserCardProps</span> = {
+  name: <span class="tp">string</span>;
+  age: <span class="tp">number</span>;
+};
+
+<span class="kw">function</span> <span class="fn">UserCard</span>({ name, age }: <span class="iface">UserCardProps</span>) {
+  <span class="kw">return</span> &lt;div&gt;{name} — {age}&lt;/div&gt;;
+}
+
+<span class="cmt">// ❌ &lt;UserCard name={42} age="twenty" /&gt;  — caught at compile time</span>
+<span class="cmt">// ✅ &lt;UserCard name="Vipin" age={25} /&gt;   — correct</span></code></pre></div>
+
+  <div class="sub-header"><div class="sub-num red">6</div><h3>⚠️ Pitfalls</h3></div>
+  <div class="warn-box"><div class="wt">❌ Using `any` everywhere defeats TypeScript's purpose</div>
+  <p style="margin:0;font-size:13.5px"><code>any</code> turns off type checking for that value. New developers often reach for <code>any</code> to silence errors — this gives you the worst of both worlds: no safety AND false confidence. Prefer <code>unknown</code> if you truly don't know the type.</p></div>
+  <div class="warn-box"><div class="wt">❌ TypeScript ≠ runtime validation</div>
+  <p style="margin:0;font-size:13.5px">TypeScript types are erased at runtime. If an API returns <code>{ age: "25" }</code> instead of <code>{ age: 25 }</code>, TypeScript won't catch it. Use <strong>Zod</strong> or <strong>io-ts</strong> for runtime validation of external data.</p></div>
+
+  <div class="sub-header"><div class="sub-num green">7</div><h3>🧪 Practice Task</h3></div>
+  <div class="task"><span class="tbadge easy">🟢 EASY</span><div class="task-body"><h4>Type Your First Variables</h4><p>Declare <code>productName: string</code>, <code>price: number</code>, <code>inStock: boolean</code>. Try assigning wrong types and observe the TypeScript error messages in your IDE.</p></div></div>
+  <div class="task"><span class="tbadge med">🟡 MEDIUM</span><div class="task-body"><h4>Type a Function</h4><p>Convert <code>function add(a, b) { return a + b; }</code> to TypeScript. Add parameter types and a return type. Try calling it with a string argument and observe the error.</p></div></div>
 </section>
 
-<!-- ─── TOPIC 02: PRIMITIVES VS REFERENCE ─── -->
-<section class="section" id="primitives">
+<hr/>
+
+<!-- ─── TOPIC 02: TYPE SYSTEM BASICS ─── -->
+<section class="section" id="type-system">
   <div class="section-header">
     <div class="s-num">02</div>
-    <h2>Primitive vs Reference Types</h2>
+    <h2>Type System Basics</h2>
   </div>
 
-  <div class="sub-header"><div class="sub-num teal">1️⃣</div><h3>Concept Explanation</h3></div>
-  <p>Every JavaScript value is either a <strong>primitive</strong> (stored by value) or a <strong>reference type</strong> (stored by reference). The difference determines how values are <em>copied</em> and <em>compared</em>.</p>
+  <div class="sub-header"><div class="sub-num teal">1</div><h3>📘 Definition</h3></div>
+  <p>TypeScript's <strong>type system</strong> is the set of rules that determines which values can be assigned to which variables. It works by <em>statically analyzing</em> your code before it runs — this is called <strong>static analysis</strong>.</p>
+  <p>The type system has two modes: <strong>structural typing</strong> (the default, shape-based) and <strong>nominal typing</strong> (name-based, not default in TS). Understanding structural typing is fundamental to understanding why TypeScript behaves the way it does.</p>
 
-  <div class="tbl-wrap"><table>
-    <thead><tr><th>Category</th><th>Types</th><th>Stored In</th><th>Copied By</th><th>Mutable?</th></tr></thead>
-    <tbody>
-      <tr><td>Primitive</td><td><code>string number bigint boolean undefined null symbol</code></td><td>Stack</td><td>Value</td><td><span class="n">❌ No</span></td></tr>
-      <tr><td>Reference</td><td><code>Object Array Function Date Map Set</code></td><td>Heap (pointer on stack)</td><td>Reference</td><td><span class="y">✅ Yes</span></td></tr>
-    </tbody>
-  </table></div>
+  <div class="sub-header"><div class="sub-num purple">2</div><h3>📖 Official Insight</h3></div>
+  <div class="official"><div class="wt">📖 TypeScript Docs say…</div>
+  <p style="margin:0;font-size:13.5px">TypeScript uses a <strong>structural type system</strong>. This means type compatibility is determined by the shape (structure) of the type, not its name. "If it walks like a duck and quacks like a duck, it's a duck." — This is often called <em>duck typing</em> in the TypeScript world.</p></div>
 
-  <h3>Internal Working — Stack vs Heap</h3>
-  <div class="mem">
-STACK (fast, fixed-size)            HEAP (large, dynamic)<br>
-┌──────────────────────┐           ┌───────────────────────────┐<br>
-│ a = <span class="hi">10</span>              │           │                           │<br>
-│ b = <span class="hi">10</span>  ← full copy  │           │  { name: "Vipin" }  ←─────┼── user1<br>
-│                      │           │  (same object)      ←─────┼── user2<br>
-│ user1 = [ref:0x001] ─┼──────────►│  [address: 0x001]         │<br>
-│ user2 = [ref:0x001] ─┼──────────►│                           │<br>
-└──────────────────────┘           └───────────────────────────┘<br>
-<br>
-<span class="dim">Changing b does NOT affect a (different stack slots)</span><br>
-<span class="hi">Changing user2.name DOES affect user1 (same heap object)</span>
-  </div>
+  <div class="sub-header"><div class="sub-num teal">3</div><h3>🧠 Core Concept — Structural vs Nominal</h3></div>
 
-  <div class="mm"><div class="mm-title">🧠 Mental Model</div>
-  <p><strong>Primitive = photocopy.</strong> Give someone a copy — they mark it up, your original is fine.</p>
-  <p style="margin:0"><strong>Reference = Google Doc link.</strong> Share the link — they edit it, and you both see the changes.</p></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">Structural typing — shape is what matters</span></div>
+  <pre><code><span class="kw">type</span> <span class="iface">Point2D</span> = { x: <span class="tp">number</span>; y: <span class="tp">number</span> };
+<span class="kw">type</span> <span class="iface">Coordinates</span> = { x: <span class="tp">number</span>; y: <span class="tp">number</span> };
 
-  <div class="sub-header"><div class="sub-num teal">2️⃣</div><h3>Code Examples</h3></div>
-  <div class="cb"><div class="cb-head"><span class="cb-lang">JavaScript</span><span class="cb-lbl">Basic → Advanced</span></div>
-  <pre><code><span class="cmt">// PRIMITIVES — copied by value</span>
-<span class="kw">let</span> a = <span class="num">10</span>;
-<span class="kw">let</span> b = a;        <span class="cmt">// b gets a full COPY of 10</span>
-b = <span class="num">99</span>;
-<span class="fn">console</span>.log(a);   <span class="cmt">// 10 — unchanged</span>
-<span class="fn">console</span>.log(b);   <span class="cmt">// 99</span>
+<span class="kw">const</span> p: <span class="iface">Point2D</span> = { x: <span class="num">1</span>, y: <span class="num">2</span> };
+<span class="kw">const</span> c: <span class="iface">Coordinates</span> = p; <span class="cmt">// ✅ compatible — same shape!</span>
 
-<span class="cmt">// REFERENCE — copied by pointer</span>
-<span class="kw">let</span> user1 = { name: <span class="str">"Vipin"</span> };
-<span class="kw">let</span> user2 = user1;           <span class="cmt">// same object in memory</span>
-user2.name = <span class="str">"Singh"</span>;
-<span class="fn">console</span>.log(user1.name);     <span class="cmt">// "Singh" — user1 affected!</span>
+<span class="cmt">// In a nominal system (Java/C#), this would fail.</span>
+<span class="cmt">// In TypeScript, if the SHAPE matches, it's compatible.</span>
 
-<span class="cmt">// COMPARISON</span>
-<span class="fn">console</span>.log({} === {});      <span class="cmt">// false — different objects</span>
-<span class="fn">console</span>.log([] === []);      <span class="cmt">// false — different arrays</span>
-<span class="fn">console</span>.log(<span class="str">"hi"</span> === <span class="str">"hi"</span>); <span class="cmt">// true  — same primitive value</span>
+<span class="cmt">// Extra properties are OK when assigning (structural compatibility)</span>
+<span class="kw">type</span> <span class="iface">Animal</span> = { name: <span class="tp">string</span> };
+<span class="kw">type</span> <span class="iface">Dog</span> = { name: <span class="tp">string</span>; breed: <span class="tp">string</span> };
 
-<span class="cmt">// SHALLOW COPY — spread operator</span>
-<span class="kw">const</span> original = { score: <span class="num">100</span> };
-<span class="kw">const</span> clone = { ...original };
-clone.score = <span class="num">0</span>;
-<span class="fn">console</span>.log(original.score);  <span class="cmt">// 100 — untouched ✅</span>
+<span class="kw">const</span> myDog: <span class="iface">Dog</span> = { name: <span class="str">"Rex"</span>, breed: <span class="str">"Husky"</span> };
+<span class="kw">const</span> animal: <span class="iface">Animal</span> = myDog; <span class="cmt">// ✅ Dog is assignable to Animal (has more, not less)</span></code></pre></div>
 
-<span class="cmt">// DEEP COPY — JSON (flat objects only)</span>
-<span class="kw">const</span> deep = { user: { prefs: { theme: <span class="str">"dark"</span> } } };
-<span class="kw">const</span> copy = <span class="fn">JSON</span>.parse(<span class="fn">JSON</span>.stringify(deep));
-copy.user.prefs.theme = <span class="str">"light"</span>;
-<span class="fn">console</span>.log(deep.user.prefs.theme); <span class="cmt">// "dark" — untouched ✅</span>
-<span class="cmt">// ⚠️ JSON.stringify drops: functions, undefined, Dates, Symbols</span>
+  <div class="sub-header"><div class="sub-num orange">4</div><h3>⚙️ Syntax — Type Annotations</h3></div>
 
-<span class="cmt">// REAL-WORLD: Settings draft isolation</span>
-<span class="kw">const</span> liveSettings = { theme: <span class="str">"dark"</span>, fontSize: <span class="num">16</span> };
-<span class="kw">let</span> draft = { ...liveSettings };     <span class="cmt">// isolated copy</span>
-draft.theme = <span class="str">"light"</span>;              <span class="cmt">// editing draft doesn't affect live</span>
-<span class="cmt">// On save:</span>
-<span class="cmt">// Object.assign(liveSettings, draft);</span></code></pre></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">All annotation forms</span></div>
+  <pre><code><span class="cmt">// Variable annotation</span>
+<span class="kw">let</span> name: <span class="tp">string</span>;
+<span class="kw">const</span> port: <span class="tp">number</span> = <span class="num">3000</span>;
 
-  <div class="sub-header"><div class="sub-num red">3️⃣</div><h3>Common Mistakes</h3></div>
-  <div class="warn"><div class="wt">❌ Assuming arrays copy by value</div>
-  <div class="cb" style="margin:8px 0"><div class="cb-head"><span class="cb-lang">JS</span><span class="cb-lbl warn">Wrong → Fixed</span></div>
-  <pre><code><span class="kw">const</span> arr1 = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>];
-<span class="kw">const</span> arr2 = arr1;         <span class="cmt">// ❌ same reference!</span>
-arr2.push(<span class="num">4</span>);
-<span class="fn">console</span>.log(arr1);         <span class="cmt">// [1, 2, 3, 4] — arr1 mutated!</span>
+<span class="cmt">// Function parameter + return type annotation</span>
+<span class="kw">function</span> <span class="fn">greet</span>(name: <span class="tp">string</span>): <span class="tp">string</span> {
+  <span class="kw">return</span> <span class="str">`Hello, ${name}`</span>;
+}
 
-<span class="kw">const</span> arr3 = [...arr1];    <span class="cmt">// ✅ shallow copy with spread</span>
-arr3.push(<span class="num">5</span>);
-<span class="fn">console</span>.log(arr1);         <span class="cmt">// [1, 2, 3, 4] — safe ✅</span></code></pre></div></div>
+<span class="cmt">// Object type annotation</span>
+<span class="kw">let</span> user: { name: <span class="tp">string</span>; age: <span class="tp">number</span> } = { name: <span class="str">"Vipin"</span>, age: <span class="num">25</span> };
 
-  <div class="sub-header"><div class="sub-num green">4️⃣</div><h3>Practice Tasks</h3></div>
-  <div class="task"><span class="tbadge easy">🟢 EASY</span><div class="task-body"><h4>Copy &amp; Observe</h4><p>Declare <code>x = 5</code>, copy to <code>y</code>, change <code>y</code> to 50. Log both. Do the same with an object. Observe the difference.</p></div></div>
-  <div class="task"><span class="tbadge med">🟡 MEDIUM</span><div class="task-body"><h4>Shallow vs Deep</h4><p>Create <code>{ user: { name: "Vipin", prefs: { theme: "dark" } } }</code>. Make a shallow copy with spread. Change the nested <code>theme</code>. Check if the original changed. Fix with a deep copy.</p></div></div>
-  <div class="task"><span class="tbadge hard">🔴 REAL-WORLD</span><div class="task-body"><h4>Settings Draft</h4><p>Build a settings panel: <code>liveSettings</code> is the active config. User opens a "draft" (copy). They edit it. On "Save", apply draft to live. On "Cancel", discard. Implement without mutating live settings during editing.</p></div></div>
+<span class="cmt">// Array annotation</span>
+<span class="kw">let</span> scores: <span class="tp">number</span>[] = [<span class="num">90</span>, <span class="num">85</span>, <span class="num">95</span>];
 
-  <div class="sub-header"><div class="sub-num orange">5️⃣</div><h3>Interview Questions</h3></div>
-  <div class="qs">
-    <div class="q">What is the difference between pass-by-value and pass-by-reference? Is JavaScript truly pass-by-reference for objects?</div>
-    <div class="q">Why does <code>{} === {}</code> return <code>false</code>?</div>
-    <div class="q">What is the difference between a shallow copy and a deep copy? When does a shallow copy fail?</div>
-    <div class="q">If I pass an object to a function and mutate it inside, does the original change? Why?</div>
-    <div class="q">What are all 7 primitive types in JavaScript?</div>
-  </div>
+<span class="cmt">// void — function that returns nothing</span>
+<span class="kw">function</span> <span class="fn">logMessage</span>(msg: <span class="tp">string</span>): <span class="tp">void</span> {
+  <span class="fn">console</span>.log(msg);
+}</code></pre></div>
+
+  <div class="sub-header"><div class="sub-num green">5</div><h3>🔥 Real-World — API Response Typing</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">Typed API response</span></div>
+  <pre><code><span class="cmt">// Define the shape of what your API returns</span>
+<span class="kw">type</span> <span class="iface">ApiUser</span> = {
+  id: <span class="tp">number</span>;
+  name: <span class="tp">string</span>;
+  email: <span class="tp">string</span>;
+  createdAt: <span class="tp">string</span>;
+};
+
+<span class="cmt">// TypeScript knows exactly what .name, .email are</span>
+<span class="kw">async function</span> <span class="fn">fetchUser</span>(id: <span class="tp">number</span>): <span class="tp">Promise</span>&lt;<span class="iface">ApiUser</span>&gt; {
+  <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">`/api/users/${id}`</span>);
+  <span class="kw">return</span> res.<span class="fn">json</span>() <span class="kw">as</span> <span class="iface">ApiUser</span>;
+}
+
+<span class="cmt">// Now the IDE gives you full autocomplete on the result</span>
+<span class="kw">const</span> user = <span class="kw">await</span> <span class="fn">fetchUser</span>(<span class="num">1</span>);
+<span class="fn">console</span>.log(user.name);  <span class="cmt">// ✅ TypeScript knows this is string</span>
+<span class="cmt">// console.log(user.xyz) // ❌ Property 'xyz' does not exist</span></code></pre></div>
+
+  <div class="sub-header"><div class="sub-num red">6</div><h3>⚠️ Pitfalls</h3></div>
+  <div class="warn-box"><div class="wt">❌ Excess property check at object literals — surprising behavior</div>
+  <div class="cb" style="margin:8px 0"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl warn">Pitfall</span></div>
+  <pre><code><span class="kw">type</span> <span class="iface">User</span> = { name: <span class="tp">string</span> };
+
+<span class="cmt">// ❌ Fresh object literal triggers excess property check</span>
+<span class="kw">const</span> u: <span class="iface">User</span> = { name: <span class="str">"Vipin"</span>, age: <span class="num">25</span> };
+<span class="cmt">// Error: Object literal may only specify known properties</span>
+
+<span class="cmt">// ✅ Through a variable — no excess property check</span>
+<span class="kw">const</span> obj = { name: <span class="str">"Vipin"</span>, age: <span class="num">25</span> };
+<span class="kw">const</span> u2: <span class="iface">User</span> = obj; <span class="cmt">// fine — structural compatibility</span></code></pre></div>
+  <p style="font-size:13px;margin:4px 0 0;color:var(--muted)">TypeScript applies <em>excess property checks</em> only on fresh object literals assigned directly to a typed variable. This is intentional to catch typos.</p></div>
+
+  <div class="sub-header"><div class="sub-num green">7</div><h3>🧪 Practice Task</h3></div>
+  <div class="task"><span class="tbadge easy">🟢 EASY</span><div class="task-body"><h4>Shape Compatibility</h4><p>Create types <code>Car</code> (name, speed) and <code>Vehicle</code> (name). Try assigning a <code>Car</code> to a <code>Vehicle</code> variable. Now try the reverse. Observe and explain why one fails.</p></div></div>
 </section>
 
-<!-- ─── TOPIC 03: NULL VS UNDEFINED ─── -->
-<section class="section" id="null-undefined">
+<hr/>
+
+<!-- ─── TOPIC 03: TYPE INFERENCE ─── -->
+<section class="section" id="type-inference">
   <div class="section-header">
     <div class="s-num">03</div>
-    <h2><code>null</code> vs <code>undefined</code></h2>
+    <h2>Type Inference</h2>
   </div>
 
-  <div class="sub-header"><div class="sub-num teal">1️⃣</div><h3>Concept Explanation</h3></div>
-  <p>Both represent "no value" — but their <strong>origin and intent differ fundamentally</strong>.</p>
+  <div class="sub-header"><div class="sub-num teal">1</div><h3>📘 Definition</h3></div>
+  <p><strong>Type inference</strong> is TypeScript's ability to automatically determine the type of a value without you explicitly annotating it. You don't always need to write <code>: string</code> — TypeScript can figure it out from context.</p>
 
-  <div class="tbl-wrap"><table>
-    <thead><tr><th></th><th><code>undefined</code></th><th><code>null</code></th></tr></thead>
-    <tbody>
-      <tr><td>Set by</td><td>JS engine (automatically)</td><td>Developer (intentionally)</td></tr>
-      <tr><td><code>typeof</code></td><td><code>"undefined"</code></td><td><code>"object"</code> ← historical bug</td></tr>
-      <tr><td><code>== null</code></td><td><span class="y">true</span></td><td><span class="y">true</span></td></tr>
-      <tr><td><code>=== null</code></td><td><span class="n">false</span></td><td><span class="y">true</span></td></tr>
-      <tr><td>Falsy?</td><td><span class="y">Yes</span></td><td><span class="y">Yes</span></td></tr>
-      <tr><td>JSON serialized</td><td>omitted</td><td><code>null</code></td></tr>
-    </tbody>
-  </table></div>
+  <div class="sub-header"><div class="sub-num purple">2</div><h3>📖 Official Insight</h3></div>
+  <div class="official"><div class="wt">📖 TypeScript Docs say…</div>
+  <p style="margin:0;font-size:13.5px">"In TypeScript, there are several places where type inference is used to provide type information when there is no explicit type annotation. For example, in this code: <code>let x = 3;</code> the type of <code>x</code> is inferred to be <code>number</code>." — TypeScript calls this <em>contextual typing</em> when inference flows from context (like event handlers).</p></div>
 
-  <div class="info"><div class="wt">📌 When does undefined appear automatically?</div>
-  <ul style="margin:0">
-    <li>Variable declared but not assigned: <code>let x;</code></li>
-    <li>Function parameter not provided</li>
-    <li>Function returns nothing (implicit <code>return;</code>)</li>
-    <li>Accessing a non-existent object property: <code>obj.missing</code></li>
-  </ul></div>
+  <div class="sub-header"><div class="sub-num teal">3</div><h3>🧠 Core Concept — How Inference Works</h3></div>
 
-  <div class="mm"><div class="mm-title">🧠 Mental Model</div>
-  <p><strong>undefined</strong> = An empty mailbox. Nothing was ever put there.</p>
-  <p style="margin:0"><strong>null</strong> = An empty mailbox with a sign saying "Empty on purpose."</p></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">Inference in action</span></div>
+  <pre><code><span class="cmt">// TypeScript infers 'string' from the initializer</span>
+<span class="kw">let</span> city = <span class="str">"Delhi"</span>;        <span class="cmt">// inferred: string</span>
+<span class="kw">let</span> count = <span class="num">0</span>;             <span class="cmt">// inferred: number</span>
+<span class="kw">let</span> active = <span class="bool">true</span>;        <span class="cmt">// inferred: boolean</span>
 
-  <div class="sub-header"><div class="sub-num teal">2️⃣</div><h3>Code Examples</h3></div>
-  <div class="cb"><div class="cb-head"><span class="cb-lang">JavaScript</span><span class="cb-lbl">All Cases</span></div>
-  <pre><code><span class="cmt">// undefined — set by engine</span>
-<span class="kw">let</span> x;
-<span class="fn">console</span>.log(x);                          <span class="cmt">// undefined</span>
-
-<span class="kw">function</span> <span class="fn">greet</span>(name) { <span class="kw">return</span> name; }
-<span class="fn">console</span>.log(<span class="fn">greet</span>());                    <span class="cmt">// undefined — no arg</span>
-
-<span class="kw">const</span> obj = { a: <span class="num">1</span> };
-<span class="fn">console</span>.log(obj.b);                      <span class="cmt">// undefined — no property</span>
-
-<span class="cmt">// null — set by developer</span>
-<span class="kw">let</span> currentUser = <span class="bool">null</span>;                  <span class="cmt">// intentional: no user logged in</span>
-currentUser = { name: <span class="str">"Vipin"</span> };        <span class="cmt">// now assigned</span>
-
-<span class="cmt">// The equality trap</span>
-<span class="fn">console</span>.log(<span class="bool">null</span> == <span class="bool">undefined</span>);         <span class="cmt">// true  — loose eq</span>
-<span class="fn">console</span>.log(<span class="bool">null</span> === <span class="bool">undefined</span>);        <span class="cmt">// false — strict eq</span>
-<span class="fn">console</span>.log(<span class="kw">typeof</span> <span class="bool">null</span>);               <span class="cmt">// "object" ← JS bug!</span>
-<span class="fn">console</span>.log(<span class="kw">typeof</span> <span class="bool">undefined</span>);          <span class="cmt">// "undefined"</span>
-
-<span class="cmt">// Safe check for BOTH null AND undefined</span>
-<span class="kw">function</span> <span class="fn">process</span>(value) {
-  <span class="kw">if</span> (value == <span class="bool">null</span>) {                   <span class="cmt">// catches null AND undefined</span>
-    <span class="fn">console</span>.log(<span class="str">"No value provided"</span>);
-    <span class="kw">return</span>;
-  }
-  <span class="fn">console</span>.log(value);
+<span class="cmt">// Inferred return type from function body</span>
+<span class="kw">function</span> <span class="fn">add</span>(a: <span class="tp">number</span>, b: <span class="tp">number</span>) {
+  <span class="kw">return</span> a + b;            <span class="cmt">// return type inferred: number</span>
 }
-<span class="fn">process</span>(<span class="bool">null</span>);       <span class="cmt">// "No value provided"</span>
-<span class="fn">process</span>(<span class="bool">undefined</span>);  <span class="cmt">// "No value provided"</span>
-<span class="fn">process</span>(<span class="num">42</span>);         <span class="cmt">// 42</span>
 
-<span class="cmt">// JSON behaviour difference</span>
-<span class="fn">console</span>.log(<span class="fn">JSON</span>.stringify({ a: <span class="bool">undefined</span>, b: <span class="bool">null</span> }));
-<span class="cmt">// {"b":null}  — undefined is omitted, null is kept</span></code></pre></div>
+<span class="cmt">// Array inference</span>
+<span class="kw">const</span> items = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>];  <span class="cmt">// inferred: number[]</span>
+<span class="kw">const</span> mixed = [<span class="num">1</span>, <span class="str">"two"</span>]; <span class="cmt">// inferred: (string | number)[]</span>
 
-  <div class="sub-header"><div class="sub-num green">4️⃣</div><h3>Practice Tasks</h3></div>
-  <div class="task"><span class="tbadge easy">🟢 EASY</span><div class="task-body"><h4>typeof quiz</h4><p>Log <code>typeof null</code> and <code>typeof undefined</code>. Explain the results.</p></div></div>
-  <div class="task"><span class="tbadge med">🟡 MEDIUM</span><div class="task-body"><h4>isEmpty utility</h4><p>Write <code>isEmpty(val)</code> returning <code>true</code> if <code>val</code> is <code>null</code>, <code>undefined</code>, or empty string <code>""</code>.</p></div></div>
-  <div class="task"><span class="tbadge hard">🔴 REAL-WORLD</span><div class="task-body"><h4>API Field Handling</h4><p>An API returns some fields as <code>null</code> (explicitly cleared by user) and others as <code>undefined</code> (not returned). Write code that distinguishes and handles each case differently.</p></div></div>
+<span class="cmt">// Contextual typing — TypeScript infers from context</span>
+<span class="kw">const</span> names = [<span class="str">"Vipin"</span>, <span class="str">"Singh"</span>];
+names.<span class="fn">forEach</span>(name =&gt; {
+  <span class="fn">console</span>.log(name.<span class="fn">toUpperCase</span>()); <span class="cmt">// TS knows 'name' is string</span>
+});</code></pre></div>
 
-  <div class="sub-header"><div class="sub-num orange">5️⃣</div><h3>Interview Questions</h3></div>
-  <div class="qs">
-    <div class="q">What is the difference between <code>null</code> and <code>undefined</code> in intent? Who sets each?</div>
-    <div class="q">Why does <code>typeof null === "object"</code>? Is <code>null</code> an object?</div>
-    <div class="q">Why is <code>value == null</code> a useful check? What does it catch?</div>
-    <div class="q">What happens when you <code>JSON.stringify</code> an object with <code>undefined</code> vs <code>null</code> values?</div>
+  <div class="sub-header"><div class="sub-num orange">4</div><h3>⚙️ When to Annotate vs Infer</h3></div>
+  <div class="card al">
+    <p style="margin:0;font-size:14px"><strong>Rule of thumb:</strong><br>
+    • Let TypeScript <strong>infer</strong> when the type is obvious from the initial value.<br>
+    • <strong>Annotate explicitly</strong> for: function parameters, function return types, variables declared without an initial value, and public API boundaries.</p>
   </div>
+
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">When to annotate</span></div>
+  <pre><code><span class="cmt">// ✅ Let inference work — obvious from initializer</span>
+<span class="kw">const</span> name = <span class="str">"Vipin"</span>;          <span class="cmt">// no annotation needed</span>
+<span class="kw">const</span> scores = [<span class="num">90</span>, <span class="num">85</span>];       <span class="cmt">// inferred: number[]</span>
+
+<span class="cmt">// ✅ Annotate — declared without value</span>
+<span class="kw">let</span> userId: <span class="tp">number</span>;            <span class="cmt">// must annotate; no initializer</span>
+userId = <span class="num">42</span>;
+
+<span class="cmt">// ✅ Annotate function parameters — TS can't infer these</span>
+<span class="kw">function</span> <span class="fn">multiply</span>(a: <span class="tp">number</span>, b: <span class="tp">number</span>): <span class="tp">number</span> {
+  <span class="kw">return</span> a * b;
+}
+
+<span class="cmt">// ✅ Annotate return type — explicit contract, prevents mistakes</span>
+<span class="kw">function</span> <span class="fn">getUsername</span>(): <span class="tp">string</span> {
+  <span class="kw">return</span> <span class="str">"Vipin"</span>;
+}</code></pre></div>
+
+  <div class="sub-header"><div class="sub-num green">5</div><h3>🔥 Real-World — Inference in React useState</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript + React</span><span class="cb-lbl">useState inference</span></div>
+  <pre><code><span class="kw">import</span> { useState } <span class="kw">from</span> <span class="str">'react'</span>;
+
+<span class="cmt">// TypeScript infers state type from initial value</span>
+<span class="kw">const</span> [count, setCount] = <span class="fn">useState</span>(<span class="num">0</span>);     <span class="cmt">// count: number</span>
+<span class="kw">const</span> [name, setName] = <span class="fn">useState</span>(<span class="str">""</span>);      <span class="cmt">// name: string</span>
+
+<span class="cmt">// When type can't be inferred from initial value — annotate explicitly</span>
+<span class="kw">const</span> [user, setUser] = <span class="fn">useState</span>&lt;<span class="iface">User</span> | <span class="kw">null</span>&gt;(<span class="kw">null</span>);
+<span class="cmt">// Without the generic, TS would infer: null — too narrow!</span></code></pre></div>
+
+  <div class="sub-header"><div class="sub-num red">6</div><h3>⚠️ Pitfalls</h3></div>
+  <div class="warn-box"><div class="wt">❌ Widened inference — `let` vs `const`</div>
+  <div class="cb" style="margin:8px 0"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl warn">Widening</span></div>
+  <pre><code><span class="kw">const</span> status = <span class="str">"active"</span>;  <span class="cmt">// inferred: "active" (literal type)</span>
+<span class="kw">let</span> status2 = <span class="str">"active"</span>;  <span class="cmt">// inferred: string (widened!)</span>
+
+<span class="cmt">// 'const' infers the exact literal type because it can't change.</span>
+<span class="cmt">// 'let' widens to the broader type because it could change later.</span></code></pre></div></div>
+
+  <div class="sub-header"><div class="sub-num green">7</div><h3>🧪 Practice Task</h3></div>
+  <div class="task"><span class="tbadge easy">🟢 EASY</span><div class="task-body"><h4>Hover to Inspect</h4><p>In your IDE, declare 5 variables using <code>const</code> and <code>let</code> with different initial values. Hover over each variable name to see what TypeScript inferred. Notice how <code>const</code> vs <code>let</code> changes the inferred type.</p></div></div>
 </section>
 
-<!-- ─── TOPIC 04: GLOBAL OBJECT ─── -->
-<section class="section" id="global-object">
+<hr/>
+
+<!-- ─── TOPIC 04: PRIMITIVES & SPECIAL TYPES ─── -->
+<section class="section" id="primitives">
   <div class="section-header">
     <div class="s-num">04</div>
-    <h2>The Global Object</h2>
+    <h2>Primitive &amp; Special Types</h2>
   </div>
 
-  <div class="sub-header"><div class="sub-num teal">1️⃣</div><h3>Concept Explanation</h3></div>
-  <p>The <strong>global object</strong> is the top-level container in a JavaScript runtime. Every built-in (<code>Math</code>, <code>JSON</code>, <code>setTimeout</code>) and every <code>var</code> declared at the top level lives on it.</p>
+  <div class="sub-header"><div class="sub-num teal">1</div><h3>📘 Definition</h3></div>
+  <p>TypeScript has primitive types that map directly to JavaScript primitives, plus special types unique to TypeScript's type system that represent <em>absence</em>, <em>unknowns</em>, and <em>impossibilities</em>.</p>
 
   <div class="tbl-wrap"><table>
-    <thead><tr><th>Environment</th><th>Global Object</th><th>Universal (ES2020+)</th></tr></thead>
+    <thead><tr><th>Type</th><th>What it represents</th><th>Example</th></tr></thead>
     <tbody>
-      <tr><td>Browser</td><td><code>window</code></td><td rowspan="3" style="vertical-align:middle"><code>globalThis</code></td></tr>
-      <tr><td>Node.js</td><td><code>global</code></td></tr>
-      <tr><td>Web Worker</td><td><code>self</code></td></tr>
+      <tr><td><code>string</code></td><td>Text</td><td><code>"hello"</code></td></tr>
+      <tr><td><code>number</code></td><td>Integers and floats</td><td><code>42</code>, <code>3.14</code></td></tr>
+      <tr><td><code>boolean</code></td><td>true/false</td><td><code>true</code></td></tr>
+      <tr><td><code>bigint</code></td><td>Arbitrary precision integers</td><td><code>9007199254740991n</code></td></tr>
+      <tr><td><code>symbol</code></td><td>Unique identifiers</td><td><code>Symbol("id")</code></td></tr>
+      <tr><td><code>undefined</code></td><td>Variable declared, not assigned</td><td><code>undefined</code></td></tr>
+      <tr><td><code>null</code></td><td>Intentional absence of value</td><td><code>null</code></td></tr>
+      <tr><td><code>any</code></td><td>Opt-out of type checking</td><td><em>avoid!</em></td></tr>
+      <tr><td><code>unknown</code></td><td>Type-safe version of <code>any</code></td><td>API responses</td></tr>
+      <tr><td><code>never</code></td><td>A value that never occurs</td><td>Exhaustive checks</td></tr>
+      <tr><td><code>void</code></td><td>Function returns nothing meaningful</td><td>Event handlers</td></tr>
     </tbody>
   </table></div>
 
-  <div class="info"><div class="wt">📌 Key Behavior</div>
-  <ul style="margin:0">
-    <li><code>var</code> declarations at top level → become properties of the global object</li>
-    <li><code>let</code> / <code>const</code> at top level → do NOT become global object properties</li>
-    <li>All built-ins (<code>Math</code>, <code>parseInt</code>, <code>setTimeout</code>) live on the global object</li>
-  </ul></div>
+  <div class="sub-header"><div class="sub-num purple">2</div><h3>📖 Official Insight — any vs unknown vs never</h3></div>
+  <div class="official"><div class="wt">📖 TypeScript Docs say…</div>
+  <p style="margin:0;font-size:13.5px"><code>any</code> is the escape hatch — it disables type checking entirely. <code>unknown</code> is the type-safe counterpart: you <em>can</em> assign anything to it, but you <em>must</em> narrow it before using it. <code>never</code> represents values that never occur — it appears in exhaustive checks and functions that always throw.</p></div>
 
-  <div class="cb"><div class="cb-head"><span class="cb-lang">JavaScript</span><span class="cb-lbl">Browser</span></div>
-  <pre><code><span class="kw">var</span> appName = <span class="str">"MyApp"</span>;
-<span class="fn">console</span>.log(window.appName);         <span class="cmt">// "MyApp" — on window!</span>
+  <div class="sub-header"><div class="sub-num teal">3</div><h3>🧠 Core Concept</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">any vs unknown vs never</span></div>
+  <pre><code><span class="cmt">// any — no type safety, avoid in production code</span>
+<span class="kw">let</span> data: <span class="tp">any</span> = <span class="fn">fetchSomething</span>();
+data.<span class="fn">doAnything</span>();   <span class="cmt">// ✅ no errors — but unsafe!</span>
 
-<span class="kw">let</span> version = <span class="str">"1.0"</span>;
-<span class="fn">console</span>.log(window.version);         <span class="cmt">// undefined — not on window</span>
+<span class="cmt">// unknown — must narrow before using</span>
+<span class="kw">let</span> result: <span class="tp">unknown</span> = <span class="fn">fetchSomething</span>();
+<span class="cmt">// result.doAnything(); // ❌ Object is of type 'unknown'</span>
 
-<span class="cmt">// globalThis works everywhere</span>
-<span class="fn">console</span>.log(globalThis.Math.PI);     <span class="cmt">// 3.14...</span>
-<span class="fn">console</span>.log(globalThis.parseInt(<span class="str">"42"</span>)); <span class="cmt">// 42</span>
+<span class="kw">if</span> (<span class="kw">typeof</span> result === <span class="str">"string"</span>) {
+  <span class="fn">console</span>.log(result.<span class="fn">toUpperCase</span>()); <span class="cmt">// ✅ now safe</span>
+}
 
-<span class="cmt">// Environment detection</span>
-<span class="kw">const</span> isBrowser = <span class="kw">typeof</span> window !== <span class="str">"undefined"</span>;
-<span class="kw">const</span> isNode = <span class="kw">typeof</span> process !== <span class="str">"undefined"</span> &amp;&amp; process.versions?.node;
-<span class="fn">console</span>.log(isBrowser ? <span class="str">"Browser"</span> : <span class="str">"Node"</span>);</code></pre></div>
+<span class="cmt">// never — exhaustive checking</span>
+<span class="kw">type</span> <span class="iface">Shape</span> = <span class="str">"circle"</span> | <span class="str">"square"</span>;
 
-  <div class="sub-header"><div class="sub-num green">4️⃣</div><h3>Practice Tasks</h3></div>
-  <div class="task"><span class="tbadge easy">🟢 EASY</span><div class="task-body"><h4>Global Inspection</h4><p>In the browser console: type <code>window</code>. Scroll the properties. Declare a <code>var</code> and a <code>let</code>. Check which appears on <code>window</code>.</p></div></div>
-  <div class="task"><span class="tbadge hard">🔴 REAL-WORLD</span><div class="task-body"><h4>Cross-env Utility</h4><p>Write a helper function <code>getEnv()</code> that returns <code>"browser"</code>, <code>"node"</code>, or <code>"worker"</code> by checking the global object, using <code>globalThis</code> as the entry point.</p></div></div>
+<span class="kw">function</span> <span class="fn">getArea</span>(shape: <span class="iface">Shape</span>) {
+  <span class="kw">switch</span> (shape) {
+    <span class="kw">case</span> <span class="str">"circle"</span>:  <span class="kw">return</span> <span class="num">3.14</span>;
+    <span class="kw">case</span> <span class="str">"square"</span>: <span class="kw">return</span> <span class="num">1</span>;
+    <span class="kw">default</span>:
+      <span class="kw">const</span> _exhaustive: <span class="tp">never</span> = shape; <span class="cmt">// TS error if new shape added!</span>
+      <span class="kw">throw</span> <span class="kw">new</span> Error(<span class="str">`Unknown shape`</span>);
+  }
+}</code></pre></div>
+
+  <div class="sub-header"><div class="sub-num orange">4</div><h3>⚙️ Literal Types</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">Literal types</span></div>
+  <pre><code><span class="cmt">// A literal type restricts a variable to exact values</span>
+<span class="kw">let</span> direction: <span class="str">"left"</span> | <span class="str">"right"</span> | <span class="str">"up"</span> | <span class="str">"down"</span>;
+direction = <span class="str">"left"</span>;   <span class="cmt">// ✅</span>
+<span class="cmt">// direction = "diagonal"; // ❌</span>
+
+<span class="kw">type</span> <span class="iface">HttpMethod</span> = <span class="str">"GET"</span> | <span class="str">"POST"</span> | <span class="str">"PUT"</span> | <span class="str">"DELETE"</span>;
+<span class="kw">type</span> <span class="iface">StatusCode</span> = <span class="num">200</span> | <span class="num">201</span> | <span class="num">400</span> | <span class="num">401</span> | <span class="num">404</span> | <span class="num">500</span>;
+
+<span class="kw">function</span> <span class="fn">request</span>(url: <span class="tp">string</span>, method: <span class="iface">HttpMethod</span>) {
+  <span class="cmt">// method is guaranteed to be one of the four values</span>
+}</code></pre></div>
+
+  <div class="sub-header"><div class="sub-num green">5</div><h3>🔥 Real-World — API Error Typing with unknown</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">Error handling with unknown</span></div>
+  <pre><code><span class="cmt">// Before TypeScript 4.0, catch errors were 'any'</span>
+<span class="cmt">// Now they're 'unknown' with useUnknownInCatchVariables</span>
+
+<span class="kw">async function</span> <span class="fn">fetchData</span>(url: <span class="tp">string</span>) {
+  <span class="kw">try</span> {
+    <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(url);
+    <span class="kw">return</span> res.<span class="fn">json</span>();
+  } <span class="kw">catch</span> (error: <span class="tp">unknown</span>) {
+    <span class="cmt">// Must narrow before accessing properties</span>
+    <span class="kw">if</span> (error <span class="kw">instanceof</span> Error) {
+      <span class="fn">console</span>.error(error.message);  <span class="cmt">// ✅ safe</span>
+    } <span class="kw">else</span> {
+      <span class="fn">console</span>.error(<span class="str">"Unknown error"</span>, error);
+    }
+  }
+}</code></pre></div>
+
+  <div class="sub-header"><div class="sub-num red">6</div><h3>⚠️ Pitfalls</h3></div>
+  <div class="warn-box"><div class="wt">❌ Using `any` instead of `unknown` for external data</div>
+  <p style="margin:0;font-size:13.5px">When you receive data from an API, catch block, or <code>JSON.parse()</code>, use <code>unknown</code> not <code>any</code>. With <code>unknown</code> you must validate before using — this forces safe code. With <code>any</code> you skip validation and runtime errors can occur.</p></div>
+
+  <div class="sub-header"><div class="sub-num green">7</div><h3>🧪 Practice Task</h3></div>
+  <div class="task"><span class="tbadge easy">🟢 EASY</span><div class="task-body"><h4>Literal Types for Status</h4><p>Create a type <code>OrderStatus</code> with values <code>"pending" | "processing" | "shipped" | "delivered" | "cancelled"</code>. Write a function <code>getStatusMessage(status: OrderStatus): string</code> that returns a message for each status.</p></div></div>
+  <div class="task"><span class="tbadge med">🟡 MEDIUM</span><div class="task-body"><h4>Safe JSON parsing</h4><p>Write a function <code>safeJsonParse(str: string): unknown</code> that wraps <code>JSON.parse</code> in a try/catch and returns <code>null</code> on failure. Then write a type guard to check if the result is a <code>{ name: string }</code> shape.</p></div></div>
 </section>
 
-<!-- ─── TOPIC 05: DATA TYPES ─── -->
-<section class="section" id="data-types">
+<hr/>
+
+<!-- ─── TOPIC 05: FUNCTIONS & OBJECTS ─── -->
+<section class="section" id="functions">
   <div class="section-header">
     <div class="s-num">05</div>
-    <h2>Data Types — Deep Dive</h2>
+    <h2>Functions &amp; Objects in TypeScript</h2>
   </div>
 
-  <div class="sub-header"><div class="sub-num teal">1️⃣</div><h3>Concept Explanation</h3></div>
-  <p>JavaScript has <strong>8 data types</strong>: 7 primitives and 1 structural type (<code>object</code>). Every value you ever work with is one of these.</p>
+  <div class="sub-header"><div class="sub-num teal">1</div><h3>📘 Definition</h3></div>
+  <p>Functions in TypeScript can be typed at every boundary: <strong>parameters</strong>, <strong>return type</strong>, and even <strong>callback shapes</strong>. Objects get typed with inline type annotations, <code>type</code> aliases, or <code>interface</code> declarations.</p>
 
-  <div class="tbl-wrap"><table>
-    <thead><tr><th>Type</th><th>Example</th><th>typeof result</th><th>Notes</th></tr></thead>
-    <tbody>
-      <tr><td><code>number</code></td><td><code>42, 3.14, NaN, Infinity</code></td><td><code>"number"</code></td><td>IEEE 754 double-precision</td></tr>
-      <tr><td><code>string</code></td><td><code>"hi", 'hi', `hi`</code></td><td><code>"string"</code></td><td>Immutable UTF-16</td></tr>
-      <tr><td><code>boolean</code></td><td><code>true, false</code></td><td><code>"boolean"</code></td><td></td></tr>
-      <tr><td><code>undefined</code></td><td><code>undefined</code></td><td><code>"undefined"</code></td><td>Uninitialized</td></tr>
-      <tr><td><code>null</code></td><td><code>null</code></td><td><code>"object"</code> ⚠️</td><td>Historical bug</td></tr>
-      <tr><td><code>symbol</code></td><td><code>Symbol("id")</code></td><td><code>"symbol"</code></td><td>Always unique</td></tr>
-      <tr><td><code>bigint</code></td><td><code>9007199254740991n</code></td><td><code>"bigint"</code></td><td>Arbitrary precision</td></tr>
-      <tr><td><code>object</code></td><td><code>{}, [], function(){}</code></td><td><code>"object"</code> / <code>"function"</code></td><td>All non-primitives</td></tr>
-    </tbody>
-  </table></div>
+  <div class="sub-header"><div class="sub-num orange">4</div><h3>⚙️ Syntax — Function Typing Patterns</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">All function forms</span></div>
+  <pre><code><span class="cmt">// 1. Named function with parameter + return types</span>
+<span class="kw">function</span> <span class="fn">greet</span>(name: <span class="tp">string</span>): <span class="tp">string</span> {
+  <span class="kw">return</span> <span class="str">`Hello, ${name}`</span>;
+}
 
-  <div class="warn"><div class="wt">⚠️ Number type internals — IEEE 754 gotchas</div>
-  <div class="cb" style="margin:8px 0"><div class="cb-head"><span class="cb-lang">JS</span></div>
-  <pre><code>0.1 + 0.2 === 0.3          <span class="cmt">// false! (result: 0.30000000000000004)</span>
-Number.MAX_SAFE_INTEGER    <span class="cmt">// 9007199254740991 (2^53 - 1)</span>
+<span class="cmt">// 2. Arrow function</span>
+<span class="kw">const</span> double = (n: <span class="tp">number</span>): <span class="tp">number</span> =&gt; n * <span class="num">2</span>;
 
-<span class="cmt">// NaN is type "number" and never equals itself</span>
-<span class="kw">typeof</span> NaN                 <span class="cmt">// "number" ← surprising</span>
-NaN === NaN                <span class="cmt">// false ← use Number.isNaN() instead</span>
-Number.isNaN(NaN)          <span class="cmt">// true ✅</span>
-Number.isNaN(<span class="str">"hello"</span>)     <span class="cmt">// false ✅ (does NOT coerce)</span>
-isNaN(<span class="str">"hello"</span>)            <span class="cmt">// true ← isNaN coerces first (unreliable!)</span>
+<span class="cmt">// 3. Optional parameter (use ?)</span>
+<span class="kw">function</span> <span class="fn">createUser</span>(name: <span class="tp">string</span>, role?: <span class="tp">string</span>) {
+  <span class="kw">return</span> { name, role: role ?? <span class="str">"user"</span> };
+}
 
-<span class="num">1</span> / <span class="num">0</span>                     <span class="cmt">// Infinity</span>
--<span class="num">1</span> / <span class="num">0</span>                    <span class="cmt">// -Infinity</span>
-<span class="num">0</span> / <span class="num">0</span>                     <span class="cmt">// NaN</span></code></pre></div></div>
+<span class="cmt">// 4. Default parameter</span>
+<span class="kw">function</span> <span class="fn">paginate</span>(page: <span class="tp">number</span> = <span class="num">1</span>, limit: <span class="tp">number</span> = <span class="num">10</span>) {
+  <span class="kw">return</span> { page, limit };
+}
 
-  <div class="cb"><div class="cb-head"><span class="cb-lang">JavaScript</span><span class="cb-lbl">typeof all types</span></div>
-  <pre><code><span class="kw">typeof</span> <span class="num">42</span>              <span class="cmt">// "number"</span>
-<span class="kw">typeof</span> <span class="str">"hello"</span>         <span class="cmt">// "string"</span>
-<span class="kw">typeof</span> <span class="bool">true</span>            <span class="cmt">// "boolean"</span>
-<span class="kw">typeof</span> <span class="bool">undefined</span>       <span class="cmt">// "undefined"</span>
-<span class="kw">typeof</span> <span class="bool">null</span>            <span class="cmt">// "object"  ← historical bug</span>
-<span class="kw">typeof</span> Symbol()        <span class="cmt">// "symbol"</span>
-<span class="kw">typeof</span> <span class="num">42n</span>             <span class="cmt">// "bigint"</span>
-<span class="kw">typeof</span> {}              <span class="cmt">// "object"</span>
-<span class="kw">typeof</span> []              <span class="cmt">// "object"  ← arrays are objects!</span>
-<span class="kw">typeof</span> <span class="kw">function</span>(){}    <span class="cmt">// "function" ← special case</span>
+<span class="cmt">// 5. Rest parameters</span>
+<span class="kw">function</span> <span class="fn">sum</span>(...nums: <span class="tp">number</span>[]): <span class="tp">number</span> {
+  <span class="kw">return</span> nums.<span class="fn">reduce</span>((a, b) =&gt; a + b, <span class="num">0</span>);
+}
 
-<span class="cmt">// Correct array check</span>
-Array.isArray([])      <span class="cmt">// true  ✅</span>
-Array.isArray({})      <span class="cmt">// false ✅</span>
+<span class="cmt">// 6. Function type as a type alias</span>
+<span class="kw">type</span> <span class="iface">Transformer</span>&lt;<span class="tp">T</span>&gt; = (value: <span class="tp">T</span>) =&gt; <span class="tp">T</span>;
+<span class="kw">const</span> double: <span class="iface">Transformer</span>&lt;<span class="tp">number</span>&gt; = n =&gt; n * <span class="num">2</span>;</code></pre></div>
 
-<span class="cmt">// Symbol — always unique</span>
-<span class="kw">const</span> id1 = Symbol(<span class="str">"id"</span>);
-<span class="kw">const</span> id2 = Symbol(<span class="str">"id"</span>);
-<span class="fn">console</span>.log(id1 === id2);  <span class="cmt">// false — always unique</span>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">Object typing</span></div>
+  <pre><code><span class="cmt">// Inline object type</span>
+<span class="kw">function</span> <span class="fn">printUser</span>(user: { name: <span class="tp">string</span>; age: <span class="tp">number</span> }) {
+  <span class="fn">console</span>.log(user.name, user.age);
+}
 
-<span class="cmt">// BigInt — beyond MAX_SAFE_INTEGER</span>
-<span class="kw">const</span> huge = <span class="num">9007199254740991n</span> + <span class="num">1n</span>;  <span class="cmt">// ✅ precise</span>
-<span class="kw">const</span> bad  = <span class="num">9007199254740991</span> + <span class="num">1</span>;    <span class="cmt">// ❌ loses precision</span></code></pre></div>
+<span class="cmt">// Named type alias (preferred for reuse)</span>
+<span class="kw">type</span> <span class="iface">User</span> = {
+  id: <span class="tp">number</span>;
+  name: <span class="tp">string</span>;
+  email: <span class="tp">string</span>;
+  role: <span class="str">"admin"</span> | <span class="str">"user"</span>;
+};
 
-  <div class="sub-header"><div class="sub-num green">4️⃣</div><h3>Practice Tasks</h3></div>
-  <div class="task"><span class="tbadge easy">🟢 EASY</span><div class="task-body"><h4>getType utility</h4><p>Write <code>getType(val)</code> that returns a correct human-readable type for any value — including <code>"null"</code> and <code>"array"</code> (not just <code>"object"</code>).</p></div></div>
-  <div class="task"><span class="tbadge med">🟡 MEDIUM</span><div class="task-body"><h4>Floating point comparison</h4><p>Why does <code>0.1 + 0.2 !== 0.3</code>? Write a <code>approximatelyEqual(a, b)</code> function using <code>Number.EPSILON</code>.</p></div></div>
-  <div class="task"><span class="tbadge hard">🔴 REAL-WORLD</span><div class="task-body"><h4>Type Validator</h4><p>Build <code>typeValidator(value, expected)</code> where <code>expected</code> can be <code>"string"</code>, <code>"number"</code>, <code>"null"</code>, <code>"array"</code>, <code>"object"</code>. Handle all typeof quirks correctly.</p></div></div>
+<span class="cmt">// Readonly — prevents mutation</span>
+<span class="kw">type</span> <span class="iface">Config</span> = {
+  <span class="kw">readonly</span> apiUrl: <span class="tp">string</span>;
+  <span class="kw">readonly</span> timeout: <span class="tp">number</span>;
+};
 
-  <div class="sub-header"><div class="sub-num orange">5️⃣</div><h3>Interview Questions</h3></div>
-  <div class="qs">
-    <div class="q">What are all 8 JavaScript data types? Which is not a primitive?</div>
-    <div class="q">Why is <code>NaN === NaN</code> false? How do you correctly check for NaN?</div>
-    <div class="q">Why does <code>0.1 + 0.2</code> not equal <code>0.3</code> in JavaScript?</div>
-    <div class="q">Why does <code>typeof []</code> return <code>"object"</code>? How do you correctly detect arrays?</div>
-    <div class="q">What is the difference between <code>isNaN()</code> and <code>Number.isNaN()</code>?</div>
-  </div>
+<span class="kw">const</span> config: <span class="iface">Config</span> = { apiUrl: <span class="str">"/api"</span>, timeout: <span class="num">5000</span> };
+<span class="cmt">// config.apiUrl = "other"; // ❌ Cannot assign to 'apiUrl' — it's readonly</span></code></pre></div>
+
+  <div class="sub-header"><div class="sub-num green">5</div><h3>🔥 Real-World — Express.js Typed Middleware</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript + Express</span><span class="cb-lbl">Typed middleware</span></div>
+  <pre><code><span class="kw">import</span> { Request, Response, NextFunction } <span class="kw">from</span> <span class="str">'express'</span>;
+
+<span class="cmt">// Extend Request to carry typed user data</span>
+<span class="kw">interface</span> <span class="iface">AuthRequest</span> <span class="kw">extends</span> Request {
+  user?: { id: <span class="tp">number</span>; role: <span class="tp">string</span> };
+}
+
+<span class="kw">function</span> <span class="fn">authMiddleware</span>(
+  req: <span class="iface">AuthRequest</span>,
+  res: Response,
+  next: NextFunction
+): <span class="tp">void</span> {
+  <span class="kw">const</span> token = req.headers.authorization;
+  <span class="kw">if</span> (!token) {
+    res.<span class="fn">status</span>(<span class="num">401</span>).<span class="fn">json</span>({ error: <span class="str">"Unauthorized"</span> });
+    <span class="kw">return</span>;
+  }
+  req.user = { id: <span class="num">1</span>, role: <span class="str">"admin"</span> }; <span class="cmt">// typed ✅</span>
+  <span class="fn">next</span>();
+}</code></pre></div>
+
+  <div class="sub-header"><div class="sub-num red">6</div><h3>⚠️ Pitfalls</h3></div>
+  <div class="warn-box"><div class="wt">❌ Missing return type on exported functions</div>
+  <p style="margin:0;font-size:13.5px">Always annotate return types on exported functions (API boundaries). Inference is fine for internal code, but an explicit return type acts as a contract — if you accidentally return the wrong type, TypeScript catches it immediately.</p></div>
+
+  <div class="sub-header"><div class="sub-num green">7</div><h3>🧪 Practice Task</h3></div>
+  <div class="task"><span class="tbadge med">🟡 MEDIUM</span><div class="task-body"><h4>Type a User Service</h4><p>Create a <code>User</code> type with fields: <code>id</code>, <code>name</code>, <code>email</code>, <code>role: "admin" | "user"</code>, optional <code>bio</code>. Write functions: <code>createUser</code>, <code>getUserById</code>, and <code>updateUserRole</code> — all fully typed with explicit return types.</p></div></div>
 </section>
 
-<!-- ─── TOPIC 06: OPERATORS OVERVIEW ─── -->
-<section class="section" id="operators-intro">
+<hr/>
+
+<!-- ─── TOPIC 06: INTERFACES VS TYPE ALIASES ─── -->
+<section class="section" id="interfaces">
   <div class="section-header">
     <div class="s-num">06</div>
-    <h2>Operators Overview</h2>
+    <h2>Interfaces vs Type Aliases</h2>
   </div>
 
-  <div class="sub-header"><div class="sub-num teal">1️⃣</div><h3>Concept Explanation</h3></div>
-  <p>Operators are symbols that perform operations on values (operands). JavaScript has several categories. Phase 2 covers precedence and logical operators in depth — here we cover the full category map.</p>
+  <div class="sub-header"><div class="sub-num teal">1</div><h3>📘 Definition</h3></div>
+  <p>Both <code>interface</code> and <code>type</code> alias let you name and reuse a type shape. They look similar but have key differences that matter in real codebases.</p>
 
-  <div class="cb"><div class="cb-head"><span class="cb-lang">JavaScript</span><span class="cb-lbl">All Operator Categories</span></div>
-  <pre><code><span class="cmt">// ARITHMETIC</span>
-<span class="num">5</span> + <span class="num">3</span>       <span class="cmt">// 8</span>
-<span class="num">10</span> - <span class="num">4</span>     <span class="cmt">// 6</span>
-<span class="num">3</span> * <span class="num">4</span>       <span class="cmt">// 12</span>
-<span class="num">10</span> / <span class="num">3</span>     <span class="cmt">// 3.333...</span>
-<span class="num">10</span> % <span class="num">3</span>     <span class="cmt">// 1 (remainder)</span>
-<span class="num">2</span> ** <span class="num">10</span>    <span class="cmt">// 1024 (exponentiation)</span>
-<span class="kw">let</span> x = <span class="num">5</span>;
-x++;         <span class="cmt">// post-increment: returns 5, then x becomes 6</span>
-++x;         <span class="cmt">// pre-increment: x becomes 7, returns 7</span>
+  <div class="sub-header"><div class="sub-num purple">2</div><h3>📖 Official Insight</h3></div>
+  <div class="official"><div class="wt">📖 TypeScript Docs say…</div>
+  <p style="margin:0;font-size:13.5px">"The key distinction is that a type alias cannot be re-opened to add new properties vs an interface which is always extendable." — The official recommendation is: use <code>interface</code> for object shapes that may be extended (especially public APIs). Use <code>type</code> for unions, intersections, primitives, tuples, and computed types.</p></div>
 
-<span class="cmt">// UNARY</span>
-<span class="kw">typeof</span> <span class="str">"hi"</span>  <span class="cmt">// "string"</span>
-!<span class="bool">true</span>        <span class="cmt">// false</span>
--(-<span class="num">5</span>)        <span class="cmt">// 5</span>
-+<span class="str">"42"</span>        <span class="cmt">// 42  — unary + coerces to number</span>
-<span class="kw">void</span> <span class="num">0</span>       <span class="cmt">// undefined — evaluates expr, discards result</span>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Feature</th><th>interface</th><th>type alias</th></tr></thead>
+    <tbody>
+      <tr><td>Object shapes</td><td><span class="y">✅</span></td><td><span class="y">✅</span></td></tr>
+      <tr><td>Declaration merging</td><td><span class="y">✅ Yes</span></td><td><span class="n">❌ No</span></td></tr>
+      <tr><td>Extends</td><td><span class="y">✅ extends keyword</span></td><td><span class="y">✅ intersection (&amp;)</span></td></tr>
+      <tr><td>Union types</td><td><span class="n">❌ No</span></td><td><span class="y">✅ Yes</span></td></tr>
+      <tr><td>Mapped/conditional types</td><td><span class="n">❌ No</span></td><td><span class="y">✅ Yes</span></td></tr>
+      <tr><td>Primitives/tuples</td><td><span class="n">❌ No</span></td><td><span class="y">✅ Yes</span></td></tr>
+    </tbody>
+  </table></div>
 
-<span class="cmt">// TERNARY (only 3-operand operator)</span>
-<span class="kw">const</span> label = score > <span class="num">50</span> ? <span class="str">"Pass"</span> : <span class="str">"Fail"</span>;
+  <div class="sub-header"><div class="sub-num orange">4</div><h3>⚙️ Syntax Comparison</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">interface vs type</span></div>
+  <pre><code><span class="cmt">// Interface — extends with 'extends'</span>
+<span class="kw">interface</span> <span class="iface">Animal</span> {
+  name: <span class="tp">string</span>;
+  sound(): <span class="tp">string</span>;
+}
+<span class="kw">interface</span> <span class="iface">Dog</span> <span class="kw">extends</span> <span class="iface">Animal</span> {
+  breed: <span class="tp">string</span>;
+}
 
-<span class="cmt">// DELETE</span>
-<span class="kw">const</span> obj = { a: <span class="num">1</span>, b: <span class="num">2</span> };
-<span class="kw">delete</span> obj.a;
-<span class="fn">console</span>.log(obj); <span class="cmt">// { b: 2 }</span>
+<span class="cmt">// Type alias — extends with intersection (&amp;)</span>
+<span class="kw">type</span> <span class="iface">Animal</span> = { name: <span class="tp">string</span>; sound(): <span class="tp">string</span> };
+<span class="kw">type</span> <span class="iface">Dog</span> = <span class="iface">Animal</span> &amp; { breed: <span class="tp">string</span> };
 
-<span class="cmt">// IN — checks if property exists in object</span>
-<span class="fn">console</span>.log(<span class="str">"b"</span> <span class="kw">in</span> obj); <span class="cmt">// true</span>
+<span class="cmt">// Declaration merging (only interface)</span>
+<span class="kw">interface</span> <span class="iface">Window</span> { myLib: <span class="tp">unknown</span> } <span class="cmt">// extends existing Window type</span>
 
-<span class="cmt">// INSTANCEOF — checks prototype chain</span>
-<span class="fn">console</span>.log([] <span class="kw">instanceof</span> Array);   <span class="cmt">// true</span>
-<span class="fn">console</span>.log([] <span class="kw">instanceof</span> Object);  <span class="cmt">// true — arrays are objects</span></code></pre></div>
+<span class="cmt">// Union — only possible with type alias</span>
+<span class="kw">type</span> <span class="iface">ID</span> = <span class="tp">string</span> | <span class="tp">number</span>;
+<span class="kw">type</span> <span class="iface">Result</span>&lt;<span class="tp">T</span>&gt; = { data: <span class="tp">T</span> } | { error: <span class="tp">string</span> };</code></pre></div>
 
-  <div class="sub-header"><div class="sub-num green">4️⃣</div><h3>Practice Tasks</h3></div>
-  <div class="task"><span class="tbadge easy">🟢 EASY</span><div class="task-body"><h4>Pre vs Post increment</h4><p>Predict: <code>let a = 5; let b = a++; let c = ++a;</code> — what are <code>a</code>, <code>b</code>, <code>c</code>?</p></div></div>
-  <div class="task"><span class="tbadge med">🟡 MEDIUM</span><div class="task-body"><h4>Unary + coercion</h4><p>What does <code>+"" </code>, <code>+true</code>, <code>+null</code>, <code>+undefined</code>, <code>+"3.5px"</code> evaluate to? Run and explain each.</p></div></div>
+  <div class="sub-header"><div class="sub-num green">5</div><h3>🔥 Real-World — React Component Props</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript + React</span><span class="cb-lbl">Props pattern</span></div>
+  <pre><code><span class="cmt">// Use 'type' for component props (common convention)</span>
+<span class="kw">type</span> <span class="iface">ButtonProps</span> = {
+  label: <span class="tp">string</span>;
+  variant: <span class="str">"primary"</span> | <span class="str">"secondary"</span> | <span class="str">"ghost"</span>;
+  onClick: () =&gt; <span class="tp">void</span>;
+  disabled?: <span class="tp">boolean</span>;
+};
+
+<span class="kw">function</span> <span class="fn">Button</span>({ label, variant, onClick, disabled }: <span class="iface">ButtonProps</span>) {
+  <span class="kw">return</span> (
+    &lt;button
+      className={<span class="str">`btn btn-${variant}`</span>}
+      onClick={onClick}
+      disabled={disabled}
+    &gt;
+      {label}
+    &lt;/button&gt;
+  );
+}
+
+<span class="cmt">// Use 'interface' when you expect consumers to extend (library code)</span>
+<span class="kw">interface</span> <span class="iface">BaseComponentProps</span> {
+  className?: <span class="tp">string</span>;
+  style?: React.CSSProperties;
+  children?: React.ReactNode;
+}
+
+<span class="kw">interface</span> <span class="iface">CardProps</span> <span class="kw">extends</span> <span class="iface">BaseComponentProps</span> {
+  title: <span class="tp">string</span>;
+}</code></pre></div>
+
+  <div class="sub-header"><div class="sub-num red">6</div><h3>⚠️ Pitfalls</h3></div>
+  <div class="warn-box"><div class="wt">❌ Declaration merging surprises</div>
+  <p style="margin:0;font-size:13.5px">Interfaces can be declared multiple times — TypeScript merges them. This is powerful for augmenting third-party types but dangerous if you accidentally define two interfaces with the same name in your code — they silently merge instead of erroring.</p></div>
+
+  <div class="sub-header"><div class="sub-num green">7</div><h3>🧪 Practice Task</h3></div>
+  <div class="task"><span class="tbadge med">🟡 MEDIUM</span><div class="task-body"><h4>Model an E-commerce system</h4><p>Create: <code>Product</code> interface with id, name, price, category. Create a <code>DigitalProduct</code> interface that extends <code>Product</code> and adds a <code>downloadUrl</code>. Also create a <code>CartItem</code> type that combines <code>Product &amp; { quantity: number }</code>.</p></div></div>
 </section>
 
-<!-- ─── TOPIC 07: TYPE COERCION ─── -->
-<section class="section" id="coercion">
+<hr/>
+
+<!-- ─── TOPIC 07: ARRAYS & TUPLES ─── -->
+<section class="section" id="arrays-tuples">
   <div class="section-header">
     <div class="s-num">07</div>
-    <h2>Type Conversion &amp; Coercion</h2>
+    <h2>Arrays &amp; Tuples</h2>
   </div>
 
-  <div class="sub-header"><div class="sub-num teal">1️⃣</div><h3>Concept Explanation</h3></div>
-  <p><strong>Explicit conversion</strong> — you control it: <code>Number()</code>, <code>String()</code>, <code>Boolean()</code>.<br>
-  <strong>Implicit coercion</strong> — JavaScript converts types automatically in certain operations.</p>
+  <div class="sub-header"><div class="sub-num teal">1</div><h3>📘 Definition</h3></div>
+  <p><strong>Arrays</strong> in TypeScript are typed collections of the same type. <strong>Tuples</strong> are fixed-length arrays where each position has a specific type — they model ordered, heterogeneous data.</p>
 
-  <div class="info"><div class="wt">🔑 The 8 Falsy Values — memorize these</div>
-  <p style="margin:4px 0;font-size:14px;font-family:'Cascadia Code',monospace;color:var(--accent2)">false &nbsp; 0 &nbsp; -0 &nbsp; 0n &nbsp; "" &nbsp; null &nbsp; undefined &nbsp; NaN</p>
-  <p style="margin:0;font-size:13px">Everything else is <strong>truthy</strong> — including <code>"0"</code>, <code>[]</code>, <code>{}</code>, <code>"false"</code>.</p></div>
+  <div class="sub-header"><div class="sub-num orange">4</div><h3>⚙️ Syntax</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">Arrays</span></div>
+  <pre><code><span class="cmt">// Array syntax — two equivalent forms</span>
+<span class="kw">let</span> names: <span class="tp">string</span>[] = [<span class="str">"Vipin"</span>, <span class="str">"Singh"</span>];
+<span class="kw">let</span> scores: Array&lt;<span class="tp">number</span>&gt; = [<span class="num">90</span>, <span class="num">85</span>, <span class="num">95</span>];
 
-  <div class="tbl-wrap"><table>
-    <thead><tr><th>Input</th><th>Number()</th><th>String()</th><th>Boolean()</th></tr></thead>
-    <tbody>
-      <tr><td><code>true</code></td><td><code>1</code></td><td><code>"true"</code></td><td><code>true</code></td></tr>
-      <tr><td><code>false</code></td><td><code>0</code></td><td><code>"false"</code></td><td><code>false</code></td></tr>
-      <tr><td><code>null</code></td><td><code>0</code></td><td><code>"null"</code></td><td><code>false</code></td></tr>
-      <tr><td><code>undefined</code></td><td><code>NaN</code></td><td><code>"undefined"</code></td><td><code>false</code></td></tr>
-      <tr><td><code>""</code></td><td><code>0</code></td><td><code>""</code></td><td><code>false</code></td></tr>
-      <tr><td><code>"42"</code></td><td><code>42</code></td><td><code>"42"</code></td><td><code>true</code></td></tr>
-      <tr><td><code>[]</code></td><td><code>0</code></td><td><code>""</code></td><td><code>true</code> ⚠️</td></tr>
-      <tr><td><code>{}</code></td><td><code>NaN</code></td><td><code>"[object Object]"</code></td><td><code>true</code> ⚠️</td></tr>
-    </tbody>
-  </table></div>
+<span class="cmt">// Readonly array — no mutation methods</span>
+<span class="kw">const</span> config: <span class="tp">ReadonlyArray</span>&lt;<span class="tp">string</span>&gt; = [<span class="str">"dev"</span>, <span class="str">"prod"</span>];
+<span class="cmt">// config.push("staging"); // ❌ readonly</span>
 
-  <div class="cb"><div class="cb-head"><span class="cb-lang">JavaScript</span><span class="cb-lbl">Implicit Coercion Traps</span></div>
-  <pre><code><span class="cmt">// + with string → concatenation</span>
-<span class="num">1</span> + <span class="str">"2"</span>        <span class="cmt">// "12"  — number coerced to string</span>
-<span class="str">"3"</span> - <span class="num">1</span>        <span class="cmt">// 2     — string coerced to number (- has no string form)</span>
-<span class="bool">true</span> + <span class="bool">true</span>    <span class="cmt">// 2     — booleans to numbers</span>
-<span class="bool">null</span> + <span class="num">1</span>       <span class="cmt">// 1     — null → 0</span>
-<span class="bool">undefined</span> + <span class="num">1</span>  <span class="cmt">// NaN   — undefined → NaN</span>
-<span class="str">"1"</span> + <span class="num">2</span> + <span class="num">3</span>   <span class="cmt">// "123" — left-to-right: "12" then "123"</span>
-<span class="num">1</span> + <span class="num">2</span> + <span class="str">"3"</span>   <span class="cmt">// "33"  — left-to-right: 3 then "33"</span>
+<span class="cmt">// Array of objects</span>
+<span class="kw">type</span> <span class="iface">User</span> = { id: <span class="tp">number</span>; name: <span class="tp">string</span> };
+<span class="kw">const</span> users: <span class="iface">User</span>[] = [
+  { id: <span class="num">1</span>, name: <span class="str">"Vipin"</span> },
+  { id: <span class="num">2</span>, name: <span class="str">"Singh"</span> },
+];</code></pre></div>
 
-<span class="cmt">// == loose equality coercion</span>
-<span class="num">0</span> == <span class="bool">false</span>         <span class="cmt">// true  — false → 0</span>
-<span class="str">""</span> == <span class="bool">false</span>        <span class="cmt">// true  — both → 0</span>
-<span class="bool">null</span> == <span class="num">0</span>          <span class="cmt">// false — null only == null/undefined</span>
-<span class="bool">null</span> == <span class="bool">undefined</span>  <span class="cmt">// true  — special pair</span>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">Tuples</span></div>
+  <pre><code><span class="cmt">// Tuple — fixed positions with fixed types</span>
+<span class="kw">type</span> <span class="iface">Pair</span> = [<span class="tp">string</span>, <span class="tp">number</span>];
+<span class="kw">const</span> entry: <span class="iface">Pair</span> = [<span class="str">"Vipin"</span>, <span class="num">25</span>]; <span class="cmt">// ✅</span>
+<span class="cmt">// const bad: Pair = [25, "Vipin"]; // ❌ wrong order!</span>
 
-<span class="cmt">// REAL-WORLD: Safe form input parsing</span>
-<span class="kw">function</span> <span class="fn">getAge</span>(input) {
-  <span class="kw">const</span> parsed = parseInt(input, <span class="num">10</span>);   <span class="cmt">// always specify radix!</span>
-  <span class="kw">if</span> (Number.isNaN(parsed) || parsed &lt; <span class="num">0</span>) {
-    <span class="kw">throw new</span> Error(<span class="str">"Invalid age"</span>);
-  }
-  <span class="kw">return</span> parsed;
+<span class="cmt">// Labeled tuple (more readable)</span>
+<span class="kw">type</span> <span class="iface">NameAge</span> = [name: <span class="tp">string</span>, age: <span class="tp">number</span>];
+
+<span class="cmt">// Optional tuple element</span>
+<span class="kw">type</span> <span class="iface">Response</span> = [data: <span class="tp">string</span>, error?: <span class="tp">string</span>];
+
+<span class="cmt">// Destructuring</span>
+<span class="kw">const</span> [userName, userAge] = entry;
+<span class="cmt">// userName is string, userAge is number — fully typed</span></code></pre></div>
+
+  <div class="sub-header"><div class="sub-num green">5</div><h3>🔥 Real-World — React useState & Custom Hooks</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript + React</span><span class="cb-lbl">Custom hook with tuple return</span></div>
+  <pre><code><span class="cmt">// useState returns a tuple: [value, setter]</span>
+<span class="kw">const</span> [count, setCount] = <span class="fn">useState</span>(<span class="num">0</span>); <span class="cmt">// [number, Dispatch&lt;SetStateAction&lt;number&gt;&gt;]</span>
+
+<span class="cmt">// Custom hook — return tuple for consistent destructuring</span>
+<span class="kw">function</span> <span class="fn">useToggle</span>(initial = <span class="bool">false</span>): [<span class="tp">boolean</span>, () =&gt; <span class="tp">void</span>] {
+  <span class="kw">const</span> [state, setState] = <span class="fn">useState</span>(initial);
+  <span class="kw">const</span> toggle = () =&gt; <span class="fn">setState</span>(s =&gt; !s);
+  <span class="kw">return</span> [state, toggle]; <span class="cmt">// tuple — caller gets [boolean, fn]</span>
 }
-<span class="fn">console</span>.log(<span class="fn">getAge</span>(<span class="str">"25"</span>));     <span class="cmt">// 25</span>
-<span class="fn">console</span>.log(<span class="fn">getAge</span>(<span class="str">"25abc"</span>)); <span class="cmt">// 25 — stops at non-numeric</span>
-<span class="cmt">// getAge("abc")               // ❌ Error: Invalid age</span></code></pre></div>
 
-  <div class="sub-header"><div class="sub-num red">3️⃣</div><h3>Common Mistakes</h3></div>
-  <div class="warn"><div class="wt">❌ Using == instead of ===</div>
-  <p style="font-size:13.5px;margin:4px 0 0">Loose equality triggers coercion. <code>userInput == 0</code> is true for <code>""</code>, <code>false</code>, <code>null</code>, <code>"0"</code>. Always use <code>===</code>.</p></div>
-  <div class="warn"><div class="wt">❌ Assuming [] and {} are falsy</div>
-  <p style="font-size:13.5px;margin:4px 0 0"><code>if ([]) console.log("truthy")</code> — this runs! Empty array and object are <strong>truthy</strong>.</p></div>
-  <div class="warn"><div class="wt">❌ parseInt without radix</div>
-  <p style="font-size:13.5px;margin:4px 0 0"><code>parseInt("010")</code> could be 8 (octal) in some environments. Always: <code>parseInt("010", 10)</code>.</p></div>
+<span class="kw">const</span> [isOpen, toggleOpen] = <span class="fn">useToggle</span>();
+<span class="cmt">// isOpen: boolean, toggleOpen: () => void — fully typed</span></code></pre></div>
 
-  <div class="sub-header"><div class="sub-num green">4️⃣</div><h3>Practice Tasks</h3></div>
-  <div class="task"><span class="tbadge easy">🟢 EASY</span><div class="task-body"><h4>Predict coercion output</h4><p>Before running: predict <code>"5" - 3</code>, <code>"5" + 3</code>, <code>true + false</code>, <code>null + 1</code>, <code>[] + []</code>, <code>{} + []</code>.</p></div></div>
-  <div class="task"><span class="tbadge med">🟡 MEDIUM</span><div class="task-body"><h4>toSafeNumber</h4><p>Write <code>toSafeNumber(val)</code> that converts any value to a number, returning <code>0</code> as fallback for <code>NaN</code>.</p></div></div>
-  <div class="task"><span class="tbadge hard">🔴 REAL-WORLD</span><div class="task-body"><h4>Form Data Parser</h4><p>You receive all form values as strings. Write <code>parseFormData(form)</code> that converts <code>age</code> to integer, <code>price</code> to float, <code>isActive</code> to boolean, validating each field.</p></div></div>
+  <div class="sub-header"><div class="sub-num red">6</div><h3>⚠️ Pitfalls</h3></div>
+  <div class="warn-box"><div class="wt">❌ Returning array from hooks without tuple annotation</div>
+  <div class="cb" style="margin:8px 0"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl warn">Pitfall</span></div>
+  <pre><code><span class="cmt">// Without tuple annotation, TS widens to (boolean | () => void)[]</span>
+<span class="kw">function</span> <span class="fn">useToggle</span>() {
+  <span class="kw">const</span> [on, setOn] = <span class="fn">useState</span>(<span class="bool">false</span>);
+  <span class="kw">return</span> [on, () =&gt; <span class="fn">setOn</span>(v =&gt; !v)]; <span class="cmt">// ❌ inferred as (boolean | (() => void))[]</span>
+}
 
-  <div class="sub-header"><div class="sub-num orange">5️⃣</div><h3>Interview Questions</h3></div>
-  <div class="qs">
-    <div class="q">What are the 8 falsy values in JavaScript? What is the surprising one most devs miss?</div>
-    <div class="q">Why does <code>[] + []</code> produce <code>""</code> and <code>{} + []</code> produce <code>0</code> (or <code>"[object Object]"</code>)?</div>
-    <div class="q">What is the difference between <code>==</code> and <code>===</code>? Give a case where <code>==</code> produces a surprising result.</div>
-    <div class="q">Why should you always pass a radix to <code>parseInt</code>?</div>
-  </div>
+<span class="cmt">// Fix 1: explicit return type</span>
+<span class="kw">function</span> <span class="fn">useToggle</span>(): [<span class="tp">boolean</span>, () =&gt; <span class="tp">void</span>] { ... }
+
+<span class="cmt">// Fix 2: 'as const' on the return</span>
+<span class="kw">return</span> [on, () =&gt; <span class="fn">setOn</span>(v =&gt; !v)] <span class="kw">as const</span>;</code></pre></div></div>
+
+  <div class="sub-header"><div class="sub-num green">7</div><h3>🧪 Practice Task</h3></div>
+  <div class="task"><span class="tbadge med">🟡 MEDIUM</span><div class="task-body"><h4>Type a Coordinate System</h4><p>Create a tuple type <code>Point3D = [x: number, y: number, z: number]</code>. Write a function <code>distance(a: Point3D, b: Point3D): number</code> that computes 3D distance. Write a function that takes <code>Point3D[]</code> and returns the nearest point to origin.</p></div></div>
 </section>
 
-<!-- ─── TOPIC 08: DECLARATION VS ASSIGNMENT ─── -->
-<section class="section" id="decl-vs-assign">
+<hr/>
+
+<!-- ─── TOPIC 08: UNIONS & INTERSECTIONS ─── -->
+<section class="section" id="unions-intersections">
   <div class="section-header">
     <div class="s-num">08</div>
-    <h2>Variable Declaration vs Assignment</h2>
+    <h2>Unions &amp; Intersections</h2>
   </div>
 
-  <div class="sub-header"><div class="sub-num teal">1️⃣</div><h3>Concept Explanation</h3></div>
+  <div class="sub-header"><div class="sub-num teal">1</div><h3>📘 Definition</h3></div>
+  <p>A <strong>union type</strong> (<code>A | B</code>) represents a value that can be <em>one of several types</em>. An <strong>intersection type</strong> (<code>A &amp; B</code>) represents a value that is <em>all types simultaneously</em>.</p>
 
-  <div class="tbl-wrap"><table>
-    <thead><tr><th>Operation</th><th>Example</th><th>What JS does</th></tr></thead>
-    <tbody>
-      <tr><td>Declaration</td><td><code>let x;</code></td><td>Creates variable in scope, sets to <code>undefined</code></td></tr>
-      <tr><td>Assignment</td><td><code>x = 5;</code></td><td>Stores value 5 at x's memory address</td></tr>
-      <tr><td>Initialization</td><td><code>let x = 5;</code></td><td>Declaration + Assignment in one step</td></tr>
-      <tr><td>Re-assignment</td><td><code>x = 10;</code></td><td>Updates the stored value</td></tr>
-    </tbody>
-  </table></div>
+  <div class="sub-header"><div class="sub-num purple">2</div><h3>📖 Official Insight</h3></div>
+  <div class="official"><div class="wt">📖 TypeScript Docs say…</div>
+  <p style="margin:0;font-size:13.5px">Union: "A union type is a type formed from two or more other types, representing values that may be <em>any one</em> of those types." Intersection: "An intersection type combines multiple types into one. This allows you to <em>add together</em> existing types to get a single type that has all the features you need."</p></div>
 
-  <div class="cb"><div class="cb-head"><span class="cb-lang">JavaScript</span><span class="cb-lbl">Destructuring Assignment</span></div>
-  <pre><code><span class="cmt">// Array destructuring</span>
-<span class="kw">const</span> [first, second, ...rest] = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>];
-<span class="fn">console</span>.log(first);   <span class="cmt">// 1</span>
-<span class="fn">console</span>.log(rest);    <span class="cmt">// [3, 4, 5]</span>
+  <div class="sub-header"><div class="sub-num orange">4</div><h3>⚙️ Syntax &amp; Patterns</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">Union types</span></div>
+  <pre><code><span class="cmt">// Union of primitives</span>
+<span class="kw">type</span> <span class="iface">ID</span> = <span class="tp">string</span> | <span class="tp">number</span>;
+<span class="kw">let</span> userId: <span class="iface">ID</span> = <span class="num">1</span>;
+userId = <span class="str">"user_abc"</span>; <span class="cmt">// ✅ both are valid</span>
 
-<span class="cmt">// Object destructuring with rename and default</span>
-<span class="kw">const</span> { name: userName, age, city = <span class="str">"Unknown"</span> } = { name: <span class="str">"Vipin"</span>, age: <span class="num">25</span> };
-<span class="fn">console</span>.log(userName); <span class="cmt">// "Vipin" — renamed from name</span>
-<span class="fn">console</span>.log(city);     <span class="cmt">// "Unknown" — default applied</span>
+<span class="cmt">// Discriminated union — the most powerful pattern</span>
+<span class="kw">type</span> <span class="iface">LoadingState</span> = { status: <span class="str">"loading"</span> };
+<span class="kw">type</span> <span class="iface">SuccessState</span> = { status: <span class="str">"success"</span>; data: <span class="tp">string</span>[] };
+<span class="kw">type</span> <span class="iface">ErrorState</span>   = { status: <span class="str">"error"</span>;   message: <span class="tp">string</span> };
 
-<span class="cmt">// Swap variables without temp</span>
-<span class="kw">let</span> a = <span class="num">1</span>, b = <span class="num">2</span>;
-[a, b] = [b, a];
-<span class="fn">console</span>.log(a, b);    <span class="cmt">// 2, 1 ✅</span>
+<span class="kw">type</span> <span class="iface">AsyncState</span> = <span class="iface">LoadingState</span> | <span class="iface">SuccessState</span> | <span class="iface">ErrorState</span>;
 
-<span class="cmt">// Nested destructuring</span>
-<span class="kw">const</span> { user: { name, address: { city: userCity } } } =
-  { user: { name: <span class="str">"Vipin"</span>, address: { city: <span class="str">"Delhi"</span> } } };
-<span class="fn">console</span>.log(userCity); <span class="cmt">// "Delhi"</span>
+<span class="kw">function</span> <span class="fn">render</span>(state: <span class="iface">AsyncState</span>) {
+  <span class="kw">switch</span> (state.status) {
+    <span class="kw">case</span> <span class="str">"loading"</span>: <span class="kw">return</span> <span class="str">"Loading..."</span>;
+    <span class="kw">case</span> <span class="str">"success"</span>: <span class="kw">return</span> state.data.<span class="fn">join</span>(<span class="str">", "</span>); <span class="cmt">// TS knows data exists</span>
+    <span class="kw">case</span> <span class="str">"error"</span>:   <span class="kw">return</span> state.message;           <span class="cmt">// TS knows message exists</span>
+  }
+}</code></pre></div>
 
-<span class="cmt">// Function parameter destructuring — real-world pattern</span>
-<span class="kw">function</span> <span class="fn">renderUser</span>({ name, age = <span class="num">0</span>, role = <span class="str">"user"</span> }) {
-  <span class="kw">return</span> `<span class="str">${name} (${age}) — ${role}</span>`;
-}
-<span class="fn">console</span>.log(<span class="fn">renderUser</span>({ name: <span class="str">"Vipin"</span>, age: <span class="num">25</span> })); <span class="cmt">// "Vipin (25) — user"</span></code></pre></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">Intersection types</span></div>
+  <pre><code><span class="cmt">// Intersection — combine multiple types</span>
+<span class="kw">type</span> <span class="iface">Serializable</span> = { serialize(): <span class="tp">string</span> };
+<span class="kw">type</span> <span class="iface">Loggable</span> = { log(): <span class="tp">void</span> };
 
-  <div class="sub-header"><div class="sub-num green">4️⃣</div><h3>Practice Tasks</h3></div>
-  <div class="task"><span class="tbadge easy">🟢 EASY</span><div class="task-body"><h4>Destructure a game state</h4><p>Destructure <code>{ name, score, level }</code> from a game state object, with <code>level</code> defaulting to <code>1</code>.</p></div></div>
-  <div class="task"><span class="tbadge med">🟡 MEDIUM</span><div class="task-body"><h4>Swap without temp variable</h4><p>Swap two variables using array destructuring in one line.</p></div></div>
-  <div class="task"><span class="tbadge hard">🔴 REAL-WORLD</span><div class="task-body"><h4>API response destructuring</h4><p>Given a deeply nested API response, destructure and rename fields, apply defaults, and extract nested values in a single destructuring statement.</p></div></div>
+<span class="kw">type</span> <span class="iface">Entity</span> = <span class="iface">Serializable</span> &amp; <span class="iface">Loggable</span> &amp; { id: <span class="tp">number</span> };
+
+<span class="cmt">// Entity must have ALL three: serialize(), log(), and id</span>
+<span class="kw">const</span> entity: <span class="iface">Entity</span> = {
+  id: <span class="num">1</span>,
+  <span class="fn">serialize</span>() { <span class="kw">return</span> <span class="str">`{"id":${this.id}}`</span>; },
+  <span class="fn">log</span>() { <span class="fn">console</span>.log(<span class="kw">this</span>); },
+};</code></pre></div>
+
+  <div class="sub-header"><div class="sub-num green">5</div><h3>🔥 Real-World — Discriminated Unions in React</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript + React</span><span class="cb-lbl">Async data state</span></div>
+  <pre><code><span class="kw">type</span> <span class="iface">QueryState</span>&lt;<span class="tp">T</span>&gt; =
+  | { status: <span class="str">"idle"</span> }
+  | { status: <span class="str">"loading"</span> }
+  | { status: <span class="str">"success"</span>; data: <span class="tp">T</span> }
+  | { status: <span class="str">"error"</span>; error: <span class="tp">string</span> };
+
+<span class="kw">function</span> <span class="fn">UserList</span>({ state }: { state: <span class="iface">QueryState</span>&lt;<span class="iface">User</span>[]&gt; }) {
+  <span class="kw">if</span> (state.status === <span class="str">"loading"</span>) <span class="kw">return</span> &lt;<span class="fn">Spinner</span> /&gt;;
+  <span class="kw">if</span> (state.status === <span class="str">"error"</span>)   <span class="kw">return</span> &lt;<span class="fn">Error</span> msg={state.error} /&gt;;
+  <span class="kw">if</span> (state.status === <span class="str">"success"</span>) <span class="kw">return</span> &lt;<span class="fn">List</span> users={state.data} /&gt;;
+  <span class="kw">return</span> <span class="kw">null</span>;
+}</code></pre></div>
+
+  <div class="sub-header"><div class="sub-num red">6</div><h3>⚠️ Pitfalls</h3></div>
+  <div class="warn-box"><div class="wt">❌ Intersection of incompatible primitive types = never</div>
+  <div class="cb" style="margin:8px 0"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl warn">Pitfall</span></div>
+  <pre><code><span class="cmt">// A value can't be both string AND number at the same time</span>
+<span class="kw">type</span> <span class="iface">Impossible</span> = <span class="tp">string</span> &amp; <span class="tp">number</span>; <span class="cmt">// resolves to: never</span>
+<span class="cmt">// Use intersections only for object types!</span></code></pre></div></div>
+
+  <div class="sub-header"><div class="sub-num green">7</div><h3>🧪 Practice Task</h3></div>
+  <div class="task"><span class="tbadge hard">🔴 REAL-WORLD</span><div class="task-body"><h4>API Response State Machine</h4><p>Model an API request lifecycle using a discriminated union: <code>idle | loading | success&lt;T&gt; | error</code>. Write a <code>renderState&lt;T&gt;</code> function that handles each case. Use this to type a <code>useApi</code> custom hook's return value.</p></div></div>
 </section>
 
-<hr>
+<hr/>
 
-<!-- ══════════════════════════════════════
-     PHASE 2
-══════════════════════════════════════ -->
-<div class="phase-banner" style="margin-top:8px">
-  <div class="phase-icon">🟡</div>
-  <div class="phase-info">
-    <h2>Phase 2 — Expressions &amp; Operators</h2>
-    <p>Expression vs Statement · Operator Precedence · Logical &amp; Comparison Operators · Short-Circuiting</p>
-  </div>
-</div>
-
-<!-- ─── P2 TOPIC 01: EXPRESSION VS STATEMENT ─── -->
-<section class="section" id="expr-vs-stmt">
+<!-- ─── TOPIC 09: INTRO TO GENERICS ─── -->
+<section class="section" id="generics-intro">
   <div class="section-header">
-    <div class="s-num">P2·01</div>
-    <h2>Expression vs Statement</h2>
+    <div class="s-num">09</div>
+    <h2>Introduction to Generics</h2>
   </div>
 
-  <div class="sub-header"><div class="sub-num teal">1️⃣</div><h3>Concept Explanation</h3></div>
+  <div class="sub-header"><div class="sub-num teal">1</div><h3>📘 Definition</h3></div>
+  <p><strong>Generics</strong> are TypeScript's way of writing <em>reusable, type-safe code</em> that works with multiple types without losing type information. Instead of using <code>any</code>, generics let you parameterize types — like variables for types.</p>
 
-  <div class="tbl-wrap"><table>
-    <thead><tr><th></th><th>Expression</th><th>Statement</th></tr></thead>
-    <tbody>
-      <tr><td>Produces a value?</td><td><span class="y">✅ Always</span></td><td><span class="n">❌ No</span></td></tr>
-      <tr><td>Can be argument?</td><td><span class="y">✅ Yes</span></td><td><span class="n">❌ No</span></td></tr>
-      <tr><td>Examples</td><td><code>2+2, x>5, fn()</code></td><td><code>if(){}, for(){}, let x;</code></td></tr>
-    </tbody>
-  </table></div>
+  <div class="sub-header"><div class="sub-num purple">2</div><h3>📖 Official Insight</h3></div>
+  <div class="official"><div class="wt">📖 TypeScript Docs say…</div>
+  <p style="margin:0;font-size:13.5px">"A major part of software engineering is building components that not only have well-defined and consistent APIs, but are also <em>reusable</em>. Components that are capable of working on the data of today as well as the data of tomorrow will give you the most flexible capabilities for building up large software systems." — Generics are how TypeScript achieves this.</p></div>
 
-  <div class="info"><div class="wt">🔑 The Key Test</div>
-  <p style="margin:0;font-size:14px">Can you use it as a function argument? If yes → expression. <code>console.log(2+2)</code> ✅ works. <code>console.log(if(x){})</code> ❌ SyntaxError.</p></div>
+  <div class="sub-header"><div class="sub-num teal">3</div><h3>🧠 Core Concept</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">The problem generics solve</span></div>
+  <pre><code><span class="cmt">// WITHOUT generics — must duplicate or use any</span>
+<span class="kw">function</span> <span class="fn">firstItem</span>(arr: <span class="tp">any</span>[]): <span class="tp">any</span> { <span class="cmt">// ❌ loses type info</span>
+  <span class="kw">return</span> arr[<span class="num">0</span>];
+}
 
-  <div class="cb"><div class="cb-head"><span class="cb-lang">JavaScript</span><span class="cb-lbl">All Cases</span></div>
-  <pre><code><span class="cmt">// EXPRESSIONS — all produce values</span>
-<span class="num">42</span>                          <span class="cmt">// literal → 42</span>
-x + y                        <span class="cmt">// binary → some number</span>
-isAdmin ? <span class="str">"admin"</span> : <span class="str">"user"</span>  <span class="cmt">// ternary → one of two strings</span>
-<span class="fn">Math</span>.max(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>)           <span class="cmt">// call → 3</span>
+<span class="cmt">// WITH generics — T is a type parameter (placeholder)</span>
+<span class="kw">function</span> <span class="fn">firstItem</span>&lt;<span class="tp">T</span>&gt;(arr: <span class="tp">T</span>[]): <span class="tp">T</span> {
+  <span class="kw">return</span> arr[<span class="num">0</span>];
+}
 
-<span class="cmt">// STATEMENTS — perform actions</span>
-<span class="kw">let</span> score = <span class="num">0</span>;              <span class="cmt">// declaration statement</span>
-<span class="kw">if</span> (score > <span class="num">10</span>) { }         <span class="cmt">// if statement</span>
-<span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">0</span>; i &lt; <span class="num">5</span>; i++) {} <span class="cmt">// for statement</span>
+<span class="kw">const</span> num = <span class="fn">firstItem</span>([<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>]);          <span class="cmt">// num: number ✅</span>
+<span class="kw">const</span> str = <span class="fn">firstItem</span>([<span class="str">"a"</span>, <span class="str">"b"</span>]);         <span class="cmt">// str: string ✅</span>
 
-<span class="cmt">// Function Declaration (statement) vs Expression</span>
-<span class="kw">function</span> <span class="fn">foo</span>() {}            <span class="cmt">// declaration — hoisted completely</span>
-<span class="kw">const</span> bar = <span class="kw">function</span>() {}   <span class="cmt">// expression — NOT hoisted</span>
+<span class="cmt">// T is inferred from the argument — you don't need to pass it explicitly</span></code></pre></div>
 
-<span class="cmt">// IIFE — Immediately Invoked Function Expression</span>
-<span class="kw">const</span> result = (<span class="kw">function</span>() {
-  <span class="kw">const</span> x = <span class="num">10</span>;             <span class="cmt">// private scope</span>
-  <span class="kw">return</span> x * <span class="num">2</span>;
-})();
-<span class="fn">console</span>.log(result);         <span class="cmt">// 20</span>
+  <div class="sub-header"><div class="sub-num orange">4</div><h3>⚙️ Syntax Patterns</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">Generic functions, types, interfaces</span></div>
+  <pre><code><span class="cmt">// Generic function</span>
+<span class="kw">function</span> <span class="fn">identity</span>&lt;<span class="tp">T</span>&gt;(value: <span class="tp">T</span>): <span class="tp">T</span> {
+  <span class="kw">return</span> value;
+}
 
-<span class="cmt">// Expression in template literal (must be expression, not statement)</span>
-<span class="kw">const</span> greeting = `Hello, ${isLoggedIn ? user.name : <span class="str">"Guest"</span>}`;
-<span class="cmt">// ❌ Cannot use: `Hello, ${if(isLoggedIn){...}}`</span></code></pre></div>
+<span class="cmt">// Generic type alias</span>
+<span class="kw">type</span> <span class="iface">ApiResponse</span>&lt;<span class="tp">T</span>&gt; = {
+  data: <span class="tp">T</span>;
+  status: <span class="tp">number</span>;
+  message: <span class="tp">string</span>;
+};
 
-  <div class="sub-header"><div class="sub-num green">4️⃣</div><h3>Practice Tasks</h3></div>
-  <div class="task"><span class="tbadge easy">🟢 EASY</span><div class="task-body"><h4>Classify each</h4><p>Expression or statement: <code>x = 5</code>, <code>let y</code>, <code>x > 3</code>, <code>for(...){}</code>, <code>Math.random()</code>, <code>"hello"</code>, <code>x++</code>.</p></div></div>
-  <div class="task"><span class="tbadge med">🟡 MEDIUM</span><div class="task-body"><h4>Statement → Expression</h4><p>Rewrite: <code>let label; if (score &gt;= 50) { label = "Pass"; } else { label = "Fail"; }</code> using a ternary expression.</p></div></div>
-  <div class="task"><span class="tbadge hard">🔴 REAL-WORLD</span><div class="task-body"><h4>Expression-only config</h4><p>Build a config object where every value is computed via an expression (ternary, function call, template literal). No statements inside the object literal.</p></div></div>
+<span class="kw">type</span> <span class="iface">UserResponse</span>  = <span class="iface">ApiResponse</span>&lt;<span class="iface">User</span>&gt;;
+<span class="kw">type</span> <span class="iface">ProductList</span>   = <span class="iface">ApiResponse</span>&lt;<span class="iface">Product</span>[]&gt;;
 
-  <div class="sub-header"><div class="sub-num orange">5️⃣</div><h3>Interview Questions</h3></div>
-  <div class="qs">
-    <div class="q">What is the difference between a function declaration and a function expression? How does hoisting differ between them?</div>
-    <div class="q">Why can't you use an <code>if</code> statement inside a template literal <code>${ }</code>? What can you use instead?</div>
-    <div class="q">What is an IIFE? When would you use one in modern JavaScript?</div>
-  </div>
+<span class="cmt">// Generic interface</span>
+<span class="kw">interface</span> <span class="iface">Repository</span>&lt;<span class="tp">T</span>&gt; {
+  <span class="fn">findById</span>(id: <span class="tp">number</span>): <span class="tp">Promise</span>&lt;<span class="tp">T</span> | <span class="kw">null</span>&gt;;
+  <span class="fn">findAll</span>(): <span class="tp">Promise</span>&lt;<span class="tp">T</span>[]&gt;;
+  <span class="fn">create</span>(data: <span class="tp">Partial</span>&lt;<span class="tp">T</span>&gt;): <span class="tp">Promise</span>&lt;<span class="tp">T</span>&gt;;
+  <span class="fn">delete</span>(id: <span class="tp">number</span>): <span class="tp">Promise</span>&lt;<span class="tp">void</span>&gt;;
+}
+
+<span class="cmt">// Generic with constraint — T must have an 'id' property</span>
+<span class="kw">function</span> <span class="fn">findById</span>&lt;<span class="tp">T</span> <span class="kw">extends</span> { id: <span class="tp">number</span> }&gt;(items: <span class="tp">T</span>[], id: <span class="tp">number</span>): <span class="tp">T</span> | <span class="kw">undefined</span> {
+  <span class="kw">return</span> items.<span class="fn">find</span>(item =&gt; item.id === id);
+}</code></pre></div>
+
+  <div class="sub-header"><div class="sub-num green">5</div><h3>🔥 Real-World — Typed API hooks with React Query</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript + TanStack Query</span><span class="cb-lbl">Generic API hook</span></div>
+  <pre><code><span class="kw">import</span> { useQuery } <span class="kw">from</span> <span class="str">'@tanstack/react-query'</span>;
+
+<span class="cmt">// Generic reusable fetch function</span>
+<span class="kw">async function</span> <span class="fn">apiFetch</span>&lt;<span class="tp">T</span>&gt;(url: <span class="tp">string</span>): <span class="tp">Promise</span>&lt;<span class="tp">T</span>&gt; {
+  <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(url);
+  <span class="kw">if</span> (!res.ok) <span class="kw">throw</span> <span class="kw">new</span> Error(<span class="str">`HTTP ${res.status}`</span>);
+  <span class="kw">return</span> res.<span class="fn">json</span>() <span class="kw">as</span> <span class="tp">T</span>;
+}
+
+<span class="cmt">// Generic hook — works for any data type</span>
+<span class="kw">function</span> <span class="fn">useApiData</span>&lt;<span class="tp">T</span>&gt;(endpoint: <span class="tp">string</span>) {
+  <span class="kw">return</span> <span class="fn">useQuery</span>&lt;<span class="tp">T</span>&gt;({
+    queryKey: [endpoint],
+    queryFn: () =&gt; <span class="fn">apiFetch</span>&lt;<span class="tp">T</span>&gt;(endpoint),
+  });
+}
+
+<span class="cmt">// Usage — T is inferred from the explicit type parameter</span>
+<span class="kw">const</span> { data: users } = <span class="fn">useApiData</span>&lt;<span class="iface">User</span>[]&gt;(<span class="str">"/api/users"</span>);
+<span class="cmt">// users is User[] | undefined — fully typed ✅</span></code></pre></div>
+
+  <div class="sub-header"><div class="sub-num red">6</div><h3>⚠️ Pitfalls</h3></div>
+  <div class="warn-box"><div class="wt">❌ Using generics when a union type is better</div>
+  <p style="margin:0;font-size:13.5px">Generics are for <em>deferring</em> the type — when the caller decides. If a function always accepts 2-3 specific types, use a union. Overusing generics makes code harder to read without real benefits.</p></div>
+
+  <div class="sub-header"><div class="sub-num green">7</div><h3>🧪 Practice Task</h3></div>
+  <div class="task"><span class="tbadge med">🟡 MEDIUM</span><div class="task-body"><h4>Generic ApiResponse wrapper</h4><p>Create a generic type <code>ApiResponse&lt;T&gt;</code> with <code>data: T</code>, <code>status: number</code>, and <code>error?: string</code>. Write a generic function <code>wrapResponse&lt;T&gt;(data: T, status: number): ApiResponse&lt;T&gt;</code>. Use it for both <code>User</code> and <code>Product[]</code>.</p></div></div>
+  <div class="task"><span class="tbadge hard">🔴 REAL-WORLD</span><div class="task-body"><h4>Generic Repository Pattern</h4><p>Implement a <code>InMemoryRepository&lt;T extends { id: number }&gt;</code> class with <code>findById</code>, <code>findAll</code>, <code>create</code>, and <code>delete</code> methods. Test it with both <code>User</code> and <code>Product</code> types.</p></div></div>
 </section>
 
-<!-- ─── P2 TOPIC 02: OPERATOR PRECEDENCE ─── -->
-<section class="section" id="precedence">
+<hr/>
+
+<!-- ─── TOPIC 10: ENUMS ─── -->
+<section class="section" id="enums">
   <div class="section-header">
-    <div class="s-num">P2·02</div>
-    <h2>Operator Precedence &amp; Associativity</h2>
+    <div class="s-num">10</div>
+    <h2>Enums</h2>
   </div>
 
-  <div class="sub-header"><div class="sub-num teal">1️⃣</div><h3>Concept Explanation</h3></div>
-  <p><strong>Precedence</strong> — which operator "binds tighter" to its operands (higher number = evaluated first).<br>
-  <strong>Associativity</strong> — when two operators have the same precedence, do we go left-to-right or right-to-left?</p>
+  <div class="sub-header"><div class="sub-num teal">1</div><h3>📘 Definition</h3></div>
+  <p><strong>Enums</strong> (enumerations) let you define a set of named constants. Unlike union literal types, enums are one of TypeScript's few features that <em>do</em> generate JavaScript output — they exist at runtime.</p>
 
-  <div class="tbl-wrap"><table>
-    <thead><tr><th>Precedence</th><th>Operator(s)</th><th>Associativity</th></tr></thead>
-    <tbody>
-      <tr><td>19</td><td><code>()</code> grouping</td><td>n/a</td></tr>
-      <tr><td>18</td><td><code>. [] ?.</code> member access</td><td>Left</td></tr>
-      <tr><td>16</td><td><code>++ --</code> postfix</td><td>n/a</td></tr>
-      <tr><td>15</td><td><code>! ~ + - typeof void delete ++ --</code> (unary/prefix)</td><td>Right</td></tr>
-      <tr><td>14</td><td><code>**</code> exponentiation</td><td><strong>Right</strong></td></tr>
-      <tr><td>13</td><td><code>* / %</code></td><td>Left</td></tr>
-      <tr><td>12</td><td><code>+ -</code></td><td>Left</td></tr>
-      <tr><td>10</td><td><code>&lt; &lt;= &gt; &gt;= in instanceof</code></td><td>Left</td></tr>
-      <tr><td>9</td><td><code>== != === !==</code></td><td>Left</td></tr>
-      <tr><td>5</td><td><code>&amp;&amp;</code></td><td>Left</td></tr>
-      <tr><td>4</td><td><code>|| ??</code></td><td>Left</td></tr>
-      <tr><td>3</td><td><code>?:</code> ternary</td><td>Right</td></tr>
-      <tr><td>2</td><td><code>= += -= *=</code> etc.</td><td>Right</td></tr>
-      <tr><td>1</td><td><code>,</code> comma</td><td>Left</td></tr>
-    </tbody>
-  </table></div>
+  <div class="sub-header"><div class="sub-num purple">2</div><h3>📖 Official Insight</h3></div>
+  <div class="official"><div class="wt">📖 TypeScript Docs say…</div>
+  <p style="margin:0;font-size:13.5px">"Enums are one of the few features TypeScript has which is not a type-level extension of JavaScript." They compile to a JavaScript object. The docs also note: "In modern TypeScript, you may not need an enum when an object with <code>as const</code> could suffice."</p></div>
 
-  <div class="cb"><div class="cb-head"><span class="cb-lang">JavaScript</span><span class="cb-lbl">Precedence in Action</span></div>
-  <pre><code><span class="cmt">// Arithmetic</span>
-<span class="num">2</span> + <span class="num">3</span> * <span class="num">4</span>       <span class="cmt">// 14 — * before +</span>
-(<span class="num">2</span> + <span class="num">3</span>) * <span class="num">4</span>     <span class="cmt">// 20 — () overrides</span>
+  <div class="sub-header"><div class="sub-num orange">4</div><h3>⚙️ Syntax — Numeric, String, Const Enums</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">Enum variants</span></div>
+  <pre><code><span class="cmt">// 1. Numeric enum (default — values 0, 1, 2…)</span>
+<span class="kw">enum</span> <span class="iface">Direction</span> {
+  Up,     <span class="cmt">// 0</span>
+  Down,   <span class="cmt">// 1</span>
+  Left,   <span class="cmt">// 2</span>
+  Right,  <span class="cmt">// 3</span>
+}
+<span class="fn">console</span>.log(<span class="iface">Direction</span>.Up); <span class="cmt">// 0</span>
 
-<span class="cmt">// Right-to-left: exponentiation</span>
-<span class="num">2</span> ** <span class="num">3</span> ** <span class="num">2</span>     <span class="cmt">// 512 — 2**(3**2) = 2**9, NOT (2**3)**2 = 64!</span>
+<span class="cmt">// 2. String enum — preferred in practice (explicit, readable values)</span>
+<span class="kw">enum</span> <span class="iface">UserRole</span> {
+  Admin  = <span class="str">"ADMIN"</span>,
+  User   = <span class="str">"USER"</span>,
+  Guest  = <span class="str">"GUEST"</span>,
+}
+<span class="fn">console</span>.log(<span class="iface">UserRole</span>.Admin); <span class="cmt">// "ADMIN"</span>
 
-<span class="cmt">// && has higher precedence than ||</span>
-<span class="bool">true</span> || <span class="bool">false</span> &amp;&amp; <span class="bool">false</span>  <span class="cmt">// true — evaluated as: true || (false && false)</span>
+<span class="cmt">// 3. Const enum — inlined at compile time (no runtime object)</span>
+<span class="kw">const enum</span> <span class="iface">HttpStatus</span> {
+  OK      = <span class="num">200</span>,
+  Created = <span class="num">201</span>,
+  NotFound = <span class="num">404</span>,
+}
+<span class="cmt">// Compiled to: if (status === 200) — the value is inlined</span>
 
-<span class="cmt">// The + concatenation trap</span>
-<span class="str">"1"</span> + <span class="num">2</span> + <span class="num">3</span>    <span class="cmt">// "123" — "1"+"2" = "12", "12"+"3" = "123"</span>
-<span class="num">1</span> + <span class="num">2</span> + <span class="str">"3"</span>    <span class="cmt">// "33"  — 1+2 = 3, 3+"3" = "33"</span>
+<span class="cmt">// 4. Modern alternative — 'as const' object (no runtime overhead)</span>
+<span class="kw">const</span> <span class="iface">Role</span> = {
+  Admin: <span class="str">"ADMIN"</span>,
+  User:  <span class="str">"USER"</span>,
+  Guest: <span class="str">"GUEST"</span>,
+} <span class="kw">as const</span>;
 
-<span class="cmt">// typeof binds tighter than +</span>
-<span class="kw">typeof</span> <span class="num">1</span> + <span class="str">"2"</span>  <span class="cmt">// "number2" — (typeof 1) + "2"</span>
-<span class="kw">typeof</span> (<span class="num">1</span> + <span class="str">"2"</span>) <span class="cmt">// "string"  — typeof("12")</span>
+<span class="kw">type</span> <span class="iface">RoleType</span> = <span class="kw">typeof</span> <span class="iface">Role</span>[<span class="kw">keyof typeof</span> <span class="iface">Role</span>]; <span class="cmt">// "ADMIN" | "USER" | "GUEST"</span></code></pre></div>
 
-<span class="cmt">// Assignment is right-to-left</span>
-<span class="kw">let</span> a, b, c;
-a = b = c = <span class="num">5</span>;  <span class="cmt">// c=5, b=5, a=5 ✅</span>
+  <div class="sub-header"><div class="sub-num green">5</div><h3>🔥 Real-World — Role-Based Access with Enums</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript + Express</span><span class="cb-lbl">RBAC with enums</span></div>
+  <pre><code><span class="kw">enum</span> <span class="iface">UserRole</span> {
+  Admin  = <span class="str">"ADMIN"</span>,
+  Editor = <span class="str">"EDITOR"</span>,
+  Viewer = <span class="str">"VIEWER"</span>,
+}
 
-<span class="cmt">// Real-world: always use parens for complex logic</span>
-<span class="cmt">// ❌ Ambiguous</span>
-<span class="kw">const</span> access = isLoggedIn &amp;&amp; hasPermission || isAdmin;
-<span class="cmt">// ✅ Explicit intent</span>
-<span class="kw">const</span> access2 = (isLoggedIn &amp;&amp; hasPermission) || isAdmin;</code></pre></div>
+<span class="kw">type</span> <span class="iface">User</span> = {
+  id: <span class="tp">number</span>;
+  name: <span class="tp">string</span>;
+  role: <span class="iface">UserRole</span>;
+};
 
-  <div class="sub-header"><div class="sub-num green">4️⃣</div><h3>Practice Tasks</h3></div>
-  <div class="task"><span class="tbadge easy">🟢 EASY</span><div class="task-body"><h4>Predict output</h4><p>Before running: <code>3 + 4 * 2</code>, <code>(3 + 4) * 2</code>, <code>"1" + 2 + 3</code>, <code>1 + 2 + "3"</code>, <code>2 ** 3 ** 2</code>.</p></div></div>
-  <div class="task"><span class="tbadge hard">🔴 REAL-WORLD</span><div class="task-body"><h4>Add parentheses for clarity</h4><p>Given: <code>const access = role === "admin" || role === "editor" &amp;&amp; isVerified &amp;&amp; !isBanned</code>. Add parentheses for clear intent, then evaluate what the original produces step-by-step.</p></div></div>
+<span class="kw">function</span> <span class="fn">canEdit</span>(user: <span class="iface">User</span>): <span class="tp">boolean</span> {
+  <span class="kw">return</span> [<span class="iface">UserRole</span>.Admin, <span class="iface">UserRole</span>.Editor].includes(user.role);
+}
+
+<span class="cmt">// Usage</span>
+<span class="kw">const</span> admin: <span class="iface">User</span> = { id: <span class="num">1</span>, name: <span class="str">"Vipin"</span>, role: <span class="iface">UserRole</span>.Admin };
+<span class="fn">canEdit</span>(admin); <span class="cmt">// true</span></code></pre></div>
+
+  <div class="sub-header"><div class="sub-num red">6</div><h3>⚠️ Pitfalls</h3></div>
+  <div class="warn-box"><div class="wt">❌ Numeric enums allow any number to be assigned</div>
+  <div class="cb" style="margin:8px 0"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl warn">Numeric enum unsafety</span></div>
+  <pre><code><span class="kw">enum</span> <span class="iface">Status</span> { Active = <span class="num">1</span>, Inactive = <span class="num">2</span> }
+
+<span class="kw">function</span> <span class="fn">activate</span>(s: <span class="iface">Status</span>) { ... }
+
+<span class="fn">activate</span>(<span class="num">99</span>); <span class="cmt">// ❌ No TS error! Numeric enums accept any number</span>
+
+<span class="cmt">// Fix: use string enums or as-const objects — they don't have this problem</span>
+<span class="kw">enum</span> <span class="iface">Status</span> { Active = <span class="str">"ACTIVE"</span>, Inactive = <span class="str">"INACTIVE"</span> }
+<span class="fn">activate</span>(<span class="str">"anything"</span>); <span class="cmt">// ❌ Correct error ✅</span></code></pre></div></div>
+
+  <div class="ok-box"><div class="wt">✅ When to use `as const` over enums</div>
+  <p style="margin:0;font-size:13.5px">Prefer <code>as const</code> objects when: (1) you want zero runtime overhead, (2) you work with JSON/APIs where string values matter, (3) you don't need reverse mapping. Use enums when you need the enum's named access in runtime logic and your team finds them more readable.</p></div>
+
+  <div class="sub-header"><div class="sub-num green">7</div><h3>🧪 Practice Task</h3></div>
+  <div class="task"><span class="tbadge med">🟡 MEDIUM</span><div class="task-body"><h4>HTTP Status Codes</h4><p>Create a string enum <code>HttpStatus</code> with values: <code>OK = "200"</code>, <code>Created = "201"</code>, <code>BadRequest = "400"</code>, <code>Unauthorized = "401"</code>, <code>NotFound = "404"</code>, <code>ServerError = "500"</code>. Write a function <code>isSuccess(status: HttpStatus): boolean</code>. Then rewrite it using <code>as const</code> and compare.</p></div></div>
 </section>
 
-<!-- ─── P2 TOPIC 03: LOGICAL & COMPARISON ─── -->
-<section class="section" id="logical-ops">
-  <div class="section-header">
-    <div class="s-num">P2·03</div>
-    <h2>Logical, Comparison &amp; Assignment Operators</h2>
-  </div>
-
-  <div class="sub-header"><div class="sub-num teal">1️⃣</div><h3>Concept Explanation</h3></div>
-
-  <h3>Comparison Operators</h3>
-  <div class="cb"><div class="cb-head"><span class="cb-lang">JavaScript</span><span class="cb-lbl">== vs ===</span></div>
-  <pre><code><span class="cmt">// == loose — coerces types</span>
-<span class="num">1</span> == <span class="str">"1"</span>              <span class="cmt">// true  — "1" coerced to 1</span>
-<span class="bool">null</span> == <span class="bool">undefined</span>    <span class="cmt">// true  — special rule</span>
-
-<span class="cmt">// === strict — NO coercion (always prefer this)</span>
-<span class="num">1</span> === <span class="str">"1"</span>             <span class="cmt">// false — different types</span>
-<span class="num">1</span> === <span class="num">1</span>              <span class="cmt">// true</span>
-
-<span class="cmt">// Quirky null comparisons</span>
-<span class="bool">null</span> > <span class="num">0</span>             <span class="cmt">// false</span>
-<span class="bool">null</span> == <span class="num">0</span>            <span class="cmt">// false — null only == null/undefined</span>
-<span class="bool">null</span> >= <span class="num">0</span>            <span class="cmt">// true  ← known JS inconsistency</span></code></pre></div>
-
-  <h3>Nullish Coalescing <code>??</code> and Optional Chaining <code>?.</code></h3>
-  <div class="cb"><div class="cb-head"><span class="cb-lang">JavaScript</span><span class="cb-lbl">ES2020 Operators</span></div>
-  <pre><code><span class="cmt">// ?? — returns right side ONLY if left is null or undefined</span>
-<span class="num">0</span> || <span class="str">"default"</span>       <span class="cmt">// "default" — 0 is falsy, || triggers</span>
-<span class="num">0</span> ?? <span class="str">"default"</span>       <span class="cmt">// 0         — 0 is not null/undefined, ?? keeps it</span>
-<span class="bool">null</span> ?? <span class="str">"fallback"</span>  <span class="cmt">// "fallback"</span>
-<span class="str">""</span> ?? <span class="str">"fallback"</span>    <span class="cmt">// ""         — empty string kept by ??</span>
-
-<span class="cmt">// ?. — optional chaining: safe nested access</span>
-<span class="kw">const</span> user = <span class="bool">null</span>;
-<span class="cmt">// user.name              // ❌ TypeError</span>
-user?.name               <span class="cmt">// ✅ undefined — no throw</span>
-
-<span class="kw">const</span> config = { db: { host: <span class="str">"localhost"</span> } };
-config?.db?.host         <span class="cmt">// "localhost"</span>
-config?.cache?.host      <span class="cmt">// undefined — safe</span>
-config?.db?.connect?.()  <span class="cmt">// undefined — optional method call</span>
-
-<span class="cmt">// Combine: safe nested access with fallback</span>
-<span class="kw">const</span> city = response?.data?.user?.address?.city ?? <span class="str">"Unknown"</span>;</code></pre></div>
-
-  <h3>Logical Assignment Operators (ES2021)</h3>
-  <div class="cb"><div class="cb-head"><span class="cb-lang">JavaScript</span><span class="cb-lbl">||= &&= ??=</span></div>
-  <pre><code><span class="kw">let</span> a = <span class="bool">null</span>;
-a ||= <span class="str">"default"</span>;   <span class="cmt">// a = a || "default" → "default"</span>
-a &amp;&amp;= <span class="str">"updated"</span>;   <span class="cmt">// a = a && "updated" → "updated" (a was truthy)</span>
-
-<span class="kw">let</span> b = <span class="bool">null</span>;
-b ??= <span class="str">"fallback"</span>;  <span class="cmt">// b = b ?? "fallback" → "fallback"</span>
-
-<span class="cmt">// Real-world: initialize only if empty</span>
-<span class="kw">const</span> cache = {};
-cache.users ??= [];     <span class="cmt">// set to [] only if null/undefined</span>
-cache.users.push(<span class="str">"Vipin"</span>);</code></pre></div>
-
-  <div class="sub-header"><div class="sub-num red">3️⃣</div><h3>Common Mistakes</h3></div>
-  <div class="warn"><div class="wt">❌ Using || for defaults when 0 or "" are valid</div>
-  <div class="cb" style="margin:8px 0"><div class="cb-head"><span class="cb-lang">JS</span><span class="cb-lbl warn">Wrong → Fixed</span></div>
-  <pre><code><span class="cmt">// ❌ || triggers on 0</span>
-<span class="kw">function</span> <span class="fn">setVolume</span>(vol) {
-  <span class="kw">return</span> vol || <span class="num">50</span>;  <span class="cmt">// vol=0 → returns 50! Wrong</span>
-}
-<span class="cmt">// ✅ ?? only triggers on null/undefined</span>
-<span class="kw">function</span> <span class="fn">setVolume</span>(vol) {
-  <span class="kw">return</span> vol ?? <span class="num">50</span>;  <span class="cmt">// vol=0 → returns 0 ✅</span>
-}</code></pre></div></div>
-
-  <div class="sub-header"><div class="sub-num green">4️⃣</div><h3>Practice Tasks</h3></div>
-  <div class="task"><span class="tbadge easy">🟢 EASY</span><div class="task-body"><h4>getDisplayName</h4><p>Write <code>getDisplayName(user)</code> returning <code>user.name</code> if it exists, else <code>"Anonymous"</code> — using <code>??</code>.</p></div></div>
-  <div class="task"><span class="tbadge med">🟡 MEDIUM</span><div class="task-body"><h4>?? vs || difference</h4><p>Given <code>const s = { volume: 0, theme: null }</code>, show the difference in behavior using <code>??</code> and <code>||</code> for each field.</p></div></div>
-  <div class="task"><span class="tbadge hard">🔴 REAL-WORLD</span><div class="task-body"><h4>safeGet utility</h4><p>Write <code>safeGet(obj, path, fallback)</code> that safely accesses nested paths like <code>"user.address.city"</code> without throwing, returning fallback if anything is nullish.</p></div></div>
-
-  <div class="sub-header"><div class="sub-num orange">5️⃣</div><h3>Interview Questions</h3></div>
-  <div class="qs">
-    <div class="q">What is the difference between <code>??</code> and <code>||</code>? Give a case where they produce different results.</div>
-    <div class="q">What does optional chaining <code>?.</code> return when the chain encounters a <code>null</code>? Does it throw?</div>
-    <div class="q">Why does <code>null >= 0</code> return <code>true</code> while <code>null == 0</code> returns <code>false</code>?</div>
-    <div class="q">What is the difference between <code>||=</code> and <code>??=</code>?</div>
-  </div>
-</section>
-
-<!-- ─── P2 TOPIC 04: SHORT-CIRCUITING ─── -->
-<section class="section" id="short-circuit">
-  <div class="section-header">
-    <div class="s-num">P2·04</div>
-    <h2>Short-Circuiting</h2>
-  </div>
-
-  <div class="sub-header"><div class="sub-num teal">1️⃣</div><h3>Concept Explanation</h3></div>
-  <p>Short-circuiting means JavaScript <strong>stops evaluating an expression</strong> as soon as the result is determined. The right side may <strong>never execute</strong>.</p>
-
-  <div class="mem">
-<span class="hi">&&</span>  → stops at FIRST FALSY   → returns that falsy value (or last if all truthy)<br>
-<span class="hi">||</span>  → stops at FIRST TRUTHY  → returns that truthy value (or last if all falsy)<br>
-<span class="hi">??</span>  → stops at FIRST non-null/undefined → returns it<br><br>
-<span class="dim">Return values are NOT necessarily boolean — they return the actual operand value</span>
-  </div>
-
-  <div class="cb"><div class="cb-head"><span class="cb-lang">JavaScript</span><span class="cb-lbl">All Patterns</span></div>
-  <pre><code><span class="cmt">// Side effect test — right side may never run</span>
-<span class="kw">let</span> count = <span class="num">0</span>;
-<span class="bool">false</span> &amp;&amp; count++;   <span class="cmt">// count stays 0 — right side NOT evaluated</span>
-<span class="bool">true</span> &amp;&amp; count++;    <span class="cmt">// count becomes 1 — right side IS evaluated</span>
-
-<span class="cmt">// Pattern 1: Conditional execution</span>
-user.isAdmin &amp;&amp; <span class="fn">showAdminPanel</span>(); <span class="cmt">// only runs if isAdmin is truthy</span>
-
-<span class="cmt">// Pattern 2: Default value with || (triggers on ANY falsy)</span>
-<span class="kw">function</span> <span class="fn">greet</span>(name) {
-  name = name || <span class="str">"Guest"</span>;    <span class="cmt">// "" triggers this — careful!</span>
-  <span class="kw">return</span> `Hello, ${name}!`;
-}
-
-<span class="cmt">// Pattern 3: Default value with ?? (only null/undefined)</span>
-<span class="kw">function</span> <span class="fn">greet2</span>(name) {
-  name = name ?? <span class="str">"Guest"</span>;    <span class="cmt">// "" is preserved ✅</span>
-  <span class="kw">return</span> `Hello, ${name}!`;
-}
-
-<span class="cmt">// Pattern 4: Lazy initialization / memoization</span>
-<span class="kw">let</span> cache = <span class="bool">null</span>;
-<span class="kw">function</span> <span class="fn">getData</span>() {
-  <span class="kw">return</span> cache || (cache = <span class="fn">fetchFromServer</span>()); <span class="cmt">// fetches once, then cached</span>
-}
-
-<span class="cmt">// Pattern 5: Conditional rendering (React-style)</span>
-<span class="kw">const</span> isLoggedIn = <span class="bool">true</span>;
-<span class="kw">const</span> ui = isLoggedIn &amp;&amp; <span class="str">'&lt;div&gt;Dashboard&lt;/div&gt;'</span>; <span class="cmt">// shows div</span>
-
-<span class="cmt">// ❌ Danger: number as condition renders "0" in React</span>
-<span class="kw">const</span> count = <span class="num">0</span>;
-<span class="kw">const</span> bad = count &amp;&amp; <span class="str">'&lt;span&gt;items&lt;/span&gt;'</span>; <span class="cmt">// renders 0, not nothing!</span>
-<span class="cmt">// ✅ Fix: use boolean condition</span>
-<span class="kw">const</span> good = count > <span class="num">0</span> &amp;&amp; <span class="str">'&lt;span&gt;items&lt;/span&gt;'</span>;</code></pre></div>
-
-  <div class="sub-header"><div class="sub-num red">3️⃣</div><h3>Common Mistakes</h3></div>
-  <div class="warn"><div class="wt">❌ Number condition in JSX/templates renders "0"</div>
-  <p style="font-size:13.5px;margin:4px 0 0">When count is 0, <code>count &amp;&amp; &lt;span&gt;</code> renders the number <code>0</code> to the DOM, not nothing. Always use <code>count &gt; 0 &amp;&amp;</code> or a ternary.</p></div>
-  <div class="warn"><div class="wt">❌ Side effects inside short-circuit — hard to debug</div>
-  <p style="font-size:13.5px;margin:4px 0 0"><code>false &amp;&amp; (x = 10)</code> — the assignment NEVER runs. If you depend on a side effect, don't hide it inside a short-circuit expression.</p></div>
-
-  <div class="sub-header"><div class="sub-num green">4️⃣</div><h3>Practice Tasks</h3></div>
-  <div class="task"><span class="tbadge easy">🟢 EASY</span><div class="task-body"><h4>Convert if to short-circuit</h4><p>Rewrite using short-circuiting: <code>if (user) { logUser(user); }</code></p></div></div>
-  <div class="task"><span class="tbadge med">🟡 MEDIUM</span><div class="task-body"><h4>memoize function</h4><p>Write a simple <code>memoize(fn)</code> that uses short-circuiting to return a cached result if available, otherwise compute and store it.</p></div></div>
-  <div class="task"><span class="tbadge hard">🔴 REAL-WORLD</span><div class="task-body"><h4>Notification system</h4><p>Write <code>notify(user, message)</code> that: (1) checks user exists, (2) checks notifications enabled, (3) checks email present — using short-circuiting. Log specific failure messages at each step.</p></div></div>
-
-  <div class="sub-header"><div class="sub-num orange">5️⃣</div><h3>Interview Questions</h3></div>
-  <div class="qs">
-    <div class="q">What is the difference between <code>||</code> and <code>??</code>? Give a specific case where they differ.</div>
-    <div class="q">If I write <code>a &amp;&amp; b()</code>, when is <code>b()</code> NOT called?</div>
-    <div class="q">What does <code>null || undefined || 0 || "" || false || "found"</code> evaluate to? Walk through each step.</div>
-    <div class="q">Why is using <code>&amp;&amp;</code> for conditional rendering dangerous when the condition is a number?</div>
-    <div class="q">Does <code>||</code> always return <code>true</code> or <code>false</code>? What does it actually return?</div>
-  </div>
-</section>
-
-</main>
-</div>
+</main></div>
 </body>
 </html>

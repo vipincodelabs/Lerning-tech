@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ES6 Mastery — Vipin Singh</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0f1117;--surface:#1a1d27;--surface2:#22263a;--border:#2e3352;
+  --accent:#7c6af7;--accent2:#5eead4;--accent3:#fb923c;
+  --text:#e2e8f0;--muted:#8892b0;--green:#4ade80;--yellow:#fbbf24;
+  --red:#f87171;--blue:#60a5fa;--code-bg:#111827;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;font-size:16px;line-height:1.7}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+.layout{display:flex;min-height:100vh}
+
+.sidebar{width:260px;min-width:260px;background:var(--surface);border-right:1px solid var(--border);padding:20px 0;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sidebar-logo{padding:0 18px 16px;border-bottom:1px solid var(--border);margin-bottom:12px}
+.sidebar-logo h1{font-size:17px;font-weight:700;color:var(--accent)}
+.sidebar-logo p{font-size:11px;color:var(--muted);margin-top:3px}
+.phase-label{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);padding:10px 18px 3px}
+.sidebar a{display:flex;align-items:center;gap:8px;padding:7px 18px;font-size:13px;color:var(--muted);text-decoration:none;border-left:3px solid transparent;transition:all .15s}
+.sidebar a:hover{color:var(--text);background:var(--surface2);border-left-color:var(--accent)}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+
+.main{flex:1;max-width:900px;padding:44px 52px;overflow-x:hidden}
+
+.page-header{margin-bottom:44px;padding-bottom:28px;border-bottom:1px solid var(--border)}
+.badge-tag{display:inline-block;background:rgba(124,106,247,.15);color:var(--accent);font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;margin-bottom:14px;border:1px solid rgba(124,106,247,.3)}
+.page-header h1{font-size:34px;font-weight:800;letter-spacing:-1px;line-height:1.2}
+.page-header p{margin-top:10px;font-size:15px;color:var(--muted);max-width:580px}
+
+.section{margin-bottom:64px;scroll-margin-top:20px}
+.section-header{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.s-num{width:34px;height:34px;background:rgba(124,106,247,.12);border:1px solid rgba(124,106,247,.35);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--accent);flex-shrink:0}
+.section-header h2{font-size:22px;font-weight:700}
+h3{font-size:15px;font-weight:600;color:var(--accent2);margin:22px 0 9px}
+h4{font-size:13px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;margin:18px 0 7px}
+p{margin-bottom:11px}
+ul,ol{padding-left:20px;color:var(--muted);font-size:14px;line-height:2.1;margin-bottom:11px}
+li{margin-bottom:2px}
+
+.sub-num{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.sub-num.teal{background:rgba(94,234,212,.1);border:1px solid rgba(94,234,212,.3);color:var(--accent2)}
+.sub-num.red{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);color:var(--red)}
+.sub-num.green{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);color:var(--green)}
+.sub-num.orange{background:rgba(251,146,60,.1);border:1px solid rgba(251,146,60,.3);color:var(--accent3)}
+.sub-num.purple{background:rgba(124,106,247,.1);border:1px solid rgba(124,106,247,.3);color:var(--accent)}
+.sub-header{display:flex;align-items:center;gap:10px;margin:28px 0 12px}
+.sub-header h3{margin:0;font-size:16px}
+
+.cb{background:var(--code-bg);border:1px solid var(--border);border-radius:10px;margin:14px 0;overflow:hidden}
+.cb-head{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;background:var(--surface2);border-bottom:1px solid var(--border)}
+.cb-lang{font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.4px}
+.cb-lbl{font-size:10px;color:var(--accent2);background:rgba(94,234,212,.08);border:1px solid rgba(94,234,212,.22);padding:2px 7px;border-radius:3px}
+.cb-lbl.warn{color:var(--red);background:rgba(248,113,113,.08);border-color:rgba(248,113,113,.22)}
+.cb-lbl.ok{color:var(--green);background:rgba(74,222,128,.08);border-color:rgba(74,222,128,.22)}
+pre{margin:0;padding:18px;overflow-x:auto;font-family:'Cascadia Code','Fira Code','JetBrains Mono',monospace;font-size:13px;line-height:1.75}
+code{font-family:'Cascadia Code','Fira Code',monospace;font-size:12.5px}
+p code,li code{background:rgba(124,106,247,.1);border:1px solid rgba(124,106,247,.22);color:var(--accent);padding:1px 5px;border-radius:3px}
+
+.kw{color:#c678dd}.fn{color:#61afef}.str{color:#98c379}.num{color:#d19a66}
+.cmt{color:#5c6370;font-style:italic}.op{color:#56b6c2}.bool{color:#d19a66}
+.tp{color:#e5c07b}.prop{color:#e06c75}
+
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px 22px;margin:14px 0}
+.card.al{border-left:3px solid var(--accent)}
+.card.gl{border-left:3px solid var(--green)}
+.card.rl{border-left:3px solid var(--red)}
+.card.yl{border-left:3px solid var(--yellow)}
+.card.tl{border-left:3px solid var(--accent2)}
+
+.warn-box{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.22);border-radius:9px;padding:14px 18px;margin:12px 0}
+.warn-box .wt{font-size:11px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.7px;margin-bottom:7px}
+.ok-box{background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.22);border-radius:9px;padding:14px 18px;margin:12px 0}
+.ok-box .wt{font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.7px;margin-bottom:7px}
+.info-box{background:rgba(124,106,247,.07);border:1px solid rgba(124,106,247,.22);border-radius:9px;padding:14px 18px;margin:12px 0}
+.info-box .wt{font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.7px;margin-bottom:7px}
+.tip-box{background:rgba(94,234,212,.05);border:1px solid rgba(94,234,212,.2);border-radius:9px;padding:14px 18px;margin:12px 0}
+.tip-box .wt{font-size:11px;font-weight:700;color:var(--accent2);text-transform:uppercase;letter-spacing:.7px;margin-bottom:7px}
+
+.task{display:flex;gap:12px;align-items:flex-start;padding:14px;border-radius:9px;margin:9px 0;border:1px solid var(--border);background:var(--surface)}
+.tbadge{padding:2px 9px;border-radius:5px;font-size:10px;font-weight:700;letter-spacing:.4px;white-space:nowrap;margin-top:3px}
+.easy{background:rgba(74,222,128,.12);color:var(--green);border:1px solid rgba(74,222,128,.28)}
+.med{background:rgba(251,191,36,.12);color:var(--yellow);border:1px solid rgba(251,191,36,.28)}
+.hard{background:rgba(248,113,113,.12);color:var(--red);border:1px solid rgba(248,113,113,.28)}
+.task-body h4{font-size:14px;font-weight:600;color:var(--text);margin:0 0 5px;text-transform:none;letter-spacing:0}
+.task-body p{font-size:13px;color:var(--muted);margin:0}
+
+.tbl-wrap{overflow-x:auto;margin:14px 0;border-radius:10px;border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{background:var(--surface2);color:var(--muted);font-weight:600;text-transform:uppercase;font-size:11px;letter-spacing:.7px;padding:11px 14px;text-align:left;border-bottom:1px solid var(--border)}
+td{padding:11px 14px;border-bottom:1px solid var(--border)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,.02)}
+
+hr{border:none;border-top:1px solid var(--border);margin:36px 0}
+
+@media(max-width:768px){.sidebar{display:none}.main{padding:22px 18px}}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <h1>ES6 Mastery</h1>
+    <p>Vipin Singh · 2026</p>
+     <a href="./index.html" style="font-size: 8px; text-transform: uppercase; font-weight: 500; color: var(--muted); position: absolute; right: 0; top: 0;"> Back to home</a>
+  </div>
+
+  <div class="phase-label">Fundamentals</div>
+  <a href="#template-literals"><span class="dot" style="background:var(--accent)"></span>01. Template Literals</a>
+  <a href="#destructuring"><span class="dot" style="background:var(--accent)"></span>02. Destructuring</a>
+  <a href="#default-params"><span class="dot" style="background:var(--accent)"></span>03. Default Parameters</a>
+  <a href="#rest-spread"><span class="dot" style="background:var(--accent)"></span>04. Rest &amp; Spread</a>
+  <a href="#enhanced-objects"><span class="dot" style="background:var(--accent)"></span>05. Enhanced Object Literals</a>
+
+  <div class="phase-label">Advanced</div>
+  <a href="#iterators-generators"><span class="dot" style="background:var(--accent2)"></span>06. Iterators &amp; Generators</a>
+  <a href="#map-set"><span class="dot" style="background:var(--accent2)"></span>07. Map, Set, WeakMap, WeakSet</a>
+  <a href="#symbol"><span class="dot" style="background:var(--accent2)"></span>08. Symbol</a>
+
+  <div class="phase-label">Modern Operators</div>
+  <a href="#for-of-in"><span class="dot" style="background:var(--accent3)"></span>09. for...of vs for...in</a>
+  <a href="#optional-chaining"><span class="dot" style="background:var(--accent3)"></span>10. Optional Chaining (?.)</a>
+  <a href="#nullish-coalescing"><span class="dot" style="background:var(--accent3)"></span>11. Nullish Coalescing (??)</a>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+  <div class="page-header">
+    <div class="badge-tag">ECMAScript 2015+</div>
+    <h1>ES6 In Depth</h1>
+    <p>Modern JavaScript features explained with deep understanding, real-world React / Node.js usage, and production-ready patterns.</p>
+  </div>
+
+  <!-- ===================== TOPIC 1: TEMPLATE LITERALS ===================== -->
+  <section class="section" id="template-literals">
+    <div class="section-header">
+      <div class="s-num">01</div>
+      <h2>Template Literals</h2>
+    </div>
+
+    <div class="sub-header"><div class="sub-num teal">1</div><h3>Definition</h3></div>
+    <p>Template literals are string literals that use backtick (<code>`</code>) delimiters instead of quotes. They support <strong>multi-line strings</strong>, <strong>expression interpolation</strong> via <code>${}</code>, and <strong>tagged templates</strong> for advanced string processing.</p>
+
+    <div class="sub-header"><div class="sub-num orange">2</div><h3>Why It Exists</h3></div>
+    <p>Before ES6, building dynamic strings was error-prone:</p>
+    <div class="cb"><div class="cb-head"><span class="cb-lang">JS</span><span class="cb-lbl warn">Before ES6</span></div>
+<pre><span class="kw">var</span> name <span class="op">=</span> <span class="str">"Vipin"</span>;
+<span class="kw">var</span> msg <span class="op">=</span> <span class="str">"Hello, "</span> <span class="op">+</span> name <span class="op">+</span> <span class="str">"! You have "</span> <span class="op">+</span> (count <span class="op">+</span> <span class="num">1</span>) <span class="op">+</span> <span class="str">" messages."</span>;
+<span class="cmt">// Multi-line required ugly \n or string concatenation</span>
+<span class="kw">var</span> html <span class="op">=</span> <span class="str">"&lt;div&gt;"</span> <span class="op">+</span>
+           <span class="str">"  &lt;p&gt;"</span> <span class="op">+</span> text <span class="op">+</span> <span class="str">"&lt;/p&gt;"</span> <span class="op">+</span>
+           <span class="str">"&lt;/div&gt;"</span>;</pre></div>
+
+    <div class="sub-header"><div class="sub-num purple">3</div><h3>Syntax &amp; Core Concept</h3></div>
+    <div class="cb"><div class="cb-head"><span class="cb-lang">JS</span><span class="cb-lbl ok">ES6</span></div>
+<pre><span class="kw">const</span> name <span class="op">=</span> <span class="str">"Vipin"</span>;
+<span class="kw">const</span> count <span class="op">=</span> <span class="num">5</span>;
+
+<span class="cmt">// 1. Basic interpolation</span>
+<span class="kw">const</span> msg <span class="op">=</span> <span class="str">`Hello, <span class="op">${</span>name<span class="op">}</span>! You have <span class="op">${</span>count <span class="op">+</span> <span class="num">1</span><span class="op">}</span> messages.`</span>;
+
+<span class="cmt">// 2. Multi-line — newlines preserved literally</span>
+<span class="kw">const</span> html <span class="op">=</span> <span class="str">`
+  &lt;div&gt;
+    &lt;p&gt;<span class="op">${</span>text<span class="op">}</span>&lt;/p&gt;
+  &lt;/div&gt;
+`</span>;
+
+<span class="cmt">// 3. Expression inside ${} — any valid JS expression</span>
+<span class="kw">const</span> label <span class="op">=</span> <span class="str">`Status: <span class="op">${</span>isActive <span class="op">?</span> <span class="str">"Active"</span> <span class="op">:</span> <span class="str">"Inactive"</span><span class="op">}</span>`</span>;
+
+<span class="cmt">// 4. Nested template literals</span>
+<span class="kw">const</span> items <span class="op">=</span> [<span class="str">"a"</span>, <span class="str">"b"</span>];
+<span class="kw">const</span> list <span class="op">=</span> <span class="str">`&lt;ul&gt;<span class="op">${</span>items.<span class="fn">map</span>(i <span class="op">=&gt;</span> <span class="str">`&lt;li&gt;<span class="op">${</span>i<span class="op">}</span>&lt;/li&gt;`</span>).<span class="fn">join</span>(<span class="str">""</span>)<span class="op">}</span>&lt;/ul&gt;`</span>;</pre></div>
+
+    <div class="sub-header"><div class="sub-num green">4</div><h3>Practical Examples</h3></div>
+    <p><strong>Simple:</strong> URL construction</p>
+    <div class="cb"><div class="cb-head"><span class="cb-lang">JS</span></div>
+<pre><span class="kw">const</span> userId <span class="op">=</span> <span class="num">42</span>;
+<span class="kw">const</span> url <span class="op">=</span> <span class="str">`https://api.example.com/users/<span class="op">${</span>userId<span class="op">}</span>/posts`</span>;</pre></div>
+
+    <p><strong>Real-world — React JSX utility:</strong></p>
+    <div class="cb"><div class="cb-head"><span class="cb-lang">JSX</span><span class="cb-lbl">React</span></div>
+<pre><span class="cmt">// Dynamic class names</span>
+<span class="kw">const</span> <span class="fn">Button</span> <span class="op">=</span> ({ variant, disabled, children }) <span class="op">=&gt;</span> (
+  <span class="op">&lt;</span>button className<span class="op">=</span>{<span class="str">`btn btn--<span class="op">${</span>variant<span class="op">}</span> <span class="op">${</span>disabled <span class="op">?</span> <span class="str">"btn--disabled"</span> <span class="op">:</span> <span class="str">""</span><span class="op">}</span>`</span>}<span class="op">&gt;</span>
+    {children}
+  <span class="op">&lt;</span>/button<span class="op">&gt;</span>
+);
+
+<span class="cmt">// SQL query in Node.js (parameterized via tagged template)</span>
+<span class="kw">const</span> query <span class="op">=</span> <span class="str">`
+  SELECT * FROM users
+  WHERE id = <span class="op">${</span>userId<span class="op">}</span>
+  AND active = true
+`</span>;</pre></div>
+
+    <p><strong>Tagged Templates — advanced use:</strong></p>
+    <div class="cb"><div class="cb-head"><span class="cb-lang">JS</span><span class="cb-lbl">Tagged Template</span></div>
+<pre><span class="cmt">// A tag function receives (strings, ...values)</span>
+<span class="kw">function</span> <span class="fn">highlight</span>(strings, ...values) {
+  <span class="kw">return</span> strings.<span class="fn">reduce</span>((result, str, i) <span class="op">=&gt;</span>
+    result <span class="op">+</span> str <span class="op">+</span> (values[i] <span class="op">!==</span> <span class="bool">undefined</span> <span class="op">?</span> <span class="str">`&lt;mark&gt;<span class="op">${</span>values[i]<span class="op">}</span>&lt;/mark&gt;`</span> <span class="op">:</span> <span class="str">""</span>), <span class="str">""</span>
+  );
+}
+
+<span class="kw">const</span> name <span class="op">=</span> <span class="str">"Vipin"</span>;
+<span class="fn">highlight</span><span class="str">`Hello <span class="op">${</span>name<span class="op">}</span>, welcome!`</span>;
+<span class="cmt">// → "Hello &lt;mark&gt;Vipin&lt;/mark&gt;, welcome!"</span>
+
+<span class="cmt">// Real-world: styled-components uses tagged templates</span>
+<span class="kw">const</span> Box <span class="op">=</span> styled.div<span class="str">`
+  background: <span class="op">${</span>props <span class="op">=&gt;</span> props.bg<span class="op">}</span>;
+  padding: 16px;
+`</span>;</pre></div>
+
+    <div class="sub-header"><div class="sub-num red">5</div><h3>Common Mistakes</h3></div>
+    <div class="warn-box"><div class="wt">Warning</div>
+      <ul>
+        <li>Using backticks everywhere "because it's modern" — plain quotes are fine for static strings (minor perf overhead from parsing)</li>
+        <li>Interpolating raw user input into SQL queries — <strong>SQL injection risk</strong>. Always use parameterized queries</li>
+        <li>Forgetting that multi-line backtick strings include indentation whitespace in the final string</li>
+        <li>Calling a tag function with parentheses: <code>html(`...`)</code> — the tag syntax is <code>html`...`</code> without parens</li>
+      </ul>
+    </div>
+
+    <div class="sub-header"><div class="sub-num purple">6</div><h3>Advanced Insights</h3></div>
+    <div class="info-box"><div class="wt">How Tagged Templates Work Internally</div>
+      <p style="margin:0;font-size:14px">The engine splits the string at each <code>${}</code> into a frozen array of string parts (<code>strings.raw</code> for raw backslash access) plus a values array. The tag function receives both and assembles the result — this is how styled-components and graphql-tag achieve zero-runtime overhead.</p>
+    </div>
+
+    <div class="sub-header"><div class="sub-num orange">7</div><h3>Practice Task</h3></div>
+    <div class="task"><span class="tbadge easy">Easy</span>
+      <div class="task-body">
+        <h4>Build a URL builder</h4>
+        <p>Write a function <code>buildURL(base, path, params)</code> that uses template literals to construct <code>https://api.example.com/users/42?sort=asc&amp;limit=10</code> from <code>{ sort: "asc", limit: 10 }</code>.</p>
+      </div>
+    </div>
+    <div class="task"><span class="tbadge med">Medium</span>
+      <div class="task-body">
+        <h4>Safe HTML tag function</h4>
+        <p>Write a <code>safeHTML</code> tagged template that escapes <code>&lt;</code>, <code>&gt;</code>, and <code>&amp;</code> in interpolated values to prevent XSS.</p>
+      </div>
+    </div>
+
+    <div class="sub-header"><div class="sub-num teal">8</div><h3>Real Project Usage</h3></div>
+    <div class="cb"><div class="cb-head"><span class="cb-lang">JS</span><span class="cb-lbl">Next.js API Route</span></div>
+<pre><span class="cmt">// app/api/users/[id]/route.ts</span>
+<span class="kw">export async function</span> <span class="fn">GET</span>(req, { params }) {
+  <span class="kw">const</span> { id } <span class="op">=</span> <span class="kw">await</span> params;
+  <span class="kw">const</span> data <span class="op">=</span> <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">`<span class="op">${</span>process.env.API_BASE<span class="op">}</span>/users/<span class="op">${</span>id<span class="op">}</span>`</span>);
+  <span class="kw">return</span> Response.<span class="fn">json</span>(<span class="kw">await</span> data.<span class="fn">json</span>());
+}</pre></div>
+  </section>
+
+  <hr/>
+
+  <!-- ===================== TOPIC 2: DESTRUCTURING ===================== -->
+  <section class="section" id="destructuring">
+    <div class="section-header">
+      <div class="s-num">02</div>
+      <h2>Destructuring</h2>
+    </div>
+
+    <div class="sub-header"><div class="sub-num teal">1</div><h3>Definition</h3></div>
+    <p>Destructuring is a syntax that lets you <strong>unpack values from arrays</strong> or <strong>properties from objects</strong> into distinct variables in a single, readable statement.</p>
+
+    <div class="sub-header"><div class="sub-num orange">2</div><h3>Why It Exists</h3></div>
+    <div class="cb"><div class="cb-head"><span class="cb-lang">JS</span><span class="cb-lbl warn">Before ES6</span></div>
+<pre><span class="kw">var</span> user <span class="op">=</span> { name: <span class="str">"Vipin"</span>, age: <span class="num">25</span>, role: <span class="str">"dev"</span> };
+<span class="kw">var</span> name <span class="op">=</span> user.name;
+<span class="kw">var</span> age  <span class="op">=</span> user.age;
+<span class="kw">var</span> role <span class="op">=</span> user.role;  <span class="cmt">// repetitive, verbose</span></pre></div>
+
+    <div class="sub-header"><div class="sub-num purple">3</div><h3>Syntax &amp; Core Concept</h3></div>
+    <p><strong>Object Destructuring</strong></p>
+    <div class="cb"><div class="cb-head"><span class="cb-lang">JS</span></div>
+<pre><span class="kw">const</span> user <span class="op">=</span> { name: <span class="str">"Vipin"</span>, age: <span class="num">25</span>, role: <span class="str">"dev"</span> };
+
+<span class="cmt">// Basic</span>
+<span class="kw">const</span> { name, age } <span class="op">=</span> user;
+
+<span class="cmt">// Rename while destructuring</span>
+<span class="kw">const</span> { name: userName, role: userRole } <span class="op">=</span> user;
+
+<span class="cmt">// Default values</span>
+<span class="kw">const</span> { name, country <span class="op">=</span> <span class="str">"India"</span> } <span class="op">=</span> user;
+
+<span class="cmt">// Nested object</span>
+<span class="kw">const</span> config <span class="op">=</span> { db: { host: <span class="str">"localhost"</span>, port: <span class="num">5432</span> } };
+<span class="kw">const</span> { db: { host, port } } <span class="op">=</span> config;
+
+<span class="cmt">// Rest in object destructuring</span>
+<span class="kw">const</span> { name: n, ...rest } <span class="op">=</span> user;  <span class="cmt">// rest = { age: 25, role: "dev" }</span></pre></div>
+
+    <p><strong>Array Destructuring</strong></p>
+    <div class="cb"><div class="cb-head"><span class="cb-lang">JS</span></div>
+<pre><span class="kw">const</span> colors <span class="op">=</span> [<span class="str">"red"</span>, <span class="str">"green"</span>, <span class="str">"blue"</span>];
+
+<span class="cmt">// Basic</span>
+<span class="kw">const</span> [first, second] <span class="op">=</span> colors;
+
+<span class="cmt">// Skip elements with commas</span>
+<span class="kw">const</span> [, , third] <span class="op">=</span> colors;  <span class="cmt">// third = "blue"</span>
+
+<span class="cmt">// Default values</span>
+<span class="kw">const</span> [a, b, c, d <span class="op">=</span> <span class="str">"white"</span>] <span class="op">=</span> colors;
+
+<span class="cmt">// Swap variables — classic trick</span>
+<span class="kw">let</span> x <span class="op">=</span> <span class="num">1</span>, y <span class="op">=</span> <span class="num">2</span>;
+[x, y] <span class="op">=</span> [y, x];
+
+<span class="cmt">// Rest</span>
+<span class="kw">const</span> [head, ...tail] <span class="op">=</span> colors;  <span class="cmt">// tail = ["green","blue"]</span></pre></div>
+
+    <div class="sub-header"><div class="sub-num green">4</div><h3>Practical Examples</h3></div>
+    <div class="cb"><div class="cb-head"><span class="cb-lang">JSX</span><span class="cb-lbl">React Hook</span></div>
+<pre><span class="cmt">// useState returns [state, setter] — array destructuring</span>
+<span class="kw">const</span> [count, setCount] <span class="op">=</span> <span class="fn">useState</span>(<span class="num">0</span>);
+
+<span class="cmt">// Function parameter destructuring</span>
+<span class="kw">function</span> <span class="fn">UserCard</span>({ name, avatar, role <span class="op">=</span> <span class="str">"member"</span> }) {
+  <span class="kw">return</span> <span class="op">&lt;</span>div<span class="op">&gt;</span>{name} — {role}<span class="op">&lt;</span>/div<span class="op">&gt;</span>;
+}
+
+<span class="cmt">// API response</span>
+<span class="kw">const</span> { data: users, error, isLoading } <span class="op">=</span> <span class="fn">useQuery</span>(<span class="str">"/api/users"</span>);
+
+<span class="cmt">// Next.js page props</span>
+<span class="kw">export default function</span> <span class="fn">Page</span>({ params, searchParams }) {
+  <span class="kw">const</span> { id } <span class="op">=</span> params;
+}</pre></div>
+
+    <div class="sub-header"><div class="sub-num red">5</div><h3>Common Mistakes</h3></div>
+    <div class="warn-box"><div class="wt">Pitfalls</div>
+      <ul>
+        <li>Destructuring <code>null</code> or <code>undefined</code> throws a TypeError — guard first with <code>user ?? {}</code></li>
+        <li>Confusing rename syntax: <code>{ name: newName }</code> — the <em>left</em> is the key, <em>right</em> is the new variable</li>
+        <li>Deep nesting makes code unreadable — only go 2 levels deep max</li>
+        <li>Default value only applies when the value is <code>undefined</code>, not <code>null</code></li>
+      </ul>
+    </div>
+    <div class="cb"><div class="cb-head"><span class="cb-lang">JS</span><span class="cb-lbl warn">Bug</span></div>
+<pre><span class="kw">const</span> { role <span class="op">=</span> <span class="str">"user"</span> } <span class="op">=</span> { role: <span class="bool">null</span> };
+console.<span class="fn">log</span>(role); <span class="cmt">// null — default NOT applied for null!</span></pre></div>
+
+    <div class="sub-header"><div class="sub-num purple">6</div><h3>Advanced Insights</h3></div>
+    <div class="info-box"><div class="wt">Performance Note</div>
+      <p style="margin:0;font-size:14px">Destructuring is syntactic sugar — V8 optimizes it to the same bytecode as property access. In hot loops over millions of iterations, avoid re-destructuring the same object — extract once before the loop.</p>
+    </div>
+
+    <div class="sub-header"><div class="sub-num orange">7</div><h3>Practice Task</h3></div>
+    <div class="task"><span class="tbadge easy">Easy</span>
+      <div class="task-body">
+        <h4>Extract &amp; rename</h4>
+        <p>Given <code>{ firstName: "Vipin", address: { city: "Delhi", zip: "110001" } }</code>, extract <code>firstName</code> as <code>name</code> and <code>city</code> in one destructuring statement.</p>
+      </div>
+    </div>
+    <div class="task"><span class="tbadge med">Medium</span>
+      <div class="task-body">
+        <h4>Safe fetch handler</h4>
+        <p>Write a function that receives an API response object and safely extracts <code>data.users[0].email</code> with a fallback of <code>"unknown"</code> using destructuring + defaults.</p>
+      </div>
+    </div>
+
+    <div class="sub-header"><div class="sub-num teal">8</div><h3>Real Project Usage</h3></div>
+    <div class="cb"><div class="cb-head"><span class="cb-lang">JS</span><span class="cb-lbl">Node.js Express</span></div>
+<pre><span class="fn">app</span>.<span class="fn">post</span>(<span class="str">"/login"</span>, <span class="kw">async</span> (req, res) <span class="op">=&gt;</span> {
+  <span class="kw">const</span> { email, password } <span class="op">=</span> req.body;       <span class="cmt">// object destructuring</span>
+  <span class="kw">const</span> [user] <span class="op">=</span> <span class="kw">await</span> db.<span class="fn">query</span>(            <span class="cmt">// array destructuring</span>
+    <span class="str">`SELECT * FROM users WHERE email = $1`</span>, [email]
+  );
+  <span class="kw">if</span> (!user) <span class="kw">return</span> res.<span class="fn">status</span>(<span class="num">401</span>).<span class="fn">json</span>({ error: <span class="str">"Not found"</span> });
+});</pre></div>
+  </section>
+
+  <hr/>
+
+  <!-- ===================== TOPIC 3: DEFAULT PARAMETERS ===================== -->
+  <section class="section" id="default-params">
+    <div class="section-header">
+      <div class="s-num">03</div>
+      <h2>Default Parameters</h2>
+    </div>
+
+    <div class="sub-header"><div class="sub-num teal">1</div><h3>Definition</h3></div>
+    <p>Default parameters let you specify <strong>fallback values</strong> for function arguments directly in the function signature. The default is used when the argument is <code>undefined</code> (or omitted).</p>
+
+    <div class="sub-header"><div class="sub-num orange">2</div><h3>Why It Exists</h3></div>
+    <div class="cb"><div class="cb-head"><span class="cb-lang">JS</span><span class="cb-lbl warn">Before ES6</span></div>
+<pre><span class="kw">function</span> <span class="fn">greet</span>(name, greeting) {
+  name <span class="op">=</span> name <span class="op">||</span> <span class="str">"Guest"</span>;         <span class="cmt">// Bug: falsy values like 0 or "" break this</span>
+  greeting <span class="op">=</span> greeting <span class="op">||</span> <span class="str">"Hello"</span>;
+}</pre></div>
+
+    <div class="sub-header"><div class="sub-num purple">3</div><h3>Syntax &amp; Core Concept</h3></div>
+    <div class="cb"><div class="cb-head"><span class="cb-lang">JS</span></div>
+<pre><span class="cmt">// Basic default</span>
+<span class="kw">function</span> <span class="fn">greet</span>(name <span class="op">=</span> <span class="str">"Guest"</span>, greeting <span class="op">=</span> <span class="str">"Hello"</span>) {
+  <span class="kw">return</span> <span class="str">`<span class="op">${</span>greeting<span class="op">}</span>, <span class="op">${</span>name<span class="op">}</span>!`</span>;
+}
+
+<span class="cmt">// Default can be any expression — even a function call</span>
+<span class="kw">function</span> <span class="fn">createId</span>(id <span class="op">=</span> crypto.<span class="fn">randomUUID</span>()) {
+  <span class="kw">return</span> id;
+}
+
+<span class="cmt">// Later params can reference earlier params</span>
+<span class="kw">function</span> <span class="fn">rect</span>(width <span class="op">=</span> <span class="num">10</span>, height <span class="op">=</span> width) {
+  <span class="kw">return</span> width <span class="op">*</span> height;
+}
+
+<span class="cmt">// Works great with destructuring</span>
+<span class="kw">function</span> <span class="fn">connect</span>({ host <span class="op">=</span> <span class="str">"localhost"</span>, port <span class="op">=</span> <span class="num">3000</span> } <span class="op">=</span> {}) {
+  <span class="kw">return</span> <span class="str">`<span class="op">${</span>host<span class="op">}</span>:<span class="op">${</span>port<span class="op">}</span>`</span>;
+}</pre></div>
+
+    <div class="tip-box"><div class="wt">Key rule</div>
+      <p style="margin:0;font-size:14px">Default is applied only when the value is <strong>strictly <code>undefined</code></strong>. Passing <code>null</code>, <code>0</code>, or <code>""</code> does NOT trigger the default.</p>
+    </div>
+
+    <div class="sub-header"><div class="sub-num green">4</div><h3>Practical Examples</h3></div>
+    <div class="cb"><div class="cb-head"><span class="cb-lang">JS</span><span class="cb-lbl">Real World</span></div>
+<pre><span class="cmt">// API fetch wrapper</span>
+<span class="kw">async function</span> <span class="fn">fetchData</span>(url, options <span class="op">=</span> {}, retries <span class="op">=</span> <span class="num">3</span>) {
+  <span class="kw">const</span> { method <span class="op">=</span> <span class="str">"GET"</span>, headers <span class="op">=</span> {} } <span class="op">=</span> options;
+  <span class="kw">return</span> <span class="fn">fetch</span>(url, { method, headers });
+}
+
+<span class="cmt">// React component with defaults in props destructuring</span>
+<span class="kw">function</span> <span class="fn">Pagination</span>({ page <span class="op">=</span> <span class="num">1</span>, perPage <span class="op">=</span> <span class="num">10</span>, onPageChange <span class="op">=</span> () <span class="op">=&gt;</span> {} }) {
+  <span class="kw">return</span> <span class="op">&lt;</span>div<span class="op">&gt;</span>Page {page}<span class="op">&lt;</span>/div<span class="op">&gt;</span>;
+}</pre></div>
+
+    <div class="sub-header"><div class="sub-num red">5</div><h3>Common Mistakes</h3></div>
+    <div class="warn-box"><div class="wt">Pitfalls</div>
+      <ul>
+        <li><code>= {}</code> on a destructured object param is required: without it, calling <code>connect()</code> with no args throws because you can't destructure <code>undefined</code></li>
+        <li>Defaults are evaluated at call time, not definition time — good for objects, avoids the Python mutable-default bug</li>
+        <li>Don't use defaults for required parameters — it hides missing data errors</li>
+      </ul>
+    </div>
+
+    <div class="sub-header"><div class="sub-num orange">7</div><h3>Practice Task</h3></div>
+    <div class="task"><span class="tbadge easy">Easy</span>
+      <div class="task-body">
+        <h4>createUser factory</h4>
+        <p>Write <code>createUser({ name, role = "viewer", createdAt = new Date() } = {})</code> and verify that calling it with no args returns a valid user object.</p>
+      </div>
+    </div>
+
+    <div class="sub-header"><div class="sub-num teal">8</div><h3>Real Project Usage</h3></div>
+    <div class="cb"><div class="cb-head"><span class="cb-lang">JS</span><span class="cb-lbl">Zustand store action</span></div>
+<pre><span class="kw">const</span> useStore <span class="op">=</span> <span class="fn">create</span>((set) <span class="op">=&gt;</span> ({
+  addTodo: (text, priority <span class="op">=</span> <span class="str">"normal"</span>, done <span class="op">=</span> <span class="bool">false</span>) <span class="op">=&gt;</span>
+    <span class="fn">set</span>(state <span class="op">=&gt;</span> ({
+      todos: [...state.todos, { text, priority, done, id: <span class="fn">crypto.randomUUID</span>() }]
+    }))
+}));</pre></div>
+  </section>
+
+  <hr/>
+
+  <!-- ===================== TOPIC 4: REST & SPREAD ===================== -->
+  <section class="section" id="rest-spread">
+    <div class="section-header">
+      <div class="s-num">04</div>
+      <h2>Rest &amp; Spread Operators</h2>
+    </div>
+
+    <div class="sub-header"><div class="sub-num teal">1</div><h3>Definition</h3></div>
+    <p>Both use the <code>...</code> syntax but serve opposite purposes:</p>
+    <ul>
+      <li><strong>Spread</strong> — <em>expands</em> an iterable (array/object) into individual elements</li>
+      <li><strong>Rest</strong> — <em>collects</em> remaining elements into an array or object</li>
+    </ul>
+
+    <div class="sub-header"><div class="sub-num purple">3</div><h3>Syntax &amp; Core Concept</h3></div>
+    <div class="cb"><div class="cb-head"><span class="cb-lang">JS</span><span class="cb-lbl">Spread — Expanding</span></div>
+<pre><span class="cmt">// Array spread</span>
+<span class="kw">const</span> a <span class="op">=</span> [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>];
+<span class="kw">const</span> b <span class="op">=</span> [<span class="num">4</span>, <span class="num">5</span>];
+<span class="kw">const</span> combined <span class="op">=</span> [...a, ...b];           <span class="cmt">// [1,2,3,4,5]</span>
+<span class="kw">const</span> copy <span class="op">=</span> [...a];                       <span class="cmt">// shallow copy</span>
+
+<span class="cmt">// Object spread (ES2018)</span>
+<span class="kw">const</span> user <span class="op">=</span> { name: <span class="str">"Vipin"</span>, age: <span class="num">25</span> };
+<span class="kw">const</span> updated <span class="op">=</span> { ...user, age: <span class="num">26</span> };     <span class="cmt">// { name:"Vipin", age:26 }</span>
+<span class="kw">const</span> merged <span class="op">=</span> { ...defaults, ...overrides }; <span class="cmt">// later key wins</span>
+
+<span class="cmt">// Spread into function args</span>
+<span class="kw">const</span> nums <span class="op">=</span> [<span class="num">3</span>, <span class="num">1</span>, <span class="num">4</span>];
+Math.<span class="fn">max</span>(...nums);                          <span class="cmt">// 4</span></pre></div>
+
+    <div class="cb"><div class="cb-head"><span class="cb-lang">JS</span><span class="cb-lbl">Rest — Collecting</span></div>
+<pre><span class="cmt">// Rest in function params — must be last</span>
+<span class="kw">function</span> <span class="fn">sum</span>(...numbers) {
+  <span class="kw">return</span> numbers.<span class="fn">reduce</span>((acc, n) <span class="op">=&gt;</span> acc <span class="op">+</span> n, <span class="num">0</span>);
+}
+<span class="fn">sum</span>(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>);  <span class="cmt">// 10</span>
+
+<span class="cmt">// Rest in destructuring</span>
+<span class="kw">const</span> [first, ...rest] <span class="op">=</span> [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>];   <span class="cmt">// rest = [2,3]</span>
+<span class="kw">const</span> { name, ...others } <span class="op">=</span> user;     <span class="cmt">// others = { age:25 }</span></pre></div>
+
+    <div class="sub-header"><div class="sub-num green">4</div><h3>Practical Examples</h3></div>
+    <div class="cb"><div class="cb-head"><span class="cb-lang">JS</span><span class="cb-lbl">React / Redux patterns</span></div>
+<pre><span class="cmt">// Immutable state update (Redux / useReducer)</span>
+<span class="kw">function</span> <span class="fn">reducer</span>(state, action) {
+  <span class="kw">switch</span> (action.type) {
+    <span class="kw">case</span> <span class="str">"UPDATE_USER"</span>:
+      <span class="kw">return</span> { ...state, user: { ...state.user, ...action.payload } };
+    <span class="kw">case</span> <span class="str">"REMOVE_ITEM"</span>:
+      <span class="kw">return</span> { ...state, items: state.items.<span class="fn">filter</span>(i <span class="op">=&gt;</span> i.id <span class="op">!==</span> action.id) };
+  }
+}
+
+<span class="cmt">// Merging config objects in Node.js</span>
+<span class="kw">const</span> config <span class="op">=</span> { ...defaultConfig, ...userConfig, ...envConfig };
+
+<span class="cmt">// HOF that wraps a function — passes all args through</span>
+<span class="kw">function</span> <span class="fn">withLogging</span>(fn) {
+  <span class="kw">return function</span>(...args) {
+    console.<span class="fn">log</span>(<span class="str">"called with"</span>, args);
+    <span class="kw">return</span> <span class="fn">fn</span>(...args);
+  };
+}</pre></div>
+
+    <div class="sub-header"><div class="sub-num red">5</div><h3>Common Mistakes</h3></div>
+    <div class="warn-box"><div class="wt">Pitfalls</div>
+      <ul>
+        <li>Spread is a <strong>shallow copy</strong> — nested objects are still references</li>
+        <li>Rest must be the <strong>last</strong> parameter: <code>fn(a, ...b, c)</code> is a SyntaxError</li>
+        <li>Spreading huge arrays in hot code is O(n) — prefer <code>concat</code> or <code>push(...arr)</code> for large arrays</li>
+        <li>Object spread only copies <strong>own enumerable</strong> properties — prototype methods are lost</li>
+      </ul>
+    </div>
+
+    <div class="sub-header"><div class="sub-num purple">6</div><h3>Advanced Insights</h3></div>
+    <div class="info-box"><div class="wt">Spread vs Object.assign</div>
+      <p style="margin:0;font-size:14px"><code>{ ...obj }</code> and <code>Object.assign({}, obj)</code> both do shallow copies. Key difference: <code>Object.assign</code> triggers setters on the target; spread does not. Spread is preferred for immutable patterns.</p>
+    </div>
+
+    <div class="sub-header"><div class="sub-num orange">7</div><h3>Practice Task</h3></div>
+    <div class="task"><span class="tbadge med">Medium</span>
+      <div class="task-body">
+        <h4>Deep merge utility</h4>
+        <p>Write a <code>deepMerge(target, source)</code> function that merges nested objects (not just top-level) without mutating the originals, using spread.</p>
+      </div>
+    </div>
+
+    <div class="sub-header"><div class="sub-num teal">8</div><h3>Real Project Usage</h3></div>
+    <div class="cb"><div class="cb-head"><span class="cb-lang">JSX</span><span class="cb-lbl">React prop forwarding</span></div>
+<pre><span class="cmt">// Forward all extra props to the underlying element</span>
+<span class="kw">function</span> <span class="fn">Input</span>({ label, className, ...inputProps }) {
+  <span class="kw">return</span> (
+    <span class="op">&lt;</span>div<span class="op">&gt;</span>
+      <span class="op">&lt;</span>label<span class="op">&gt;</span>{label}<span class="op">&lt;</span>/label<span class="op">&gt;</span>
+      <span class="op">&lt;</span>input className<span class="op">=</span>{<span class="str">`input <span class="op">${</span>className<span class="op">}</span>`</span>} {...inputProps} /<span class="op">&gt;</span>
+    <span class="op">&lt;</span>/div<span class="op">&gt;</span>
+  );
+}</pre></div>
+  </section>
+
+  <hr/>
+
+  <!-- ===================== TOPIC 5: ENHANCED OBJECT LITERALS ===================== -->
+  <section class="section" id="enhanced-objects">
+    <div class="section-header">
+      <div class="s-num">05</div>
+      <h2>Enhanced Object Literals</h2>
+    </div>
+
+    <div class="sub-header"><div class="sub-num teal">1</div><h3>Definition</h3></div>
+    <p>ES6 introduced several shorthand notations for creating object literals: <strong>property shorthand</strong>, <strong>method shorthand</strong>, <strong>computed property names</strong>, and improvements to object method definitions.</p>
+
+    <div class="sub-header"><div class="sub-num purple">3</div><h3>Syntax &amp; Core Concept</h3></div>
+    <div class="cb"><div class="cb-head"><span class="cb-lang">JS</span></div>
+<pre><span class="kw">const</span> name <span class="op">=</span> <span class="str">"Vipin"</span>;
+<span class="kw">const</span> age  <span class="op">=</span> <span class="num">25</span>;
+
+<span class="cmt">// 1. Property shorthand — if var name matches key name</span>
+<span class="kw">const</span> user <span class="op">=</span> { name, age };          <span class="cmt">// { name: "Vipin", age: 25 }</span>
+
+<span class="cmt">// 2. Method shorthand — drop "function" keyword</span>
+<span class="kw">const</span> api <span class="op">=</span> {
+  <span class="fn">fetch</span>() { <span class="kw">return</span> <span class="str">"data"</span>; },       <span class="cmt">// same as fetch: function() {}</span>
+  <span class="kw">async</span> <span class="fn">load</span>() { ... },
+  <span class="op">*</span><span class="fn">generate</span>() { ... }                <span class="cmt">// generator method</span>
+};
+
+<span class="cmt">// 3. Computed property names — dynamic keys with []</span>
+<span class="kw">const</span> field <span class="op">=</span> <span class="str">"email"</span>;
+<span class="kw">const</span> form <span class="op">=</span> {
+  [field]: <span class="str">"vipin@example.com"</span>,
+  [<span class="str">`get_<span class="op">${</span>field<span class="op">}</span>`</span>]() { <span class="kw">return</span> <span class="kw">this</span>[field]; }
+};</pre></div>
+
+    <div class="sub-header"><div class="sub-num green">4</div><h3>Practical Examples</h3></div>
+    <div class="cb"><div class="cb-head"><span class="cb-lang">JS</span><span class="cb-lbl">Real World</span></div>
+<pre><span class="cmt">// Dynamic Redux action creators</span>
+<span class="kw">const</span> <span class="fn">createAction</span> <span class="op">=</span> (type) <span class="op">=&gt;</span> (payload) <span class="op">=&gt;</span> ({ type, payload });
+
+<span class="cmt">// Dynamic form state with computed keys</span>
+<span class="kw">const</span> <span class="fn">handleChange</span> <span class="op">=</span> (e) <span class="op">=&gt;</span> {
+  <span class="fn">setForm</span>(prev <span class="op">=&gt;</span> ({ ...prev, [e.target.name]: e.target.value }));
+};
+
+<span class="cmt">// Factory function — shorthand makes it tighter</span>
+<span class="kw">function</span> <span class="fn">createUser</span>(name, role) {
+  <span class="kw">return</span> {
+    name,
+    role,
+    <span class="fn">greet</span>() { <span class="kw">return</span> <span class="str">`Hi, I'm <span class="op">${</span><span class="kw">this</span>.name<span class="op">}</span>`</span>; }
+  };
+}</pre></div>
+
+    <div class="sub-header"><div class="sub-num red">5</div><h3>Common Mistakes</h3></div>
+    <div class="warn-box"><div class="wt">Pitfalls</div>
+      <ul>
+        <li>Method shorthand creates methods that have their own <code>this</code> — don't confuse with arrow functions (which don't)</li>
+        <li>Computed keys are evaluated at object creation time — they're not reactive</li>
+      </ul>
+    </div>
+
+    <div class="sub-header"><div class="sub-num orange">7</div><h3>Practice Task</h3></div>
+    <div class="task"><span class="tbadge easy">Easy</span>
+      <div class="task-body">
+        <h4>Form handler</h4>
+        <p>Write a React <code>handleChange</code> function that updates any field in a form state object using a computed property name from <code>e.target.name</code>.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- ===================== TOPIC 6: ITERATORS & GENERATORS ===================== -->
+  <section class="section" id="iterators-generators">
+    <div class="section-header">
+      <div class="s-num">06</div>
+      <h2>Iterators &amp; Generators</h2>
+    </div>
+
+    <div class="sub-header"><div class="sub-num teal">1</div><h3>Definition</h3></div>
+    <p>An <strong>iterator</strong> is any object with a <code>next()</code> method that returns <code>{ value, done }</code>. An <strong>iterable</strong> is an object with a <code>[Symbol.iterator]()</code> method that returns an iterator. A <strong>generator</strong> is a function that produces a lazy sequence of values using <code>yield</code>.</p>
+
+    <div class="sub-header"><div class="sub-num orange">2</div><h3>Why It Exists</h3></div>
+    <p>Before generators, producing lazy/infinite sequences required manual state machines with closures. Generators provide a clean, pauseable execution model — the foundation of <code>async/await</code> internally.</p>
+
+    <div class="sub-header"><div class="sub-num purple">3</div><h3>Syntax &amp; Core Concept</h3></div>
+    <div class="cb"><div class="cb-head"><span class="cb-lang">JS</span><span class="cb-lbl">Iterator Protocol</span></div>
+<pre><span class="cmt">// Manual iterator</span>
+<span class="kw">function</span> <span class="fn">range</span>(start, end) {
+  <span class="kw">let</span> current <span class="op">=</span> start;
+  <span class="kw">return</span> {
+    <span class="fn">next</span>() {
+      <span class="kw">return</span> current <span class="op">&lt;=</span> end
+        <span class="op">?</span> { value: current++, done: <span class="bool">false</span> }
+        <span class="op">:</span> { value: <span class="bool">undefined</span>, done: <span class="bool">true</span> };
+    },
+    [Symbol.iterator]() { <span class="kw">return</span> <span class="kw">this</span>; }
+  };
+}
+
+<span class="kw">for</span> (<span class="kw">const</span> n <span class="kw">of</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">3</span>)) console.<span class="fn">log</span>(n); <span class="cmt">// 1, 2, 3</span></pre></div>
+
+    <div class="cb"><div class="cb-head"><span class="cb-lang">JS</span><span class="cb-lbl">Generator Function</span></div>
+<pre><span class="cmt">// function* — the * makes it a generator</span>
+<span class="kw">function</span><span class="op">*</span> <span class="fn">range</span>(start, end) {
+  <span class="kw">for</span> (<span class="kw">let</span> i <span class="op">=</span> start; i <span class="op">&lt;=</span> end; i++) {
+    <span class="kw">yield</span> i;  <span class="cmt">// pauses here, returns i, resumes on next .next()</span>
+  }
+}
+
+<span class="kw">const</span> gen <span class="op">=</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">3</span>);
+gen.<span class="fn">next</span>(); <span class="cmt">// { value: 1, done: false }</span>
+gen.<span class="fn">next</span>(); <span class="cmt">// { value: 2, done: false }</span>
+gen.<span class="fn">next</span>(); <span class="cmt">// { value: 3, done: false }</span>
+gen.<span class="fn">next</span>(); <span class="cmt">// { value: undefined, done: true }</span>
+
+<span class="cmt">// Spread and for...of work because generators are iterables</span>
+[...<span class="fn">range</span>(<span class="num">1</span>, <span class="num">5</span>)]; <span class="cmt">// [1,2,3,4,5]</span>
+
+<span class="cmt">// Infinite generator — lazy, won't blow the stack</span>
+<span class="kw">function</span><span class="op">*</span> <span class="fn">ids</span>() {
+  <span class="kw">let</span> id <span class="op">=</span> <span class="num">1</span>;
+  <span class="kw">while</span> (<span class="bool">true</span>) <span class="kw">yield</span> id++;
+}
+<span class="kw">const</span> nextId <span class="op">=</span> <span class="fn">ids</span>();
+nextId.<span class="fn">next</span>().value; <span class="cmt">// 1</span>
+nextId.<span class="fn">next</span>().value; <span class="cmt">// 2</span>
+
+<span class="cmt">// yield* — delegate to another iterable</span>
+<span class="kw">function</span><span class="op">*</span> <span class="fn">combined</span>() {
+  <span class="kw">yield</span><span class="op">*</span> [<span class="num">1</span>, <span class="num">2</span>];
+  <span class="kw">yield</span><span class="op">*</span> [<span class="num">3</span>, <span class="num">4</span>];
+}</pre></div>
+
+    <div class="sub-header"><div class="sub-num green">4</div><h3>Practical Examples</h3></div>
+    <div class="cb"><div class="cb-head"><span class="cb-lang">JS</span><span class="cb-lbl">Pagination generator</span></div>
+<pre><span class="kw">async function</span><span class="op">*</span> <span class="fn">fetchAllPages</span>(url) {
+  <span class="kw">let</span> page <span class="op">=</span> <span class="num">1</span>;
+  <span class="kw">while</span> (<span class="bool">true</span>) {
+    <span class="kw">const</span> res <span class="op">=</span> <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">`<span class="op">${</span>url<span class="op">}</span>?page=<span class="op">${</span>page<span class="op">}</span>`</span>);
+    <span class="kw">const</span> { data, hasMore } <span class="op">=</span> <span class="kw">await</span> res.<span class="fn">json</span>();
+    <span class="kw">yield</span> data;
+    <span class="kw">if</span> (!hasMore) <span class="kw">break</span>;
+    page++;
+  }
+}
+
+<span class="kw">for await</span> (<span class="kw">const</span> page <span class="kw">of</span> <span class="fn">fetchAllPages</span>(<span class="str">"/api/users"</span>)) {
+  <span class="fn">processUsers</span>(page);
+}</pre></div>
+
+    <div class="sub-header"><div class="sub-num red">5</div><h3>Common Mistakes</h3></div>
+    <div class="warn-box"><div class="wt">Pitfalls</div>
+      <ul>
+        <li>Generators are consumed once — you can't restart them; create a new generator instance</li>
+        <li>Spreading an infinite generator (<code>[...ids()]</code>) will hang the process</li>
+        <li><code>return</code> in a generator sets <code>done: true</code> and the value is <strong>not</strong> picked up by <code>for...of</code></li>
+      </ul>
+    </div>
+
+    <div class="sub-header"><div class="sub-num purple">6</div><h3>Advanced Insights</h3></div>
+    <div class="info-box"><div class="wt">Generators power async/await</div>
+      <p style="margin:0;font-size:14px">Under the hood, Babel transpiles <code>async/await</code> to generator functions with a runtime scheduler. Each <code>await</code> is a <code>yield</code> point. Understanding generators demystifies the async model deeply.</p>
+    </div>
+
+    <div class="sub-header"><div class="sub-num orange">7</div><h3>Practice Task</h3></div>
+    <div class="task"><span class="tbadge hard">Hard</span>
+      <div class="task-body">
+        <h4>Fibonacci generator</h4>
+        <p>Write an infinite generator <code>fibonacci()</code> that yields the Fibonacci sequence lazily. Then use it to get the first 10 values without storing the whole sequence.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- ===================== TOPIC 7: MAP, SET, WEAKMAP, WEAKSET ===================== -->
+  <section class="section" id="map-set">
+    <div class="section-header">
+      <div class="s-num">07</div>
+      <h2>Map, Set, WeakMap, WeakSet</h2>
+    </div>
+
+    <div class="sub-header"><div class="sub-num teal">1</div><h3>Definition</h3></div>
+    <p><strong>Map</strong> is a key-value collection where <em>any value</em> (including objects) can be a key, with guaranteed insertion-order iteration. <strong>Set</strong> is a collection of <em>unique</em> values. <strong>Weak variants</strong> hold object references weakly — they don't prevent garbage collection.</p>
+
+    <div class="sub-header"><div class="sub-num purple">3</div><h3>Syntax &amp; Core Concept</h3></div>
+    <div class="cb"><div class="cb-head"><span class="cb-lang">JS</span><span class="cb-lbl">Map</span></div>
+<pre><span class="kw">const</span> map <span class="op">=</span> <span class="kw">new</span> <span class="fn">Map</span>();
+map.<span class="fn">set</span>(<span class="str">"name"</span>, <span class="str">"Vipin"</span>);
+map.<span class="fn">set</span>(<span class="num">42</span>, <span class="str">"answer"</span>);          <span class="cmt">// number key</span>
+
+<span class="kw">const</span> obj <span class="op">=</span> {};
+map.<span class="fn">set</span>(obj, <span class="str">"meta"</span>);           <span class="cmt">// object as key!</span>
+
+map.<span class="fn">get</span>(<span class="str">"name"</span>);                  <span class="cmt">// "Vipin"</span>
+map.<span class="prop">size</span>;                         <span class="cmt">// 3</span>
+map.<span class="fn">has</span>(<span class="num">42</span>);                       <span class="cmt">// true</span>
+map.<span class="fn">delete</span>(<span class="num">42</span>);
+
+<span class="cmt">// Initialization from entries</span>
+<span class="kw">const</span> scores <span class="op">=</span> <span class="kw">new</span> <span class="fn">Map</span>([[<span class="str">"Alice"</span>, <span class="num">95</span>], [<span class="str">"Bob"</span>, <span class="num">87</span>]]);
+
+<span class="cmt">// Iteration — guaranteed insertion order</span>
+<span class="kw">for</span> (<span class="kw">const</span> [key, value] <span class="kw">of</span> scores) {
+  console.<span class="fn">log</span>(<span class="str">`<span class="op">${</span>key<span class="op">}</span>: <span class="op">${</span>value<span class="op">}</span>`</span>);
+}</pre></div>
+
+    <div class="cb"><div class="cb-head"><span class="cb-lang">JS</span><span class="cb-lbl">Set</span></div>
+<pre><span class="kw">const</span> set <span class="op">=</span> <span class="kw">new</span> <span class="fn">Set</span>([<span class="num">1</span>, <span class="num">2</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">3</span>]);
+console.<span class="fn">log</span>([...set]);  <span class="cmt">// [1, 2, 3] — duplicates removed</span>
+
+set.<span class="fn">add</span>(<span class="num">4</span>);
+set.<span class="fn">has</span>(<span class="num">2</span>);   <span class="cmt">// true — O(1) lookup</span>
+set.<span class="prop">size</span>;     <span class="cmt">// 4</span>
+
+<span class="cmt">// Remove duplicates from array — common pattern</span>
+<span class="kw">const</span> unique <span class="op">=</span> [...<span class="kw">new</span> <span class="fn">Set</span>(array)];</pre></div>
+
+    <div class="cb"><div class="cb-head"><span class="cb-lang">JS</span><span class="cb-lbl">WeakMap / WeakSet</span></div>
+<pre><span class="kw">const</span> cache <span class="op">=</span> <span class="kw">new</span> <span class="fn">WeakMap</span>();
+
+<span class="kw">function</span> <span class="fn">process</span>(element) {
+  <span class="kw">if</span> (cache.<span class="fn">has</span>(element)) <span class="kw">return</span> cache.<span class="fn">get</span>(element);
+  <span class="kw">const</span> result <span class="op">=</span> expensiveCompute(element);
+  cache.<span class="fn">set</span>(element, result);   <span class="cmt">// auto-cleaned when element is GC'd</span>
+  <span class="kw">return</span> result;
+}
+
+<span class="cmt">// WeakSet — track seen objects without preventing GC</span>
+<span class="kw">const</span> seen <span class="op">=</span> <span class="kw">new</span> <span class="fn">WeakSet</span>();
+<span class="kw">function</span> <span class="fn">visitOnce</span>(node) {
+  <span class="kw">if</span> (seen.<span class="fn">has</span>(node)) <span class="kw">return</span>;
+  seen.<span class="fn">add</span>(node);
+  <span class="cmt">// process node...</span>
+}</pre></div>
+
+    <div class="sub-header"><div class="sub-num green">4</div><h3>Map vs Object — When to use which</h3></div>
+    <div class="tbl-wrap">
+      <table>
+        <tr><th>Feature</th><th>Object</th><th>Map</th></tr>
+        <tr><td>Key types</td><td>String / Symbol only</td><td>Any value</td></tr>
+        <tr><td>Insertion order</td><td>Not guaranteed (numbers first)</td><td>Always guaranteed</td></tr>
+        <tr><td>Size</td><td>Manual <code>Object.keys().length</code></td><td><code>.size</code> property</td></tr>
+        <tr><td>Prototype pollution</td><td>Risk from inherited keys</td><td>No prototype</td></tr>
+        <tr><td>JSON serialization</td><td>Native</td><td>Needs manual conversion</td></tr>
+        <tr><td>Performance (frequent add/delete)</td><td>Slower</td><td>Optimized</td></tr>
+      </table>
+    </div>
+
+    <div class="sub-header"><div class="sub-num red">5</div><h3>Common Mistakes</h3></div>
+    <div class="warn-box"><div class="wt">Pitfalls</div>
+      <ul>
+        <li>Using Map when a plain object is fine — adds API overhead for no benefit with string keys</li>
+        <li>WeakMap/WeakSet keys must be <strong>objects</strong> — primitives throw TypeError</li>
+        <li>WeakMap is not iterable (by design) — you can't list all keys</li>
+        <li>Set uses SameValueZero comparison — <code>NaN === NaN</code> in a Set (unlike normal JS)</li>
+      </ul>
+    </div>
+
+    <div class="sub-header"><div class="sub-num orange">7</div><h3>Practice Task</h3></div>
+    <div class="task"><span class="tbadge med">Medium</span>
+      <div class="task-body">
+        <h4>Word frequency counter</h4>
+        <p>Use a Map to count word frequencies in a string. Then use a Set to list unique words. Return <code>{ frequencies: Map, unique: Set }</code>.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- ===================== TOPIC 8: SYMBOL ===================== -->
+  <section class="section" id="symbol">
+    <div class="section-header">
+      <div class="s-num">08</div>
+      <h2>Symbol</h2>
+    </div>
+
+    <div class="sub-header"><div class="sub-num teal">1</div><h3>Definition</h3></div>
+    <p>Symbol is a <strong>primitive type</strong> (like string or number) whose every instance is <strong>globally unique</strong>. Symbols are primarily used as unique object property keys that won't accidentally collide with other keys.</p>
+
+    <div class="sub-header"><div class="sub-num orange">2</div><h3>Why It Exists</h3></div>
+    <p>Before ES6, libraries had to use prefixed string keys like <code>"_myLib_internal"</code> to avoid collision. Symbols guarantee uniqueness without any naming convention.</p>
+
+    <div class="sub-header"><div class="sub-num purple">3</div><h3>Syntax &amp; Core Concept</h3></div>
+    <div class="cb"><div class="cb-head"><span class="cb-lang">JS</span></div>
+<pre><span class="cmt">// Symbol() — always unique</span>
+<span class="kw">const</span> id1 <span class="op">=</span> <span class="fn">Symbol</span>(<span class="str">"id"</span>);
+<span class="kw">const</span> id2 <span class="op">=</span> <span class="fn">Symbol</span>(<span class="str">"id"</span>);
+console.<span class="fn">log</span>(id1 <span class="op">===</span> id2); <span class="cmt">// false — always unique!</span>
+
+<span class="cmt">// Use as object key — not enumerable by default</span>
+<span class="kw">const</span> ID <span class="op">=</span> <span class="fn">Symbol</span>(<span class="str">"id"</span>);
+<span class="kw">const</span> user <span class="op">=</span> { [ID]: <span class="num">42</span>, name: <span class="str">"Vipin"</span> };
+
+Object.<span class="fn">keys</span>(user);       <span class="cmt">// ["name"] — Symbol not included!</span>
+user[ID];               <span class="cmt">// 42 — accessed via symbol reference</span>
+
+<span class="cmt">// Symbol.for — global registry (shared across modules)</span>
+<span class="kw">const</span> shared <span class="op">=</span> Symbol.<span class="fn">for</span>(<span class="str">"app.user"</span>);
+Symbol.<span class="fn">for</span>(<span class="str">"app.user"</span>) <span class="op">===</span> shared; <span class="cmt">// true</span>
+
+<span class="cmt">// Well-known Symbols — customize built-in JS behavior</span>
+<span class="kw">class</span> <span class="tp">Range</span> {
+  <span class="kw">constructor</span>(from, to) { <span class="kw">this</span>.from <span class="op">=</span> from; <span class="kw">this</span>.to <span class="op">=</span> to; }
+
+  [Symbol.iterator]() {   <span class="cmt">// makes Range iterable!</span>
+    <span class="kw">let</span> current <span class="op">=</span> <span class="kw">this</span>.from;
+    <span class="kw">const</span> end <span class="op">=</span> <span class="kw">this</span>.to;
+    <span class="kw">return</span> {
+      <span class="fn">next</span>() {
+        <span class="kw">return</span> current <span class="op">&lt;=</span> end
+          <span class="op">?</span> { value: current++, done: <span class="bool">false</span> }
+          <span class="op">:</span> { done: <span class="bool">true</span> };
+      }
+    };
+  }
+}
+
+[...<span class="kw">new</span> <span class="fn">Range</span>(<span class="num">1</span>, <span class="num">5</span>)]; <span class="cmt">// [1,2,3,4,5]</span></pre></div>
+
+    <div class="sub-header"><div class="sub-num green">4</div><h3>Well-Known Symbols</h3></div>
+    <div class="tbl-wrap">
+      <table>
+        <tr><th>Symbol</th><th>Purpose</th></tr>
+        <tr><td><code>Symbol.iterator</code></td><td>Make object iterable with <code>for...of</code></td></tr>
+        <tr><td><code>Symbol.asyncIterator</code></td><td>Make object async iterable with <code>for await...of</code></td></tr>
+        <tr><td><code>Symbol.toPrimitive</code></td><td>Control type coercion (e.g. <code>obj + 1</code>)</td></tr>
+        <tr><td><code>Symbol.toStringTag</code></td><td>Custom <code>[object MyClass]</code> tag</td></tr>
+        <tr><td><code>Symbol.hasInstance</code></td><td>Customize <code>instanceof</code> behavior</td></tr>
+      </table>
+    </div>
+
+    <div class="sub-header"><div class="sub-num red">5</div><h3>Common Mistakes</h3></div>
+    <div class="warn-box"><div class="wt">Pitfalls</div>
+      <ul>
+        <li>Symbol properties are skipped by <code>JSON.stringify</code> and <code>for...in</code> — use <code>Object.getOwnPropertySymbols()</code> to access them</li>
+        <li>Don't use <code>Symbol()</code> when you need cross-module sharing — use <code>Symbol.for()</code></li>
+        <li>Symbols can't be converted to string implicitly — <code>"id: " + symbol</code> throws; use <code>symbol.toString()</code></li>
+      </ul>
+    </div>
+
+    <div class="sub-header"><div class="sub-num orange">7</div><h3>Practice Task</h3></div>
+    <div class="task"><span class="tbadge med">Medium</span>
+      <div class="task-body">
+        <h4>Custom iterable class</h4>
+        <p>Create a <code>LinkedList</code> class with a <code>[Symbol.iterator]</code> method so it works with <code>for...of</code> and spread. Nodes have <code>value</code> and <code>next</code> properties.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- ===================== TOPIC 9: for...of vs for...in ===================== -->
+  <section class="section" id="for-of-in">
+    <div class="section-header">
+      <div class="s-num">09</div>
+      <h2>for...of vs for...in</h2>
+    </div>
+
+    <div class="sub-header"><div class="sub-num teal">1</div><h3>Definition</h3></div>
+    <ul>
+      <li><code>for...of</code> — iterates over <strong>values</strong> of any iterable (array, string, Map, Set, generator)</li>
+      <li><code>for...in</code> — iterates over <strong>enumerable property keys</strong> of an object (including inherited ones)</li>
+    </ul>
+
+    <div class="sub-header"><div class="sub-num purple">3</div><h3>Syntax &amp; Core Concept</h3></div>
+    <div class="cb"><div class="cb-head"><span class="cb-lang">JS</span></div>
+<pre><span class="kw">const</span> arr <span class="op">=</span> [<span class="str">"a"</span>, <span class="str">"b"</span>, <span class="str">"c"</span>];
+
+<span class="cmt">// for...of — values</span>
+<span class="kw">for</span> (<span class="kw">const</span> val <span class="kw">of</span> arr) {
+  console.<span class="fn">log</span>(val);  <span class="cmt">// "a", "b", "c"</span>
+}
+
+<span class="cmt">// for...in — enumerable keys (strings!)</span>
+<span class="kw">for</span> (<span class="kw">const</span> key <span class="kw">in</span> arr) {
+  console.<span class="fn">log</span>(key);  <span class="cmt">// "0", "1", "2" — indices as strings!</span>
+}
+
+<span class="cmt">// for...of works on any iterable</span>
+<span class="kw">for</span> (<span class="kw">const</span> char <span class="kw">of</span> <span class="str">"hello"</span>) { <span class="cmt">/* h, e, l, l, o */</span> }
+
+<span class="kw">for</span> (<span class="kw">const</span> [key, val] <span class="kw">of</span> map) { <span class="cmt">/* Map entries */</span> }
+
+<span class="cmt">// for...in enumerates prototype chain too!</span>
+<span class="kw">function</span> <span class="fn">Animal</span>(name) { <span class="kw">this</span>.name <span class="op">=</span> name; }
+<span class="tp">Animal</span>.prototype.type <span class="op">=</span> <span class="str">"mammal"</span>;
+<span class="kw">const</span> dog <span class="op">=</span> <span class="kw">new</span> <span class="fn">Animal</span>(<span class="str">"Rex"</span>);
+
+<span class="kw">for</span> (<span class="kw">const</span> k <span class="kw">in</span> dog) console.<span class="fn">log</span>(k); <span class="cmt">// "name", "type" — prototype included!</span>
+
+<span class="cmt">// Guard with hasOwnProperty</span>
+<span class="kw">for</span> (<span class="kw">const</span> k <span class="kw">in</span> dog) {
+  <span class="kw">if</span> (Object.prototype.<span class="fn">hasOwnProperty</span>.<span class="fn">call</span>(dog, k)) {
+    console.<span class="fn">log</span>(k);  <span class="cmt">// "name" only</span>
+  }
+}</pre></div>
+
+    <div class="sub-header"><div class="sub-num green">4</div><h3>Comparison Table</h3></div>
+    <div class="tbl-wrap">
+      <table>
+        <tr><th>Feature</th><th>for...of</th><th>for...in</th></tr>
+        <tr><td>Iterates over</td><td>Values</td><td>Enumerable keys (strings)</td></tr>
+        <tr><td>Works on</td><td>Any iterable (arrays, strings, maps, sets, generators)</td><td>Any object</td></tr>
+        <tr><td>Prototype chain</td><td>No</td><td>Yes — includes inherited keys</td></tr>
+        <tr><td>Use for arrays?</td><td>Yes — preferred</td><td>Avoid — unexpected behavior</td></tr>
+        <tr><td>Use for objects?</td><td>No (unless iterable)</td><td>Yes — with hasOwnProperty guard</td></tr>
+        <tr><td>Break / Continue</td><td>Yes</td><td>Yes</td></tr>
+      </table>
+    </div>
+
+    <div class="sub-header"><div class="sub-num red">5</div><h3>Common Mistakes</h3></div>
+    <div class="warn-box"><div class="wt">Pitfalls</div>
+      <ul>
+        <li>Using <code>for...in</code> on arrays — you get string indices and may get prototype properties from libraries</li>
+        <li>Using <code>for...of</code> on plain objects — throws because <code>{}</code> is not iterable (use <code>Object.entries()</code>)</li>
+        <li>Forgetting that <code>for...of</code> with a <code>Map</code> gives <code>[key, value]</code> pairs — use destructuring</li>
+      </ul>
+    </div>
+
+    <div class="cb"><div class="cb-head"><span class="cb-lang">JS</span><span class="cb-lbl ok">Correct patterns</span></div>
+<pre><span class="cmt">// Iterate object keys safely</span>
+<span class="kw">for</span> (<span class="kw">const</span> [key, val] <span class="kw">of</span> Object.<span class="fn">entries</span>(obj)) { ... }
+
+<span class="cmt">// Iterate with index</span>
+<span class="kw">for</span> (<span class="kw">const</span> [i, val] <span class="kw">of</span> arr.<span class="fn">entries</span>()) { ... }</pre></div>
+
+    <div class="sub-header"><div class="sub-num orange">7</div><h3>Practice Task</h3></div>
+    <div class="task"><span class="tbadge easy">Easy</span>
+      <div class="task-body">
+        <h4>Object serializer</h4>
+        <p>Use <code>for...of</code> + <code>Object.entries()</code> to build a query string from <code>{ page: 1, limit: 10, sort: "asc" }</code> → <code>"page=1&amp;limit=10&amp;sort=asc"</code>.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- ===================== TOPIC 10: OPTIONAL CHAINING ===================== -->
+  <section class="section" id="optional-chaining">
+    <div class="section-header">
+      <div class="s-num">10</div>
+      <h2>Optional Chaining (<code>?.</code>)</h2>
+    </div>
+
+    <div class="sub-header"><div class="sub-num teal">1</div><h3>Definition</h3></div>
+    <p>Optional chaining (<code>?.</code>) lets you safely access deeply nested properties without throwing if an intermediate value is <code>null</code> or <code>undefined</code>. It short-circuits and returns <code>undefined</code> instead of throwing a TypeError.</p>
+
+    <div class="sub-header"><div class="sub-num orange">2</div><h3>Why It Exists</h3></div>
+    <div class="cb"><div class="cb-head"><span class="cb-lang">JS</span><span class="cb-lbl warn">Before</span></div>
+<pre><span class="cmt">// Defensive programming hell</span>
+<span class="kw">const</span> city <span class="op">=</span> user <span class="op">&amp;&amp;</span> user.address <span class="op">&amp;&amp;</span> user.address.city;
+<span class="kw">const</span> zip  <span class="op">=</span> user <span class="op">&amp;&amp;</span> user.address <span class="op">&amp;&amp;</span> user.address.zip <span class="op">||</span> <span class="str">"N/A"</span>;</pre></div>
+
+    <div class="sub-header"><div class="sub-num purple">3</div><h3>Syntax &amp; Core Concept</h3></div>
+    <div class="cb"><div class="cb-head"><span class="cb-lang">JS</span></div>
+<pre><span class="kw">const</span> user <span class="op">=</span> { profile: { address: { city: <span class="str">"Delhi"</span> } } };
+
+<span class="cmt">// Property access</span>
+user?.profile?.address?.city;     <span class="cmt">// "Delhi"</span>
+user?.profile?.phone?.number;     <span class="cmt">// undefined (no throw)</span>
+
+<span class="cmt">// Optional method call</span>
+user.<span class="fn">getRole</span>?.();                 <span class="cmt">// undefined if getRole doesn't exist</span>
+
+<span class="cmt">// Optional bracket access</span>
+user?.roles?.[<span class="num">0</span>];                 <span class="cmt">// first role or undefined</span>
+
+<span class="cmt">// Combined with nullish coalescing for fallback</span>
+<span class="kw">const</span> city <span class="op">=</span> user?.address?.city <span class="op">??</span> <span class="str">"Unknown"</span>;
+
+<span class="cmt">// Optional call for callbacks</span>
+<span class="kw">function</span> <span class="fn">run</span>(callback) {
+  callback?.();  <span class="cmt">// safe — no need to check if callback exists</span>
+}</pre></div>
+
+    <div class="sub-header"><div class="sub-num green">4</div><h3>Practical Examples</h3></div>
+    <div class="cb"><div class="cb-head"><span class="cb-lang">JSX</span><span class="cb-lbl">React</span></div>
+<pre><span class="cmt">// API response access</span>
+<span class="kw">const</span> { data } <span class="op">=</span> <span class="fn">useFetch</span>(<span class="str">"/api/user"</span>);
+<span class="kw">const</span> avatarUrl <span class="op">=</span> data?.user?.avatar?.url <span class="op">??</span> <span class="str">"/default-avatar.png"</span>;
+
+<span class="cmt">// Event handlers — DOM may be null</span>
+<span class="kw">const</span> <span class="fn">handleClick</span> <span class="op">=</span> (e) <span class="op">=&gt;</span> {
+  e?.preventDefault?.();
+  e?.stopPropagation?.();
+};
+
+<span class="cmt">// Next.js server component</span>
+<span class="kw">const</span> session <span class="op">=</span> <span class="kw">await</span> <span class="fn">getSession</span>();
+<span class="kw">const</span> userName <span class="op">=</span> session?.user?.name;</pre></div>
+
+    <div class="sub-header"><div class="sub-num red">5</div><h3>Common Mistakes</h3></div>
+    <div class="warn-box"><div class="wt">Pitfalls</div>
+      <ul>
+        <li>Overusing <code>?.</code> everywhere hides bugs — if a property <em>should</em> always exist, don't use optional chaining; let it fail loudly</li>
+        <li>Can't use on the left side of assignment: <code>user?.name = "x"</code> is a SyntaxError</li>
+        <li>Short-circuits the entire chain, not just the failing part</li>
+        <li><code>obj?.method()</code> calls <code>method</code> only if <code>obj</code> is not null/undefined — but the call itself can still throw if <code>method</code> throws</li>
+      </ul>
+    </div>
+
+    <div class="sub-header"><div class="sub-num purple">6</div><h3>Advanced Insights</h3></div>
+    <div class="info-box"><div class="wt">Performance</div>
+      <p style="margin:0;font-size:14px">Each <code>?.</code> adds a null check at runtime. In tight loops over millions of iterations, this overhead accumulates. For hot paths where you know the object exists, use regular property access.</p>
+    </div>
+
+    <div class="sub-header"><div class="sub-num orange">7</div><h3>Practice Task</h3></div>
+    <div class="task"><span class="tbadge easy">Easy</span>
+      <div class="task-body">
+        <h4>Safe config reader</h4>
+        <p>Write <code>getConfig(config, path)</code> where path is a dot-separated string like <code>"db.primary.host"</code>. Use optional chaining to return the value or <code>"not configured"</code>.</p>
+      </div>
+    </div>
+
+    <div class="sub-header"><div class="sub-num teal">8</div><h3>Real Project Usage</h3></div>
+    <div class="cb"><div class="cb-head"><span class="cb-lang">JS</span><span class="cb-lbl">Zustand middleware</span></div>
+<pre><span class="kw">const</span> authMiddleware <span class="op">=</span> (store) <span class="op">=&gt;</span> (next) <span class="op">=&gt;</span> (action) <span class="op">=&gt;</span> {
+  <span class="kw">const</span> token <span class="op">=</span> store.<span class="fn">getState</span>()?.auth?.token;
+  <span class="kw">if</span> (!token) <span class="kw">return</span> <span class="fn">redirect</span>(<span class="str">"/login"</span>);
+  <span class="kw">return</span> <span class="fn">next</span>(action);
+};</pre></div>
+  </section>
+
+  <hr/>
+
+  <!-- ===================== TOPIC 11: NULLISH COALESCING ===================== -->
+  <section class="section" id="nullish-coalescing">
+    <div class="section-header">
+      <div class="s-num">11</div>
+      <h2>Nullish Coalescing (<code>??</code>)</h2>
+    </div>
+
+    <div class="sub-header"><div class="sub-num teal">1</div><h3>Definition</h3></div>
+    <p>The nullish coalescing operator (<code>??</code>) returns the <strong>right-hand side</strong> value only when the left-hand side is <code>null</code> or <code>undefined</code>. Unlike <code>||</code>, it does <em>not</em> treat <code>0</code>, <code>""</code>, or <code>false</code> as nullish.</p>
+
+    <div class="sub-header"><div class="sub-num orange">2</div><h3>Why It Exists — The <code>||</code> Bug</h3></div>
+    <div class="cb"><div class="cb-head"><span class="cb-lang">JS</span><span class="cb-lbl warn">The problem with ||</span></div>
+<pre><span class="kw">const</span> port <span class="op">=</span> userConfig.port <span class="op">||</span> <span class="num">3000</span>;
+<span class="cmt">// Bug: if user sets port=0, this returns 3000 instead of 0!</span>
+<span class="cmt">// 0 is falsy, so || replaces it</span>
+
+<span class="kw">const</span> label <span class="op">=</span> input.label <span class="op">||</span> <span class="str">"Default"</span>;
+<span class="cmt">// Bug: if label="" (intentionally empty), this replaces it</span></pre></div>
+
+    <div class="sub-header"><div class="sub-num purple">3</div><h3>Syntax &amp; Core Concept</h3></div>
+    <div class="cb"><div class="cb-head"><span class="cb-lang">JS</span></div>
+<pre><span class="cmt">// ?? only triggers on null or undefined</span>
+<span class="kw">const</span> port  <span class="op">=</span> userConfig.port <span class="op">??</span> <span class="num">3000</span>;     <span class="cmt">// 0 → 0 (correct!)</span>
+<span class="kw">const</span> label <span class="op">=</span> input.label <span class="op">??</span> <span class="str">"Default"</span>;   <span class="cmt">// "" → "" (correct!)</span>
+<span class="kw">const</span> flag  <span class="op">=</span> options.active <span class="op">??</span> <span class="bool">true</span>;     <span class="cmt">// false → false (correct!)</span>
+
+<span class="cmt">// null → fallback</span>
+<span class="kw">const</span> name <span class="op">=</span> <span class="bool">null</span> <span class="op">??</span> <span class="str">"Guest"</span>;    <span class="cmt">// "Guest"</span>
+<span class="cmt">// undefined → fallback</span>
+<span class="kw">const</span> role <span class="op">=</span> <span class="bool">undefined</span> <span class="op">??</span> <span class="str">"user"</span>; <span class="cmt">// "user"</span>
+
+<span class="cmt">// Nullish assignment operator ??= (ES2021)</span>
+user.name <span class="op">??=</span> <span class="str">"Anonymous"</span>; <span class="cmt">// assigns only if null/undefined</span></pre></div>
+
+    <div class="sub-header"><div class="sub-num green">4</div><h3>?? vs || — Decision Table</h3></div>
+    <div class="tbl-wrap">
+      <table>
+        <tr><th>Left value</th><th><code>||</code> result</th><th><code>??</code> result</th></tr>
+        <tr><td><code>null</code></td><td>Right side</td><td>Right side</td></tr>
+        <tr><td><code>undefined</code></td><td>Right side</td><td>Right side</td></tr>
+        <tr><td><code>0</code></td><td>Right side (bug!)</td><td>Left side (0) ✓</td></tr>
+        <tr><td><code>""</code></td><td>Right side (bug!)</td><td>Left side ("") ✓</td></tr>
+        <tr><td><code>false</code></td><td>Right side (bug!)</td><td>Left side (false) ✓</td></tr>
+        <tr><td><code>"hello"</code></td><td>Left side</td><td>Left side</td></tr>
+      </table>
+    </div>
+
+    <div class="sub-header"><div class="sub-num green">4</div><h3>Practical Examples</h3></div>
+    <div class="cb"><div class="cb-head"><span class="cb-lang">JSX</span><span class="cb-lbl">React / Next.js</span></div>
+<pre><span class="cmt">// Component defaults — don't accidentally replace 0</span>
+<span class="kw">function</span> <span class="fn">ProgressBar</span>({ value, max }) {
+  <span class="kw">const</span> pct <span class="op">=</span> (value <span class="op">??</span> <span class="num">0</span>) / (max <span class="op">??</span> <span class="num">100</span>) <span class="op">*</span> <span class="num">100</span>;
+  <span class="kw">return</span> <span class="op">&lt;</span>div style<span class="op">=</span>{{ width: <span class="str">`<span class="op">${</span>pct<span class="op">}</span>%`</span> }} /<span class="op">&gt;</span>;
+}
+
+<span class="cmt">// API config merging</span>
+<span class="kw">const</span> timeout   <span class="op">=</span> userOptions.timeout <span class="op">??</span> <span class="num">5000</span>;
+<span class="kw">const</span> retries   <span class="op">=</span> userOptions.retries <span class="op">??</span> <span class="num">3</span>;
+<span class="kw">const</span> verbose   <span class="op">=</span> userOptions.verbose <span class="op">??</span> <span class="bool">false</span>;
+
+<span class="cmt">// Chained with optional chaining</span>
+<span class="kw">const</span> theme <span class="op">=</span> user?.preferences?.theme <span class="op">??</span> <span class="str">"dark"</span>;</pre></div>
+
+    <div class="sub-header"><div class="sub-num red">5</div><h3>Common Mistakes</h3></div>
+    <div class="warn-box"><div class="wt">Pitfalls</div>
+      <ul>
+        <li>Mixing <code>||</code> and <code>??</code> without parens is a SyntaxError: <code>a || b ?? c</code> — use <code>(a || b) ?? c</code></li>
+        <li>Using <code>??</code> when you actually want a falsy guard — e.g., you <em>do</em> want <code>0</code> to trigger the fallback</li>
+        <li>Confusing <code>??=</code> (nullish assign) with <code>||=</code> (OR assign) — they behave differently on falsy values</li>
+      </ul>
+    </div>
+
+    <div class="sub-header"><div class="sub-num purple">6</div><h3>Advanced Insights</h3></div>
+    <div class="tip-box"><div class="wt">Logical Assignment Operators (ES2021)</div>
+      <ul style="margin:0;font-size:14px">
+        <li><code>x ??= y</code> — assign y only if x is null/undefined</li>
+        <li><code>x ||= y</code> — assign y only if x is falsy</li>
+        <li><code>x &amp;&amp;= y</code> — assign y only if x is truthy</li>
+      </ul>
+    </div>
+
+    <div class="sub-header"><div class="sub-num orange">7</div><h3>Practice Task</h3></div>
+    <div class="task"><span class="tbadge easy">Easy</span>
+      <div class="task-body">
+        <h4>Config normalizer</h4>
+        <p>Write <code>normalizeConfig(raw)</code> that takes a raw user config object and returns a normalized config with safe defaults using <code>??</code> for: <code>port</code> (default 3000), <code>debug</code> (default false), <code>workers</code> (default 1), <code>name</code> (default "app").</p>
+      </div>
+    </div>
+    <div class="task"><span class="tbadge med">Medium</span>
+      <div class="task-body">
+        <h4>Deep safe getter</h4>
+        <p>Combine <code>?.</code> and <code>??</code> to write <code>get(obj, "a.b.c.d", fallback)</code> that safely reads any nested path and returns the fallback if any part is missing.</p>
+      </div>
+    </div>
+
+    <div class="sub-header"><div class="sub-num teal">8</div><h3>Real Project Usage</h3></div>
+    <div class="cb"><div class="cb-head"><span class="cb-lang">JS</span><span class="cb-lbl">Next.js middleware</span></div>
+<pre><span class="cmt">// middleware.ts</span>
+<span class="kw">export function</span> <span class="fn">middleware</span>(request) {
+  <span class="kw">const</span> token <span class="op">=</span> request.cookies.<span class="fn">get</span>(<span class="str">"token"</span>)?.value <span class="op">??</span> <span class="bool">null</span>;
+  <span class="kw">const</span> locale <span class="op">=</span> request.cookies.<span class="fn">get</span>(<span class="str">"locale"</span>)?.value <span class="op">??</span> <span class="str">"en"</span>;
+  <span class="kw">const</span> theme  <span class="op">=</span> request.cookies.<span class="fn">get</span>(<span class="str">"theme"</span>)?.value <span class="op">??</span> <span class="str">"dark"</span>;
+
+  <span class="kw">if</span> (!token) <span class="kw">return</span> NextResponse.<span class="fn">redirect</span>(<span class="kw">new</span> <span class="fn">URL</span>(<span class="str">"/login"</span>, request.url));
+}</pre></div>
+  </section>
+
+</main>
+</div>
+</body>
+</html>
