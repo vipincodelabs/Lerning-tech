@@ -23,7 +23,7 @@ npx http-server .
 ```
 index.html                  # Hub page — links to all learning modules
 javascript-mastry.html      # Fully built JS curriculum (2000+ lines)
-typescript.html             # Partially built TS curriculum (~1100 lines)
+typescript.html             # Beginner + Intermediate TS curriculum (~2000 lines)
 es6.html                    # Fully built ES6 curriculum (~1200 lines)
 react-hooks.html            # Placeholder (empty)
 docker.html                 # Placeholder (empty)

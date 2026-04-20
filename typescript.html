@@ -164,21 +164,23 @@ hr{border:none;border-top:1px solid var(--border);margin:36px 0}
   <a href="#enums"><span class="dot" style="background:var(--accent)"></span>10. Enums</a>
 
   <div class="phase-label">🟡 Intermediate</div>
-  <a href="#"><span class="dot" style="background:#3d4357"></span>Advanced Generics</a>
-  <a href="#"><span class="dot" style="background:#3d4357"></span>Utility Types</a>
-  <a href="#"><span class="dot" style="background:#3d4357"></span>Type Narrowing</a>
-  <a href="#"><span class="dot" style="background:#3d4357"></span>Type Guards</a>
-  <a href="#"><span class="dot" style="background:#3d4357"></span>Function Overloading</a>
-  <a href="#"><span class="dot" style="background:#3d4357"></span>Modules &amp; Architecture</a>
-  <a href="#"><span class="dot" style="background:#3d4357"></span>External Libraries</a>
-  <a href="#"><span class="dot" style="background:#3d4357"></span>Error Typing</a>
+  <a href="#what-is-generics"><span class="dot" style="background:var(--yellow)"></span>11. What is Generics</a>
+  <a href="#advanced-generics"><span class="dot" style="background:var(--yellow)"></span>12. Advanced Generics</a>
+  <a href="#utility-types"><span class="dot" style="background:var(--yellow)"></span>13. Utility Types</a>
+  <a href="#type-narrowing"><span class="dot" style="background:var(--yellow)"></span>14. Type Narrowing</a>
+  <a href="#type-guards"><span class="dot" style="background:var(--yellow)"></span>15. Type Guards</a>
+  <a href="#fn-overloading"><span class="dot" style="background:var(--yellow)"></span>16. Function Overloading</a>
+  <a href="#modules-arch"><span class="dot" style="background:var(--yellow)"></span>17. Modules &amp; Architecture</a>
+  <a href="#external-libs"><span class="dot" style="background:var(--yellow)"></span>18. External Libraries</a>
+  <a href="#error-typing"><span class="dot" style="background:var(--yellow)"></span>19. Error Typing</a>
 
   <div class="phase-label">🔴 Advanced</div>
-  <a href="#"><span class="dot" style="background:#3d4357"></span>Conditional Types</a>
-  <a href="#"><span class="dot" style="background:#3d4357"></span>Mapped Types</a>
-  <a href="#"><span class="dot" style="background:#3d4357"></span>infer Keyword</a>
-  <a href="#"><span class="dot" style="background:#3d4357"></span>Type Transformations</a>
-  <a href="#"><span class="dot" style="background:#3d4357"></span>Reusable Type Systems</a>
+  <a href="#conditional-types"><span class="dot" style="background:var(--red)"></span>20. Conditional Types</a>
+  <a href="#mapped-types"><span class="dot" style="background:var(--red)"></span>21. Mapped Types</a>
+  <a href="#infer-keyword"><span class="dot" style="background:var(--red)"></span>22. infer Keyword</a>
+  <a href="#type-transformations"><span class="dot" style="background:var(--red)"></span>23. Type Transformations</a>
+  <a href="#reusable-type-systems"><span class="dot" style="background:var(--red)"></span>24. Reusable Type Systems</a>
+  <a href="#type-performance"><span class="dot" style="background:var(--red)"></span>25. Type Performance</a>
 </nav>
 
 <!-- MAIN -->
@@ -1135,6 +1137,1557 @@ userId = <span class="str">"user_abc"</span>; <span class="cmt">// ✅ both are 
 
   <div class="sub-header"><div class="sub-num green">7</div><h3>🧪 Practice Task</h3></div>
   <div class="task"><span class="tbadge med">🟡 MEDIUM</span><div class="task-body"><h4>HTTP Status Codes</h4><p>Create a string enum <code>HttpStatus</code> with values: <code>OK = "200"</code>, <code>Created = "201"</code>, <code>BadRequest = "400"</code>, <code>Unauthorized = "401"</code>, <code>NotFound = "404"</code>, <code>ServerError = "500"</code>. Write a function <code>isSuccess(status: HttpStatus): boolean</code>. Then rewrite it using <code>as const</code> and compare.</p></div></div>
+</section>
+
+<hr/>
+
+<!-- ══════════════════════════════════════
+     INTERMEDIATE PHASE
+══════════════════════════════════════ -->
+<div class="phase-banner">
+  <div class="phase-icon">🟡</div>
+  <div class="phase-info">
+    <h2>Step 2 — Intermediate</h2>
+    <p>What is Generics · Advanced Generics · Utility Types · Type Narrowing · Type Guards · Function Overloading · Modules · External Libraries · Error Typing</p>
+  </div>
+</div>
+
+<!-- ─── TOPIC 11: WHAT IS GENERICS ─── -->
+<section class="section" id="what-is-generics">
+  <div class="section-header">
+    <div class="s-num">11</div>
+    <h2>What is Generics</h2>
+  </div>
+
+  <div class="sub-header"><div class="sub-num teal">1</div><h3>📘 Definition</h3></div>
+  <p><strong>Generics</strong> are TypeScript's mechanism for writing <em>reusable, type-safe code that works across many types</em> without sacrificing type information. Instead of accepting or returning <code>any</code>, a generic function or type accepts a <strong>type parameter</strong> — a placeholder that gets filled in at call time.</p>
+  <p>Think of generics as <em>variables for types</em>. Just as a function parameter holds a value at runtime, a type parameter holds a type at compile time.</p>
+
+  <div class="sub-header"><div class="sub-num purple">2</div><h3>📖 Official Insight</h3></div>
+  <div class="official"><div class="wt">📖 TypeScript Docs say…</div>
+  <p style="margin:0;font-size:13.5px">"A major part of software engineering is building components that not only have well-defined and consistent APIs, but are also <em>reusable</em>. A generic type gives us the ability to express that relationship [between input and output types]… We don't lose any information. We preserve the type of the input — we use a <strong>type variable</strong>, a special kind of variable that works on types rather than values."</p></div>
+
+  <div class="sub-header"><div class="sub-num teal">3</div><h3>🧠 Core Concept — The Problem Generics Solve</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl warn">Without generics — broken</span></div>
+  <pre><code><span class="cmt">// Option A: use any → loses all type safety</span>
+<span class="kw">function</span> <span class="fn">identity</span>(value: <span class="tp">any</span>): <span class="tp">any</span> {
+  <span class="kw">return</span> value;
+}
+<span class="kw">const</span> result = <span class="fn">identity</span>(<span class="str">"hello"</span>);
+result.<span class="fn">toFixed</span>(<span class="num">2</span>); <span class="cmt">// ❌ No TS error — runtime crash waiting to happen</span>
+
+<span class="cmt">// Option B: write a function per type → code duplication</span>
+<span class="kw">function</span> <span class="fn">identityString</span>(value: <span class="tp">string</span>): <span class="tp">string</span> { <span class="kw">return</span> value; }
+<span class="kw">function</span> <span class="fn">identityNumber</span>(value: <span class="tp">number</span>): <span class="tp">number</span> { <span class="kw">return</span> value; }
+<span class="cmt">// ❌ Doesn't scale — what about boolean, Date, User, Product...?</span></code></pre></div>
+
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl ok">With generics — type-safe and reusable</span></div>
+  <pre><code><span class="cmt">// T is a type parameter — a placeholder filled in at call time</span>
+<span class="kw">function</span> <span class="fn">identity</span>&lt;<span class="tp">T</span>&gt;(value: <span class="tp">T</span>): <span class="tp">T</span> {
+  <span class="kw">return</span> value;
+}
+
+<span class="cmt">// TypeScript infers T from the argument</span>
+<span class="kw">const</span> s = <span class="fn">identity</span>(<span class="str">"hello"</span>);   <span class="cmt">// T = string  → s: string</span>
+<span class="kw">const</span> n = <span class="fn">identity</span>(<span class="num">42</span>);        <span class="cmt">// T = number  → n: number</span>
+<span class="kw">const</span> b = <span class="fn">identity</span>(<span class="bool">true</span>);      <span class="cmt">// T = boolean → b: boolean</span>
+
+s.<span class="fn">toUpperCase</span>(); <span class="cmt">// ✅ string method available</span>
+n.<span class="fn">toFixed</span>(<span class="num">2</span>);   <span class="cmt">// ✅ number method available</span></code></pre></div>
+
+  <div class="mm"><div class="mm-title">🧠 Mental Model</div>
+  <p>A generic is like a <strong>template</strong>. You define the shape of logic once (<code>&lt;T&gt;</code>), and the caller fills in the actual type (<code>string</code>, <code>User</code>, etc.) at the point of use. TypeScript then checks that the filled-in type makes sense everywhere <code>T</code> is used in the function body.</p>
+  <p style="margin:0">Compared to Java/C# generics — same concept, but TypeScript's are structural. TypeScript checks <em>what shape</em> the type has, not <em>what it's called</em>.</p></div>
+
+  <div class="sub-header"><div class="sub-num orange">4</div><h3>⚙️ Syntax — Four Places Generics Appear</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">Generics on functions, types, interfaces, classes</span></div>
+  <pre><code><span class="cmt">// 1. Generic function</span>
+<span class="kw">function</span> <span class="fn">first</span>&lt;<span class="tp">T</span>&gt;(arr: <span class="tp">T</span>[]): <span class="tp">T</span> | <span class="kw">undefined</span> {
+  <span class="kw">return</span> arr[<span class="num">0</span>];
+}
+
+<span class="cmt">// 2. Generic type alias</span>
+<span class="kw">type</span> <span class="iface">Pair</span>&lt;<span class="tp">A</span>, <span class="tp">B</span>&gt; = { first: <span class="tp">A</span>; second: <span class="tp">B</span> };
+<span class="kw">type</span> <span class="iface">StringNumberPair</span> = <span class="iface">Pair</span>&lt;<span class="tp">string</span>, <span class="tp">number</span>&gt;; <span class="cmt">// { first: string; second: number }</span>
+
+<span class="cmt">// 3. Generic interface</span>
+<span class="kw">interface</span> <span class="iface">Box</span>&lt;<span class="tp">T</span>&gt; {
+  value: <span class="tp">T</span>;
+  <span class="fn">unwrap</span>(): <span class="tp">T</span>;
+}
+
+<span class="cmt">// 4. Generic class</span>
+<span class="kw">class</span> <span class="iface">Stack</span>&lt;<span class="tp">T</span>&gt; {
+  <span class="kw">private</span> items: <span class="tp">T</span>[] = [];
+  <span class="fn">push</span>(item: <span class="tp">T</span>): <span class="tp">void</span>  { <span class="kw">this</span>.items.<span class="fn">push</span>(item); }
+  <span class="fn">pop</span>():  <span class="tp">T</span> | <span class="kw">undefined</span> { <span class="kw">return</span> <span class="kw">this</span>.items.<span class="fn">pop</span>(); }
+  <span class="fn">peek</span>(): <span class="tp">T</span> | <span class="kw">undefined</span> { <span class="kw">return</span> <span class="kw">this</span>.items[<span class="kw">this</span>.items.length - <span class="num">1</span>]; }
+}
+
+<span class="kw">const</span> numStack = <span class="kw">new</span> <span class="iface">Stack</span>&lt;<span class="tp">number</span>&gt;();
+numStack.<span class="fn">push</span>(<span class="num">1</span>);
+numStack.<span class="fn">push</span>(<span class="str">"oops"</span>); <span class="cmt">// ❌ Argument of type 'string' is not assignable to 'number'</span></code></pre></div>
+
+  <h3>Explicit vs Inferred Type Arguments</h3>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">When to pass T explicitly</span></div>
+  <pre><code><span class="kw">function</span> <span class="fn">wrap</span>&lt;<span class="tp">T</span>&gt;(value: <span class="tp">T</span>): { data: <span class="tp">T</span> } {
+  <span class="kw">return</span> { data: value };
+}
+
+<span class="cmt">// Inferred — TypeScript figures out T from the argument</span>
+<span class="kw">const</span> a = <span class="fn">wrap</span>(<span class="str">"hello"</span>);      <span class="cmt">// T inferred as string</span>
+
+<span class="cmt">// Explicit — you specify T yourself (needed when TS can't infer it)</span>
+<span class="kw">const</span> b = <span class="fn">wrap</span>&lt;<span class="tp">string</span>&gt;(<span class="str">"hello"</span>); <span class="cmt">// same result, explicit</span>
+
+<span class="cmt">// You MUST pass T explicitly when there's no argument to infer from</span>
+<span class="kw">async function</span> <span class="fn">fetchData</span>&lt;<span class="tp">T</span>&gt;(url: <span class="tp">string</span>): <span class="tp">Promise</span>&lt;<span class="tp">T</span>&gt; {
+  <span class="kw">return</span> <span class="fn">fetch</span>(url).<span class="fn">then</span>(r =&gt; r.<span class="fn">json</span>());
+}
+<span class="kw">const</span> user = <span class="kw">await</span> <span class="fn">fetchData</span>&lt;<span class="iface">User</span>&gt;(<span class="str">"/api/user/1"</span>); <span class="cmt">// must be explicit ✅</span></code></pre></div>
+
+  <div class="sub-header"><div class="sub-num green">5</div><h3>🔥 Real-World — Reusable API response wrapper</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript + React</span><span class="cb-lbl">Generic ApiResponse in a real app</span></div>
+  <pre><code><span class="cmt">// One type covers every API endpoint's response shape</span>
+<span class="kw">type</span> <span class="iface">ApiResponse</span>&lt;<span class="tp">T</span>&gt; = {
+  data:    <span class="tp">T</span>;
+  status:  <span class="tp">number</span>;
+  message: <span class="tp">string</span>;
+};
+
+<span class="cmt">// Specific response types — no repetition</span>
+<span class="kw">type</span> <span class="iface">UsersResponse</span>   = <span class="iface">ApiResponse</span>&lt;<span class="iface">User</span>[]&gt;;
+<span class="kw">type</span> <span class="iface">ProductResponse</span> = <span class="iface">ApiResponse</span>&lt;<span class="iface">Product</span>&gt;;
+<span class="kw">type</span> <span class="iface">OrdersResponse</span>  = <span class="iface">ApiResponse</span>&lt;<span class="iface">Order</span>[]&gt;;
+
+<span class="cmt">// Generic fetch helper — one function for all endpoints</span>
+<span class="kw">async function</span> <span class="fn">apiFetch</span>&lt;<span class="tp">T</span>&gt;(url: <span class="tp">string</span>): <span class="tp">Promise</span>&lt;<span class="iface">ApiResponse</span>&lt;<span class="tp">T</span>&gt;&gt; {
+  <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(url);
+  <span class="kw">if</span> (!res.ok) <span class="kw">throw</span> <span class="kw">new</span> Error(<span class="str">`HTTP ${res.status}`</span>);
+  <span class="kw">return</span> res.<span class="fn">json</span>();
+}
+
+<span class="cmt">// Callers get full type safety with zero duplication</span>
+<span class="kw">const</span> { data: users }   = <span class="kw">await</span> <span class="fn">apiFetch</span>&lt;<span class="iface">User</span>[]&gt;(<span class="str">"/api/users"</span>);
+<span class="kw">const</span> { data: product } = <span class="kw">await</span> <span class="fn">apiFetch</span>&lt;<span class="iface">Product</span>&gt;(<span class="str">"/api/product/1"</span>);
+<span class="cmt">// users: User[]  ✅   product: Product  ✅</span></code></pre></div>
+
+  <div class="sub-header"><div class="sub-num red">6</div><h3>⚠️ Pitfalls</h3></div>
+  <div class="warn-box"><div class="wt">❌ Using T but not actually using it to enforce anything</div>
+  <div class="cb" style="margin:8px 0"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl warn">Pointless generic</span></div>
+  <pre><code><span class="cmt">// ❌ T is declared but never connects input to output — same as (val: any): void</span>
+<span class="kw">function</span> <span class="fn">log</span>&lt;<span class="tp">T</span>&gt;(val: <span class="tp">T</span>): <span class="tp">void</span> {
+  <span class="fn">console</span>.<span class="fn">log</span>(val);
+}
+
+<span class="cmt">// ✅ Generics are useful only when T flows through: input → output or input → input</span>
+<span class="kw">function</span> <span class="fn">echo</span>&lt;<span class="tp">T</span>&gt;(val: <span class="tp">T</span>): <span class="tp">T</span> { <span class="kw">return</span> val; } <span class="cmt">// T connects in to out ✅</span></code></pre></div></div>
+  <div class="warn-box"><div class="wt">❌ Using generics instead of union types</div>
+  <p style="margin:0;font-size:13.5px">If your function always accepts exactly two known types and returns the same thing, use a union. Generics are for when the <em>caller</em> decides the type. Overusing generics adds visual noise without type-safety benefits.</p></div>
+
+  <div class="sub-header"><div class="sub-num green">7</div><h3>🧪 Practice Task</h3></div>
+  <div class="task"><span class="tbadge easy">🟢 EASY</span><div class="task-body"><h4>Generic <code>last</code> function</h4><p>Write a generic function <code>last&lt;T&gt;(arr: T[]): T | undefined</code> that returns the last item of any array. Test it with <code>number[]</code>, <code>string[]</code>, and a custom <code>User[]</code>. TypeScript should infer the return type correctly each time.</p></div></div>
+  <div class="task"><span class="tbadge med">🟡 MEDIUM</span><div class="task-body"><h4>Generic <code>Stack&lt;T&gt;</code> class</h4><p>Implement a typed <code>Stack&lt;T&gt;</code> class with <code>push(item: T)</code>, <code>pop(): T | undefined</code>, <code>peek(): T | undefined</code>, and <code>isEmpty(): boolean</code>. Instantiate it as <code>Stack&lt;string&gt;</code> and <code>Stack&lt;number&gt;</code> — TypeScript should reject pushing the wrong type.</p></div></div>
+</section>
+
+<hr/>
+
+<!-- ─── TOPIC 12: ADVANCED GENERICS ─── -->
+<section class="section" id="advanced-generics">
+  <div class="section-header">
+    <div class="s-num">12</div>
+    <h2>Advanced Generics</h2>
+  </div>
+
+  <div class="sub-header"><div class="sub-num teal">1</div><h3>📘 Definition</h3></div>
+  <p>Advanced generics extend the intro concept with <strong>constraints</strong>, <strong>default type parameters</strong>, <strong>multiple type parameters</strong>, and <strong>conditional/inferred types in generic position</strong>. They let you write APIs that are both flexible <em>and</em> narrowly type-safe.</p>
+
+  <div class="sub-header"><div class="sub-num purple">2</div><h3>📖 Official Insight</h3></div>
+  <div class="official"><div class="wt">📖 TypeScript Docs say…</div>
+  <p style="margin:0;font-size:13.5px">"You can declare a <em>type parameter constraint</em> using the <code>extends</code> keyword… Occasionally you'll want to set a default value for a type parameter as well." The docs distinguish between <strong>generic constraints</strong> (<code>T extends U</code>) and <strong>generic defaults</strong> (<code>T = DefaultType</code>).</p></div>
+
+  <div class="sub-header"><div class="sub-num teal">3</div><h3>🧠 Core Concepts</h3></div>
+
+  <h3>Constraints — <code>T extends U</code></h3>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">Constraining type parameters</span></div>
+  <pre><code><span class="cmt">// T must have at minimum { id: number }</span>
+<span class="kw">function</span> <span class="fn">getById</span>&lt;<span class="tp">T</span> <span class="kw">extends</span> { id: <span class="tp">number</span> }&gt;(items: <span class="tp">T</span>[], id: <span class="tp">number</span>): <span class="tp">T</span> | <span class="kw">undefined</span> {
+  <span class="kw">return</span> items.<span class="fn">find</span>(i =&gt; i.id === id);
+}
+
+<span class="cmt">// T must be a key of object U  (keyof constraint)</span>
+<span class="kw">function</span> <span class="fn">pluck</span>&lt;<span class="tp">T</span>, <span class="tp">K</span> <span class="kw">extends</span> <span class="kw">keyof</span> <span class="tp">T</span>&gt;(obj: <span class="tp">T</span>, key: <span class="tp">K</span>): <span class="tp">T</span>[<span class="tp">K</span>] {
+  <span class="kw">return</span> obj[key];
+}
+
+<span class="kw">const</span> user = { id: <span class="num">1</span>, name: <span class="str">"Vipin"</span>, role: <span class="str">"admin"</span> };
+<span class="fn">pluck</span>(user, <span class="str">"name"</span>);  <span class="cmt">// string ✅</span>
+<span class="fn">pluck</span>(user, <span class="str">"age"</span>);   <span class="cmt">// ❌ Argument of type '"age"' is not assignable</span></code></pre></div>
+
+  <h3>Multiple Type Parameters</h3>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">K extends keyof T pattern</span></div>
+  <pre><code><span class="cmt">// Pick specific keys from an object — mirrors the Utility Type</span>
+<span class="kw">function</span> <span class="fn">pick</span>&lt;<span class="tp">T</span>, <span class="tp">K</span> <span class="kw">extends</span> <span class="kw">keyof</span> <span class="tp">T</span>&gt;(obj: <span class="tp">T</span>, keys: <span class="tp">K</span>[]): <span class="tp">Pick</span>&lt;<span class="tp">T</span>, <span class="tp">K</span>&gt; {
+  <span class="kw">const</span> result = {} <span class="kw">as</span> <span class="tp">Pick</span>&lt;<span class="tp">T</span>, <span class="tp">K</span>&gt;;
+  keys.<span class="fn">forEach</span>(key =&gt; { result[key] = obj[key]; });
+  <span class="kw">return</span> result;
+}
+<span class="kw">const</span> partial = <span class="fn">pick</span>(user, [<span class="str">"id"</span>, <span class="str">"name"</span>]);
+<span class="cmt">// partial: { id: number; name: string } ✅</span></code></pre></div>
+
+  <h3>Default Type Parameters</h3>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">Generic defaults</span></div>
+  <pre><code><span class="cmt">// Default T to 'unknown' if not provided</span>
+<span class="kw">type</span> <span class="iface">ApiResponse</span>&lt;<span class="tp">T</span> = <span class="tp">unknown</span>&gt; = {
+  data: <span class="tp">T</span>;
+  status: <span class="tp">number</span>;
+  error?: <span class="tp">string</span>;
+};
+
+<span class="kw">type</span> <span class="iface">UserResponse</span> = <span class="iface">ApiResponse</span>&lt;<span class="iface">User</span>&gt;;   <span class="cmt">// explicit</span>
+<span class="kw">type</span> <span class="iface">AnyResponse</span>  = <span class="iface">ApiResponse</span>;          <span class="cmt">// T defaults to unknown</span></code></pre></div>
+
+  <div class="sub-header"><div class="sub-num orange">4</div><h3>⚙️ Syntax Patterns</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">Conditional return type</span></div>
+  <pre><code><span class="cmt">// Return type narrows based on the input type</span>
+<span class="kw">function</span> <span class="fn">coerce</span>&lt;<span class="tp">T</span> <span class="kw">extends</span> <span class="tp">string</span> | <span class="tp">number</span>&gt;(val: <span class="tp">T</span>): <span class="tp">T</span> <span class="kw">extends</span> <span class="tp">string</span> ? <span class="tp">number</span> : <span class="tp">string</span> {
+  <span class="kw">return</span> (<span class="kw">typeof</span> val === <span class="str">"string"</span> ? <span class="fn">Number</span>(val) : <span class="fn">String</span>(val)) <span class="kw">as</span> <span class="tp">any</span>;
+}
+
+<span class="kw">const</span> a = <span class="fn">coerce</span>(<span class="str">"42"</span>);   <span class="cmt">// number</span>
+<span class="kw">const</span> b = <span class="fn">coerce</span>(<span class="num">42</span>);    <span class="cmt">// string</span></code></pre></div>
+
+  <div class="sub-header"><div class="sub-num green">5</div><h3>🔥 Real-World — Generic Prisma Service Layer</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript + Prisma</span><span class="cb-lbl">Type-safe generic CRUD service</span></div>
+  <pre><code><span class="kw">import</span> { <span class="tp">Prisma</span>, <span class="tp">PrismaClient</span> } <span class="kw">from</span> <span class="str">'@prisma/client'</span>;
+
+<span class="cmt">// Delegate type maps model names to their Prisma delegate</span>
+<span class="kw">type</span> <span class="iface">ModelDelegate</span>&lt;<span class="tp">T</span>&gt; = {
+  <span class="fn">findUnique</span>(args: { where: <span class="tp">any</span> }): <span class="tp">Promise</span>&lt;<span class="tp">T</span> | <span class="kw">null</span>&gt;;
+  <span class="fn">findMany</span>(): <span class="tp">Promise</span>&lt;<span class="tp">T</span>[]&gt;;
+  <span class="fn">create</span>(args: { data: <span class="tp">any</span> }): <span class="tp">Promise</span>&lt;<span class="tp">T</span>&gt;;
+};
+
+<span class="kw">class</span> <span class="iface">BaseService</span>&lt;<span class="tp">T</span>&gt; {
+  <span class="kw">constructor</span>(<span class="kw">private</span> model: <span class="iface">ModelDelegate</span>&lt;<span class="tp">T</span>&gt;) {}
+
+  <span class="fn">findById</span>(id: <span class="tp">number</span>) { <span class="kw">return</span> <span class="kw">this</span>.model.<span class="fn">findUnique</span>({ where: { id } }); }
+  <span class="fn">findAll</span>()            { <span class="kw">return</span> <span class="kw">this</span>.model.<span class="fn">findMany</span>(); }
+  <span class="fn">create</span>(data: <span class="tp">Partial</span>&lt;<span class="tp">T</span>&gt;) { <span class="kw">return</span> <span class="kw">this</span>.model.<span class="fn">create</span>({ data }); }
+}
+
+<span class="kw">const</span> prisma = <span class="kw">new</span> <span class="iface">PrismaClient</span>();
+<span class="kw">export const</span> userService = <span class="kw">new</span> <span class="iface">BaseService</span>(prisma.user);   <span class="cmt">// T = User</span>
+<span class="kw">export const</span> postService = <span class="kw">new</span> <span class="iface">BaseService</span>(prisma.post);   <span class="cmt">// T = Post</span></code></pre></div>
+
+  <div class="sub-header"><div class="sub-num red">6</div><h3>⚠️ Pitfalls</h3></div>
+  <div class="warn-box"><div class="wt">❌ Overcomplicating constraints</div>
+  <p style="margin:0;font-size:13.5px">Don't chain <code>T extends U extends V</code> when a simpler intersection type works. Deep constraint chains are hard to debug and often signal a design issue. If TypeScript can't infer T, your callers will need to supply it manually — that's friction with no benefit.</p></div>
+
+  <div class="sub-header"><div class="sub-num green">7</div><h3>🧪 Practice Task</h3></div>
+  <div class="task"><span class="tbadge med">🟡 MEDIUM</span><div class="task-body"><h4>Typed <code>groupBy</code></h4><p>Write a generic function <code>groupBy&lt;T, K extends keyof T&gt;(items: T[], key: K): Record&lt;string, T[]&gt;</code>. Test it grouping a <code>Product[]</code> by <code>category</code> and an <code>Order[]</code> by <code>status</code>.</p></div></div>
+</section>
+
+<hr/>
+
+<!-- ─── TOPIC 13: UTILITY TYPES ─── -->
+<section class="section" id="utility-types">
+  <div class="section-header">
+    <div class="s-num">13</div>
+    <h2>Utility Types</h2>
+  </div>
+
+  <div class="sub-header"><div class="sub-num teal">1</div><h3>📘 Definition</h3></div>
+  <p>TypeScript ships with a set of <strong>built-in generic types</strong> that perform common type transformations. These are called <em>Utility Types</em>. They save you from writing repetitive mapped types by hand and are the idiomatic way to derive new types from existing ones.</p>
+
+  <div class="sub-header"><div class="sub-num purple">2</div><h3>📖 Official Insight</h3></div>
+  <div class="official"><div class="wt">📖 TypeScript Docs say…</div>
+  <p style="margin:0;font-size:13.5px">"TypeScript provides several utility types to facilitate common type transformations. These utilities are available globally." Each utility type is implemented using <em>mapped types</em> and <em>conditional types</em> internally — you can inspect them in <code>lib.es5.d.ts</code>.</p></div>
+
+  <div class="sub-header"><div class="sub-num teal">3</div><h3>🧠 Core Utilities — The Essential Six</h3></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Utility</th><th>What it does</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td><code>Partial&lt;T&gt;</code></td><td>All properties optional</td><td>Update DTOs, patch requests</td></tr>
+      <tr><td><code>Required&lt;T&gt;</code></td><td>All properties required</td><td>Internal data after validation</td></tr>
+      <tr><td><code>Pick&lt;T, K&gt;</code></td><td>Keep only listed keys</td><td>Response shapes, projections</td></tr>
+      <tr><td><code>Omit&lt;T, K&gt;</code></td><td>Remove listed keys</td><td>Create DTOs (omit id/createdAt)</td></tr>
+      <tr><td><code>Record&lt;K, V&gt;</code></td><td>Map keys to values</td><td>Lookup tables, caches</td></tr>
+      <tr><td><code>Readonly&lt;T&gt;</code></td><td>All properties readonly</td><td>Immutable config, frozen state</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="sub-header"><div class="sub-num orange">4</div><h3>⚙️ Syntax & Patterns</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">Utility types in action</span></div>
+  <pre><code><span class="kw">type</span> <span class="iface">User</span> = {
+  id:        <span class="tp">number</span>;
+  name:      <span class="tp">string</span>;
+  email:     <span class="tp">string</span>;
+  password:  <span class="tp">string</span>;
+  createdAt: <span class="tp">Date</span>;
+};
+
+<span class="cmt">// --- Partial: all optional (great for PATCH requests) ---</span>
+<span class="kw">type</span> <span class="iface">UpdateUserDto</span> = <span class="tp">Partial</span>&lt;<span class="iface">User</span>&gt;;
+<span class="cmt">// { id?: number; name?: string; email?: string; ... }</span>
+
+<span class="cmt">// --- Pick: keep only what you need ---</span>
+<span class="kw">type</span> <span class="iface">UserPublic</span> = <span class="tp">Pick</span>&lt;<span class="iface">User</span>, <span class="str">"id"</span> | <span class="str">"name"</span> | <span class="str">"email"</span>&gt;;
+<span class="cmt">// { id: number; name: string; email: string } — no password ✅</span>
+
+<span class="cmt">// --- Omit: exclude sensitive / auto-generated fields ---</span>
+<span class="kw">type</span> <span class="iface">CreateUserDto</span> = <span class="tp">Omit</span>&lt;<span class="iface">User</span>, <span class="str">"id"</span> | <span class="str">"createdAt"</span>&gt;;
+<span class="cmt">// { name: string; email: string; password: string }</span>
+
+<span class="cmt">// --- Record: typed key-value map ---</span>
+<span class="kw">type</span> <span class="iface">RolePermissions</span> = <span class="tp">Record</span>&lt;<span class="str">"admin"</span> | <span class="str">"editor"</span> | <span class="str">"viewer"</span>, <span class="tp">string</span>[]&gt;;
+<span class="kw">const</span> perms: <span class="iface">RolePermissions</span> = {
+  admin:  [<span class="str">"read"</span>, <span class="str">"write"</span>, <span class="str">"delete"</span>],
+  editor: [<span class="str">"read"</span>, <span class="str">"write"</span>],
+  viewer: [<span class="str">"read"</span>],
+};
+
+<span class="cmt">// --- Readonly: freeze config objects ---</span>
+<span class="kw">type</span> <span class="iface">AppConfig</span> = <span class="tp">Readonly</span>&lt;{ apiUrl: <span class="tp">string</span>; timeout: <span class="tp">number</span> }&gt;;
+<span class="kw">const</span> config: <span class="iface">AppConfig</span> = { apiUrl: <span class="str">"/api"</span>, timeout: <span class="num">5000</span> };
+config.apiUrl = <span class="str">"x"</span>; <span class="cmt">// ❌ Cannot assign to 'apiUrl' because it is a read-only property</span></code></pre></div>
+
+  <h3>Combining Utilities</h3>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">Composing utility types</span></div>
+  <pre><code><span class="cmt">// Required + Pick: ensure a subset of fields is always present</span>
+<span class="kw">type</span> <span class="iface">UserLoginFields</span> = <span class="tp">Required</span>&lt;<span class="tp">Pick</span>&lt;<span class="iface">User</span>, <span class="str">"email"</span> | <span class="str">"password"</span>&gt;&gt;;
+
+<span class="cmt">// Partial + Omit: optional patch body without id/createdAt</span>
+<span class="kw">type</span> <span class="iface">PatchBody</span> = <span class="tp">Partial</span>&lt;<span class="tp">Omit</span>&lt;<span class="iface">User</span>, <span class="str">"id"</span> | <span class="str">"createdAt"</span>&gt;&gt;;</code></pre></div>
+
+  <div class="sub-header"><div class="sub-num green">5</div><h3>🔥 Real-World — React Hook Form + Zod</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript + Zod + React Hook Form</span><span class="cb-lbl">Form typing with utility types</span></div>
+  <pre><code><span class="kw">import</span> { z } <span class="kw">from</span> <span class="str">'zod'</span>;
+<span class="kw">import</span> { useForm } <span class="kw">from</span> <span class="str">'react-hook-form'</span>;
+<span class="kw">import</span> { zodResolver } <span class="kw">from</span> <span class="str">'@hookform/resolvers/zod'</span>;
+
+<span class="kw">const</span> userSchema = z.<span class="fn">object</span>({
+  name:     z.<span class="fn">string</span>().<span class="fn">min</span>(<span class="num">2</span>),
+  email:    z.<span class="fn">string</span>().<span class="fn">email</span>(),
+  password: z.<span class="fn">string</span>().<span class="fn">min</span>(<span class="num">8</span>),
+  role:     z.<span class="fn">enum</span>([<span class="str">"admin"</span>, <span class="str">"user"</span>]),
+});
+
+<span class="cmt">// Infer the full type, then derive a create form type (no id, no createdAt)</span>
+<span class="kw">type</span> <span class="iface">UserFormData</span> = z.<span class="tp">infer</span>&lt;<span class="kw">typeof</span> userSchema&gt;;
+
+<span class="kw">function</span> <span class="fn">CreateUserForm</span>() {
+  <span class="kw">const</span> { register, handleSubmit } = <span class="fn">useForm</span>&lt;<span class="iface">UserFormData</span>&gt;({
+    resolver: <span class="fn">zodResolver</span>(userSchema),
+  });
+
+  <span class="kw">const</span> onSubmit = (data: <span class="iface">UserFormData</span>) =&gt; <span class="fn">console</span>.<span class="fn">log</span>(data);
+
+  <span class="kw">return</span> (
+    &lt;form onSubmit={<span class="fn">handleSubmit</span>(onSubmit)}&gt;
+      &lt;input {...<span class="fn">register</span>(<span class="str">"email"</span>)} /&gt;
+      &lt;input type=<span class="str">"password"</span> {...<span class="fn">register</span>(<span class="str">"password"</span>)} /&gt;
+    &lt;/form&gt;
+  );
+}</code></pre></div>
+
+  <div class="sub-header"><div class="sub-num red">6</div><h3>⚠️ Pitfalls</h3></div>
+  <div class="warn-box"><div class="wt">❌ Omit with union types behaves unexpectedly</div>
+  <div class="cb" style="margin:8px 0"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl warn">Omit on union</span></div>
+  <pre><code><span class="kw">type</span> <span class="iface">A</span> = { kind: <span class="str">"a"</span>; x: <span class="tp">number</span> };
+<span class="kw">type</span> <span class="iface">B</span> = { kind: <span class="str">"b"</span>; y: <span class="tp">string</span> };
+
+<span class="cmt">// ❌ Omit flattens the union — discriminant is lost</span>
+<span class="kw">type</span> <span class="iface">Bad</span> = <span class="tp">Omit</span>&lt;<span class="iface">A</span> | <span class="iface">B</span>, <span class="str">"kind"</span>&gt;;  <span class="cmt">// { } — not { x: number } | { y: string }</span>
+
+<span class="cmt">// ✅ Use distributive mapped type instead</span>
+<span class="kw">type</span> <span class="iface">DistributiveOmit</span>&lt;<span class="tp">T</span>, <span class="tp">K</span> <span class="kw">extends</span> <span class="tp">PropertyKey</span>&gt; = <span class="tp">T</span> <span class="kw">extends</span> <span class="tp">unknown</span> ? <span class="tp">Omit</span>&lt;<span class="tp">T</span>, <span class="tp">K</span>&gt; : <span class="kw">never</span>;
+<span class="kw">type</span> <span class="iface">Good</span> = <span class="iface">DistributiveOmit</span>&lt;<span class="iface">A</span> | <span class="iface">B</span>, <span class="str">"kind"</span>&gt;; <span class="cmt">// { x: number } | { y: string } ✅</span></code></pre></div></div>
+
+  <div class="sub-header"><div class="sub-num green">7</div><h3>🧪 Practice Task</h3></div>
+  <div class="task"><span class="tbadge med">🟡 MEDIUM</span><div class="task-body"><h4>Model DTO chain</h4><p>Given a <code>Product</code> type with <code>id</code>, <code>name</code>, <code>price</code>, <code>stock</code>, <code>createdAt</code>, <code>updatedAt</code> — derive: <code>CreateProductDto</code> (no id/timestamps), <code>UpdateProductDto</code> (all optional, no id/timestamps), <code>ProductCard</code> (only id, name, price). Use only built-in utility types.</p></div></div>
+</section>
+
+<hr/>
+
+<!-- ─── TOPIC 14: TYPE NARROWING ─── -->
+<section class="section" id="type-narrowing">
+  <div class="section-header">
+    <div class="s-num">14</div>
+    <h2>Type Narrowing &amp; Control Flow Analysis</h2>
+  </div>
+
+  <div class="sub-header"><div class="sub-num teal">1</div><h3>📘 Definition</h3></div>
+  <p><strong>Type narrowing</strong> is TypeScript's ability to refine a broad type into a more specific one within a conditional branch. TypeScript performs <strong>control flow analysis</strong> — it tracks which branch your code is in and updates its understanding of the type accordingly.</p>
+
+  <div class="sub-header"><div class="sub-num purple">2</div><h3>📖 Official Insight</h3></div>
+  <div class="official"><div class="wt">📖 TypeScript Docs say…</div>
+  <p style="margin:0;font-size:13.5px">"TypeScript uses <em>control flow analysis</em> to narrow types as you write conditional checks. Within an <code>if</code> block, TypeScript knows the type is more specific than before the check." The docs call this a form of <strong>type guard</strong> that TypeScript performs automatically — including <code>typeof</code>, <code>instanceof</code>, <code>in</code>, equality checks, and truthiness checks.</p></div>
+
+  <div class="sub-header"><div class="sub-num teal">3</div><h3>🧠 Core Concept — The Six Narrowing Techniques</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">All narrowing forms</span></div>
+  <pre><code><span class="cmt">// 1. typeof narrowing</span>
+<span class="kw">function</span> <span class="fn">format</span>(val: <span class="tp">string</span> | <span class="tp">number</span>): <span class="tp">string</span> {
+  <span class="kw">if</span> (<span class="kw">typeof</span> val === <span class="str">"string"</span>) <span class="kw">return</span> val.<span class="fn">toUpperCase</span>();  <span class="cmt">// val: string here</span>
+  <span class="kw">return</span> val.<span class="fn">toFixed</span>(<span class="num">2</span>);                                  <span class="cmt">// val: number here</span>
+}
+
+<span class="cmt">// 2. instanceof narrowing</span>
+<span class="kw">function</span> <span class="fn">handleError</span>(err: <span class="tp">unknown</span>) {
+  <span class="kw">if</span> (err <span class="kw">instanceof</span> <span class="tp">Error</span>) <span class="kw">return</span> err.message; <span class="cmt">// err: Error</span>
+  <span class="kw">return</span> <span class="tp">String</span>(err);
+}
+
+<span class="cmt">// 3. 'in' narrowing — check if a property exists</span>
+<span class="kw">type</span> <span class="iface">Cat</span> = { meow(): <span class="tp">void</span> };
+<span class="kw">type</span> <span class="iface">Dog</span> = { bark(): <span class="tp">void</span> };
+
+<span class="kw">function</span> <span class="fn">makeSound</span>(animal: <span class="iface">Cat</span> | <span class="iface">Dog</span>) {
+  <span class="kw">if</span> (<span class="str">"meow"</span> <span class="kw">in</span> animal) animal.<span class="fn">meow</span>(); <span class="cmt">// animal: Cat</span>
+  <span class="kw">else</span>                  animal.<span class="fn">bark</span>(); <span class="cmt">// animal: Dog</span>
+}
+
+<span class="cmt">// 4. Equality narrowing</span>
+<span class="kw">function</span> <span class="fn">process</span>(x: <span class="tp">string</span> | <span class="tp">null</span>) {
+  <span class="kw">if</span> (x === <span class="kw">null</span>) <span class="kw">return</span>;  <span class="cmt">// x: null</span>
+  x.<span class="fn">trim</span>();               <span class="cmt">// x: string — null is excluded ✅</span>
+}
+
+<span class="cmt">// 5. Truthiness narrowing</span>
+<span class="kw">function</span> <span class="fn">greet</span>(name: <span class="tp">string</span> | <span class="tp">undefined</span>) {
+  <span class="kw">if</span> (!name) <span class="kw">return</span> <span class="str">"Hello, stranger"</span>;
+  <span class="kw">return</span> <span class="str">`Hello, ${name}`</span>; <span class="cmt">// name: string here</span>
+}
+
+<span class="cmt">// 6. Discriminated union narrowing (most powerful)</span>
+<span class="kw">type</span> <span class="iface">Shape</span> =
+  | { kind: <span class="str">"circle"</span>;  radius: <span class="tp">number</span> }
+  | { kind: <span class="str">"rect"</span>;    width: <span class="tp">number</span>; height: <span class="tp">number</span> };
+
+<span class="kw">function</span> <span class="fn">area</span>(s: <span class="iface">Shape</span>): <span class="tp">number</span> {
+  <span class="kw">switch</span> (s.kind) {
+    <span class="kw">case</span> <span class="str">"circle"</span>: <span class="kw">return</span> Math.PI * s.radius ** <span class="num">2</span>;
+    <span class="kw">case</span> <span class="str">"rect"</span>:   <span class="kw">return</span> s.width * s.height;
+  }
+}</code></pre></div>
+
+  <div class="sub-header"><div class="sub-num orange">4</div><h3>⚙️ Exhaustiveness Checking with <code>never</code></h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">never as exhaustion guard</span></div>
+  <pre><code><span class="kw">type</span> <span class="iface">Status</span> = <span class="str">"pending"</span> | <span class="str">"active"</span> | <span class="str">"closed"</span>;
+
+<span class="kw">function</span> <span class="fn">getLabel</span>(s: <span class="iface">Status</span>): <span class="tp">string</span> {
+  <span class="kw">switch</span> (s) {
+    <span class="kw">case</span> <span class="str">"pending"</span>: <span class="kw">return</span> <span class="str">"Pending"</span>;
+    <span class="kw">case</span> <span class="str">"active"</span>:  <span class="kw">return</span> <span class="str">"Active"</span>;
+    <span class="kw">case</span> <span class="str">"closed"</span>:  <span class="kw">return</span> <span class="str">"Closed"</span>;
+    <span class="kw">default</span>: {
+      <span class="cmt">// If you add "archived" to Status and forget this switch, TypeScript errors here</span>
+      <span class="kw">const</span> _exhaustive: <span class="tp">never</span> = s;
+      <span class="kw">throw</span> <span class="kw">new</span> Error(<span class="str">`Unhandled status: ${_exhaustive}`</span>);
+    }
+  }
+}</code></pre></div>
+
+  <div class="sub-header"><div class="sub-num green">5</div><h3>🔥 Real-World — Next.js Server Action with union result</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript + Next.js App Router</span><span class="cb-lbl">Server action with discriminated result</span></div>
+  <pre><code><span class="kw">type</span> <span class="iface">ActionResult</span>&lt;<span class="tp">T</span>&gt; =
+  | { success: <span class="bool">true</span>;  data: <span class="tp">T</span> }
+  | { success: <span class="bool">false</span>; error: <span class="tp">string</span> };
+
+<span class="kw">async function</span> <span class="fn">createPost</span>(formData: <span class="tp">FormData</span>): <span class="tp">Promise</span>&lt;<span class="iface">ActionResult</span>&lt;<span class="iface">Post</span>&gt;&gt; {
+  <span class="kw">try</span> {
+    <span class="kw">const</span> post = <span class="kw">await</span> db.post.<span class="fn">create</span>({ data: { title: <span class="fn">String</span>(formData.<span class="fn">get</span>(<span class="str">"title"</span>)) } });
+    <span class="kw">return</span> { success: <span class="bool">true</span>, data: post };
+  } <span class="kw">catch</span> (e) {
+    <span class="kw">return</span> { success: <span class="bool">false</span>, error: <span class="str">"Failed to create post"</span> };
+  }
+}
+
+<span class="cmt">// In a React component — narrowing via discriminant</span>
+<span class="kw">const</span> result = <span class="kw">await</span> <span class="fn">createPost</span>(formData);
+<span class="kw">if</span> (result.success) {
+  <span class="fn">redirect</span>(<span class="str">`/posts/${result.data.id}`</span>); <span class="cmt">// result.data: Post ✅</span>
+} <span class="kw">else</span> {
+  <span class="fn">setError</span>(result.error);                 <span class="cmt">// result.error: string ✅</span>
+}</code></pre></div>
+
+  <div class="sub-header"><div class="sub-num red">6</div><h3>⚠️ Pitfalls</h3></div>
+  <div class="warn-box"><div class="wt">❌ Narrowing doesn't survive async callbacks</div>
+  <div class="cb" style="margin:8px 0"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl warn">Narrowing lost across callbacks</span></div>
+  <pre><code><span class="kw">let</span> value: <span class="tp">string</span> | <span class="kw">null</span> = <span class="fn">getValue</span>();
+<span class="kw">if</span> (value !== <span class="kw">null</span>) {
+  <span class="fn">setTimeout</span>(() =&gt; {
+    value.<span class="fn">toUpperCase</span>(); <span class="cmt">// ❌ TS error — value could have become null by now</span>
+  }, <span class="num">1000</span>);
+}
+<span class="cmt">// Fix: capture the narrowed value in a const</span>
+<span class="kw">if</span> (value !== <span class="kw">null</span>) {
+  <span class="kw">const</span> safeValue = value;  <span class="cmt">// const = never reassigned = safe</span>
+  <span class="fn">setTimeout</span>(() =&gt; safeValue.<span class="fn">toUpperCase</span>(), <span class="num">1000</span>); <span class="cmt">// ✅</span>
+}</code></pre></div></div>
+
+  <div class="sub-header"><div class="sub-num green">7</div><h3>🧪 Practice Task</h3></div>
+  <div class="task"><span class="tbadge med">🟡 MEDIUM</span><div class="task-body"><h4>Discriminated event handler</h4><p>Define a <code>AppEvent</code> discriminated union: <code>{ type: "login"; userId: number }</code>, <code>{ type: "logout" }</code>, <code>{ type: "purchase"; amount: number; productId: string }</code>. Write a <code>handleEvent(e: AppEvent): void</code> with exhaustive switch — adding a 4th event variant should cause a TypeScript error.</p></div></div>
+</section>
+
+<hr/>
+
+<!-- ─── TOPIC 15: TYPE GUARDS ─── -->
+<section class="section" id="type-guards">
+  <div class="section-header">
+    <div class="s-num">15</div>
+    <h2>Type Guards</h2>
+  </div>
+
+  <div class="sub-header"><div class="sub-num teal">1</div><h3>📘 Definition</h3></div>
+  <p>A <strong>type guard</strong> is a runtime check that narrows a type within a conditional block. TypeScript recognizes certain patterns as type guards automatically (<code>typeof</code>, <code>instanceof</code>, <code>in</code>). You can also write <strong>user-defined type guards</strong> using the <code>is</code> keyword to teach TypeScript about your custom checks.</p>
+
+  <div class="sub-header"><div class="sub-num purple">2</div><h3>📖 Official Insight</h3></div>
+  <div class="official"><div class="wt">📖 TypeScript Docs say…</div>
+  <p style="margin:0;font-size:13.5px">"A <em>type predicate</em> takes the form <code>parameterName is Type</code>. A predicate must refer to a parameter in the current function signature." Using <code>is</code> tells TypeScript: <em>if this function returns true, then treat the argument as that type for the rest of the scope.</em></p></div>
+
+  <div class="sub-header"><div class="sub-num teal">3</div><h3>🧠 Core Concept</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">User-defined type guards with 'is'</span></div>
+  <pre><code><span class="kw">type</span> <span class="iface">AdminUser</span> = { role: <span class="str">"admin"</span>; permissions: <span class="tp">string</span>[] };
+<span class="kw">type</span> <span class="iface">RegularUser</span> = { role: <span class="str">"user"</span> };
+<span class="kw">type</span> <span class="iface">AnyUser</span> = <span class="iface">AdminUser</span> | <span class="iface">RegularUser</span>;
+
+<span class="cmt">// The 'is' return type makes this a type guard</span>
+<span class="kw">function</span> <span class="fn">isAdmin</span>(user: <span class="iface">AnyUser</span>): user <span class="kw">is</span> <span class="iface">AdminUser</span> {
+  <span class="kw">return</span> user.role === <span class="str">"admin"</span>;
+}
+
+<span class="kw">function</span> <span class="fn">showDashboard</span>(user: <span class="iface">AnyUser</span>) {
+  <span class="kw">if</span> (<span class="fn">isAdmin</span>(user)) {
+    <span class="fn">console</span>.<span class="fn">log</span>(user.permissions); <span class="cmt">// user: AdminUser ✅</span>
+  } <span class="kw">else</span> {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Restricted"</span>);      <span class="cmt">// user: RegularUser ✅</span>
+  }
+}</code></pre></div>
+
+  <h3>Assertion Functions</h3>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">asserts keyword — throw or narrow</span></div>
+  <pre><code><span class="cmt">// 'asserts' means: if this returns (doesn't throw), the type is narrowed</span>
+<span class="kw">function</span> <span class="fn">assertIsString</span>(val: <span class="tp">unknown</span>): <span class="kw">asserts</span> val <span class="kw">is</span> <span class="tp">string</span> {
+  <span class="kw">if</span> (<span class="kw">typeof</span> val !== <span class="str">"string"</span>) <span class="kw">throw</span> <span class="kw">new</span> Error(<span class="str">`Expected string, got ${typeof val}`</span>);
+}
+
+<span class="kw">function</span> <span class="fn">processInput</span>(val: <span class="tp">unknown</span>) {
+  <span class="fn">assertIsString</span>(val);
+  val.<span class="fn">toUpperCase</span>(); <span class="cmt">// val: string — TypeScript trusts the assertion ✅</span>
+}</code></pre></div>
+
+  <div class="sub-header"><div class="sub-num orange">4</div><h3>⚙️ Patterns — Reusable Generic Guards</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">Generic type guard factory</span></div>
+  <pre><code><span class="cmt">// Check for a specific property — useful for API response validation</span>
+<span class="kw">function</span> <span class="fn">hasProperty</span>&lt;<span class="tp">T</span>, <span class="tp">K</span> <span class="kw">extends</span> <span class="tp">PropertyKey</span>&gt;(
+  obj: <span class="tp">T</span>, key: <span class="tp">K</span>
+): obj <span class="kw">is</span> <span class="tp">T</span> &amp; <span class="tp">Record</span>&lt;<span class="tp">K</span>, <span class="tp">unknown</span>&gt; {
+  <span class="kw">return</span> key <span class="kw">in</span> Object(obj);
+}
+
+<span class="cmt">// isDefined: filter out null/undefined from arrays</span>
+<span class="kw">function</span> <span class="fn">isDefined</span>&lt;<span class="tp">T</span>&gt;(val: <span class="tp">T</span> | <span class="tp">null</span> | <span class="tp">undefined</span>): val <span class="kw">is</span> <span class="tp">T</span> {
+  <span class="kw">return</span> val !== <span class="kw">null</span> &amp;&amp; val !== <span class="kw">undefined</span>;
+}
+
+<span class="kw">const</span> mixed: (<span class="tp">string</span> | <span class="kw">null</span>)[] = [<span class="str">"a"</span>, <span class="kw">null</span>, <span class="str">"b"</span>, <span class="kw">null</span>];
+<span class="kw">const</span> strs: <span class="tp">string</span>[] = mixed.<span class="fn">filter</span>(isDefined); <span class="cmt">// string[] — null filtered ✅</span></code></pre></div>
+
+  <div class="sub-header"><div class="sub-num green">5</div><h3>🔥 Real-World — Zod-backed runtime type guard</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript + Zod</span><span class="cb-lbl">Runtime validation as a type guard</span></div>
+  <pre><code><span class="kw">import</span> { z } <span class="kw">from</span> <span class="str">'zod'</span>;
+
+<span class="kw">const</span> productSchema = z.<span class="fn">object</span>({
+  id:    z.<span class="fn">number</span>(),
+  name:  z.<span class="fn">string</span>(),
+  price: z.<span class="fn">number</span>().<span class="fn">positive</span>(),
+});
+
+<span class="kw">type</span> <span class="iface">Product</span> = z.<span class="tp">infer</span>&lt;<span class="kw">typeof</span> productSchema&gt;;
+
+<span class="cmt">// isProduct: type guard using Zod's safeParse</span>
+<span class="kw">function</span> <span class="fn">isProduct</span>(data: <span class="tp">unknown</span>): data <span class="kw">is</span> <span class="iface">Product</span> {
+  <span class="kw">return</span> productSchema.<span class="fn">safeParse</span>(data).success;
+}
+
+<span class="cmt">// Usage with API response</span>
+<span class="kw">const</span> raw: <span class="tp">unknown</span> = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">"/api/product/1"</span>).<span class="fn">then</span>(r =&gt; r.<span class="fn">json</span>());
+<span class="kw">if</span> (<span class="fn">isProduct</span>(raw)) {
+  <span class="fn">console</span>.<span class="fn">log</span>(raw.price); <span class="cmt">// raw: Product ✅</span>
+}</code></pre></div>
+
+  <div class="sub-header"><div class="sub-num red">6</div><h3>⚠️ Pitfalls</h3></div>
+  <div class="warn-box"><div class="wt">❌ Lying to the type system</div>
+  <p style="margin:0;font-size:13.5px">TypeScript trusts your <code>is</code> predicate. If your guard returns <code>true</code> for the wrong type, TypeScript won't catch it — you'll get silent runtime failures. Always make the runtime check as strict as the compile-time claim.</p></div>
+
+  <div class="sub-header"><div class="sub-num green">7</div><h3>🧪 Practice Task</h3></div>
+  <div class="task"><span class="tbadge med">🟡 MEDIUM</span><div class="task-body"><h4>API response guard</h4><p>Write a <code>isApiError(val: unknown): val is ApiError</code> guard where <code>ApiError = { code: number; message: string }</code>. Use it to safely handle both success and error shapes from a <code>fetch</code> call, without casting or <code>any</code>.</p></div></div>
+</section>
+
+<hr/>
+
+<!-- ─── TOPIC 16: FUNCTION OVERLOADING ─── -->
+<section class="section" id="fn-overloading">
+  <div class="section-header">
+    <div class="s-num">16</div>
+    <h2>Function Overloading</h2>
+  </div>
+
+  <div class="sub-header"><div class="sub-num teal">1</div><h3>📘 Definition</h3></div>
+  <p><strong>Function overloading</strong> lets you declare multiple type signatures for a single function. TypeScript uses these <em>overload signatures</em> for type-checking call sites, while a single <em>implementation signature</em> handles the actual logic.</p>
+
+  <div class="sub-header"><div class="sub-num purple">2</div><h3>📖 Official Insight</h3></div>
+  <div class="official"><div class="wt">📖 TypeScript Docs say…</div>
+  <p style="margin:0;font-size:13.5px">"To specify multiple call signatures… write some number of overload signatures followed by an implementation signature." Critically: "The implementation signature must be compatible with all the overload signatures." The implementation signature is <em>not visible</em> to callers — only the overloads are.</p></div>
+
+  <div class="sub-header"><div class="sub-num teal">3</div><h3>🧠 Core Concept</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">Overload signatures + implementation</span></div>
+  <pre><code><span class="cmt">// Overload signatures (visible to callers)</span>
+<span class="kw">function</span> <span class="fn">formatDate</span>(date: <span class="tp">Date</span>): <span class="tp">string</span>;
+<span class="kw">function</span> <span class="fn">formatDate</span>(timestamp: <span class="tp">number</span>): <span class="tp">string</span>;
+<span class="kw">function</span> <span class="fn">formatDate</span>(isoString: <span class="tp">string</span>): <span class="tp">string</span>;
+
+<span class="cmt">// Implementation signature (NOT visible to callers)</span>
+<span class="kw">function</span> <span class="fn">formatDate</span>(input: <span class="tp">Date</span> | <span class="tp">number</span> | <span class="tp">string</span>): <span class="tp">string</span> {
+  <span class="kw">const</span> d = <span class="kw">new</span> <span class="tp">Date</span>(input);
+  <span class="kw">return</span> d.<span class="fn">toLocaleDateString</span>(<span class="str">"en-IN"</span>);
+}
+
+<span class="fn">formatDate</span>(<span class="kw">new</span> Date());     <span class="cmt">// ✅</span>
+<span class="fn">formatDate</span>(<span class="num">1700000000000</span>);  <span class="cmt">// ✅</span>
+<span class="fn">formatDate</span>(<span class="str">"2024-01-15"</span>);   <span class="cmt">// ✅</span>
+<span class="fn">formatDate</span>(<span class="bool">true</span>);           <span class="cmt">// ❌ No overload matches boolean</span></code></pre></div>
+
+  <div class="sub-header"><div class="sub-num orange">4</div><h3>⚙️ Overloading on Return Type</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">Narrowed return type per overload</span></div>
+  <pre><code><span class="cmt">// Different argument shapes → different return types</span>
+<span class="kw">function</span> <span class="fn">createElement</span>(tag: <span class="str">"canvas"</span>):  <span class="tp">HTMLCanvasElement</span>;
+<span class="kw">function</span> <span class="fn">createElement</span>(tag: <span class="str">"input"</span>):   <span class="tp">HTMLInputElement</span>;
+<span class="kw">function</span> <span class="fn">createElement</span>(tag: <span class="tp">string</span>):    <span class="tp">HTMLElement</span>;
+<span class="kw">function</span> <span class="fn">createElement</span>(tag: <span class="tp">string</span>):    <span class="tp">HTMLElement</span> {
+  <span class="kw">return</span> document.<span class="fn">createElement</span>(tag);
+}
+
+<span class="kw">const</span> canvas = <span class="fn">createElement</span>(<span class="str">"canvas"</span>); <span class="cmt">// HTMLCanvasElement — not HTMLElement</span>
+canvas.<span class="fn">getContext</span>(<span class="str">"2d"</span>);               <span class="cmt">// ✅ canvas-specific API available</span></code></pre></div>
+
+  <div class="sub-header"><div class="sub-num green">5</div><h3>🔥 Real-World — Express route handler overloads</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript + Express</span><span class="cb-lbl">Typed route registrations</span></div>
+  <pre><code><span class="kw">import</span> { <span class="tp">RequestHandler</span>, <span class="tp">Router</span> } <span class="kw">from</span> <span class="str">'express'</span>;
+
+<span class="cmt">// Overloaded route helper — accepts middleware or not</span>
+<span class="kw">function</span> <span class="fn">registerRoute</span>(router: <span class="tp">Router</span>, path: <span class="tp">string</span>, handler: <span class="tp">RequestHandler</span>): <span class="tp">void</span>;
+<span class="kw">function</span> <span class="fn">registerRoute</span>(router: <span class="tp">Router</span>, path: <span class="tp">string</span>, middleware: <span class="tp">RequestHandler</span>, handler: <span class="tp">RequestHandler</span>): <span class="tp">void</span>;
+<span class="kw">function</span> <span class="fn">registerRoute</span>(router: <span class="tp">Router</span>, path: <span class="tp">string</span>, ...args: <span class="tp">RequestHandler</span>[]): <span class="tp">void</span> {
+  router.<span class="fn">get</span>(path, ...args);
+}
+
+<span class="kw">const</span> router = <span class="tp">Router</span>();
+<span class="fn">registerRoute</span>(router, <span class="str">"/users"</span>, usersHandler);
+<span class="fn">registerRoute</span>(router, <span class="str">"/admin"</span>, authMiddleware, adminHandler);</code></pre></div>
+
+  <div class="sub-header"><div class="sub-num red">6</div><h3>⚠️ Pitfalls</h3></div>
+  <div class="warn-box"><div class="wt">❌ Overload when a union type suffices</div>
+  <p style="margin:0;font-size:13.5px">Use overloading only when the <em>return type differs</em> based on arguments, or when you need precise per-input documentation. If the return type is always the same and arguments overlap cleanly, a union parameter is simpler and easier to maintain.</p></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl warn">Overload vs union</span></div>
+  <pre><code><span class="cmt">// ❌ Unnecessary overload</span>
+<span class="kw">function</span> <span class="fn">log</span>(msg: <span class="tp">string</span>): <span class="tp">void</span>;
+<span class="kw">function</span> <span class="fn">log</span>(msg: <span class="tp">number</span>): <span class="tp">void</span>;
+<span class="kw">function</span> <span class="fn">log</span>(msg: <span class="tp">string</span> | <span class="tp">number</span>): <span class="tp">void</span> { <span class="fn">console</span>.<span class="fn">log</span>(msg); }
+
+<span class="cmt">// ✅ Simple union is fine here — same return type, no special logic per type</span>
+<span class="kw">function</span> <span class="fn">log</span>(msg: <span class="tp">string</span> | <span class="tp">number</span>): <span class="tp">void</span> { <span class="fn">console</span>.<span class="fn">log</span>(msg); }</code></pre></div>
+
+  <div class="sub-header"><div class="sub-num green">7</div><h3>🧪 Practice Task</h3></div>
+  <div class="task"><span class="tbadge med">🟡 MEDIUM</span><div class="task-body"><h4>Overloaded <code>parse</code></h4><p>Write an overloaded <code>parse</code> function: if given a <code>string</code> return a <code>number</code>; if given a <code>number</code> return a <code>string</code>; if given a <code>boolean</code> return <code>"yes" | "no"</code>. Each call site should return the exact narrowed type without casting.</p></div></div>
+</section>
+
+<hr/>
+
+<!-- ─── TOPIC 17: MODULES & ARCHITECTURE ─── -->
+<section class="section" id="modules-arch">
+  <div class="section-header">
+    <div class="s-num">17</div>
+    <h2>Modules &amp; Project Architecture</h2>
+  </div>
+
+  <div class="sub-header"><div class="sub-num teal">1</div><h3>📘 Definition</h3></div>
+  <p>TypeScript's <strong>module system</strong> controls how code is split across files, how types are shared, and what gets exposed to consumers. Structuring types well — with barrel files, declaration merging, and ambient modules — is what makes a codebase scale.</p>
+
+  <div class="sub-header"><div class="sub-num purple">2</div><h3>📖 Official Insight</h3></div>
+  <div class="official"><div class="wt">📖 TypeScript Docs say…</div>
+  <p style="margin:0;font-size:13.5px">"Any file containing a top-level <code>import</code> or <code>export</code> is considered a module. Files without top-level imports/exports are treated as <em>scripts</em> — their declarations are globally available." Ambient modules (<code>declare module</code>) let you describe modules TypeScript doesn't know about.</p></div>
+
+  <div class="sub-header"><div class="sub-num teal">3</div><h3>🧠 Core Patterns</h3></div>
+  <h3>Barrel Exports (index.ts)</h3>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript — Project Structure</span><span class="cb-lbl">Barrel pattern</span></div>
+  <pre><code><span class="cmt">// src/types/user.ts</span>
+<span class="kw">export type</span> { <span class="iface">User</span>, <span class="iface">CreateUserDto</span>, <span class="iface">UserRole</span> };
+
+<span class="cmt">// src/types/product.ts</span>
+<span class="kw">export type</span> { <span class="iface">Product</span>, <span class="iface">CreateProductDto</span> };
+
+<span class="cmt">// src/types/index.ts  ← barrel file</span>
+<span class="kw">export type</span> * <span class="kw">from</span> <span class="str">'./user'</span>;
+<span class="kw">export type</span> * <span class="kw">from</span> <span class="str">'./product'</span>;
+
+<span class="cmt">// Consumers import from one place</span>
+<span class="kw">import type</span> { <span class="iface">User</span>, <span class="iface">Product</span> } <span class="kw">from</span> <span class="str">'@/types'</span>;</code></pre></div>
+
+  <h3>Declaration Merging</h3>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">Augmenting existing types</span></div>
+  <pre><code><span class="cmt">// Extend Express's Request type to include your auth user</span>
+<span class="kw">declare global</span> {
+  <span class="kw">namespace</span> <span class="iface">Express</span> {
+    <span class="kw">interface</span> <span class="iface">Request</span> {
+      user?: <span class="iface">AuthUser</span>;
+    }
+  }
+}
+
+<span class="cmt">// Now req.user is typed everywhere in your Express app</span>
+<span class="kw">app</span>.<span class="fn">get</span>(<span class="str">"/me"</span>, (req, res) =&gt; {
+  <span class="kw">const</span> user = req.user; <span class="cmt">// AuthUser | undefined ✅</span>
+});</code></pre></div>
+
+  <div class="sub-header"><div class="sub-num orange">4</div><h3>⚙️ tsconfig — Key Options for Architecture</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">JSON — tsconfig.json</span><span class="cb-lbl">Recommended full-stack settings</span></div>
+  <pre><code>{
+  <span class="str">"compilerOptions"</span>: {
+    <span class="str">"strict"</span>: <span class="bool">true</span>,              <span class="cmt">// enable all strict checks</span>
+    <span class="str">"target"</span>: <span class="str">"ES2022"</span>,           <span class="cmt">// modern output</span>
+    <span class="str">"module"</span>: <span class="str">"NodeNext"</span>,         <span class="cmt">// ESM-compatible modules</span>
+    <span class="str">"moduleResolution"</span>: <span class="str">"bundler"</span>,<span class="cmt">// for Vite / Next.js</span>
+    <span class="str">"paths"</span>: {
+      <span class="str">"@/*"</span>: [<span class="str">"./src/*"</span>]           <span class="cmt">// path alias for clean imports</span>
+    },
+    <span class="str">"noUncheckedIndexedAccess"</span>: <span class="bool">true</span>, <span class="cmt">// arr[i] is T | undefined</span>
+    <span class="str">"exactOptionalPropertyTypes"</span>: <span class="bool">true</span> <span class="cmt">// { a?: string } ≠ { a: string | undefined }</span>
+  }
+}</code></pre></div>
+
+  <div class="sub-header"><div class="sub-num green">5</div><h3>🔥 Real-World — Next.js App Router type structure</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript + Next.js</span><span class="cb-lbl">Typed page params and layouts</span></div>
+  <pre><code><span class="cmt">// app/posts/[id]/page.tsx</span>
+<span class="kw">import type</span> { <span class="tp">Metadata</span> } <span class="kw">from</span> <span class="str">'next'</span>;
+
+<span class="cmt">// Next.js injects params as a Promise in App Router</span>
+<span class="kw">type</span> <span class="iface">PageProps</span> = { params: <span class="tp">Promise</span>&lt;{ id: <span class="tp">string</span> }&gt; };
+
+<span class="kw">export async function</span> <span class="fn">generateMetadata</span>({ params }: <span class="iface">PageProps</span>): <span class="tp">Promise</span>&lt;<span class="tp">Metadata</span>&gt; {
+  <span class="kw">const</span> { id } = <span class="kw">await</span> params;
+  <span class="kw">const</span> post = <span class="kw">await</span> <span class="fn">getPost</span>(id);
+  <span class="kw">return</span> { title: post.title };
+}
+
+<span class="kw">export default async function</span> <span class="fn">PostPage</span>({ params }: <span class="iface">PageProps</span>) {
+  <span class="kw">const</span> { id } = <span class="kw">await</span> params;
+  <span class="kw">const</span> post = <span class="kw">await</span> <span class="fn">getPost</span>(id);
+  <span class="kw">return</span> &lt;article&gt;{post.content}&lt;/article&gt;;
+}</code></pre></div>
+
+  <div class="sub-header"><div class="sub-num red">6</div><h3>⚠️ Pitfalls</h3></div>
+  <div class="warn-box"><div class="wt">❌ Importing types as values (and vice versa)</div>
+  <p style="margin:0;font-size:13.5px">Always use <code>import type</code> for type-only imports. Without it, bundlers and TypeScript's <code>verbatimModuleSyntax</code> flag may emit runtime imports that reference nothing at runtime, causing errors. <code>import type</code> is always erased — zero runtime cost guaranteed.</p></div>
+
+  <div class="sub-header"><div class="sub-num green">7</div><h3>🧪 Practice Task</h3></div>
+  <div class="task"><span class="tbadge hard">🔴 REAL-WORLD</span><div class="task-body"><h4>Type-safe module layout</h4><p>Create a <code>src/types/</code> folder with <code>user.ts</code>, <code>post.ts</code>, and <code>api.ts</code>. The api.ts should export a generic <code>ApiResponse&lt;T&gt;</code> and <code>PaginatedResponse&lt;T&gt;</code>. Create an <code>index.ts</code> barrel that re-exports everything. All imports in your app should go through <code>@/types</code>.</p></div></div>
+</section>
+
+<hr/>
+
+<!-- ─── TOPIC 18: EXTERNAL LIBRARIES ─── -->
+<section class="section" id="external-libs">
+  <div class="section-header">
+    <div class="s-num">18</div>
+    <h2>Working with External Libraries</h2>
+  </div>
+
+  <div class="sub-header"><div class="sub-num teal">1</div><h3>📘 Definition</h3></div>
+  <p>Most npm packages ship types in one of three ways: (1) <strong>bundled types</strong> (<code>.d.ts</code> included), (2) <strong>DefinitelyTyped</strong> (<code>@types/...</code> packages), or (3) <strong>no types</strong> (you write your own). Knowing how to work with each is essential for typed full-stack apps.</p>
+
+  <div class="sub-header"><div class="sub-num purple">2</div><h3>📖 Official Insight</h3></div>
+  <div class="official"><div class="wt">📖 TypeScript Docs say…</div>
+  <p style="margin:0;font-size:13.5px">"Type declaration files (`.d.ts`) describe the types of a module without JavaScript implementation. TypeScript will look for types automatically if you set <code>moduleResolution</code> to <code>node</code>, <code>bundler</code>, or similar. You can install community-maintained types from DefinitelyTyped via the <code>@types</code> scope on npm."</p></div>
+
+  <div class="sub-header"><div class="sub-num teal">3</div><h3>🧠 Three Scenarios</h3></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Scenario</th><th>How to handle</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td>Library bundles its own types</td><td>Just install — works out of the box</td><td><code>zod</code>, <code>prisma</code>, <code>axios</code></td></tr>
+      <tr><td>Library has DefinitelyTyped</td><td><code>npm i -D @types/pkg</code></td><td><code>@types/node</code>, <code>@types/express</code></td></tr>
+      <tr><td>Library has no types</td><td>Write a <code>.d.ts</code> declaration file</td><td>Legacy JS packages</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="sub-header"><div class="sub-num orange">4</div><h3>⚙️ Writing Ambient Declarations</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">Custom .d.ts for untyped package</span></div>
+  <pre><code><span class="cmt">// src/types/some-legacy-lib.d.ts</span>
+<span class="kw">declare module</span> <span class="str">"some-legacy-lib"</span> {
+  <span class="kw">export function</span> <span class="fn">parse</span>(input: <span class="tp">string</span>): <span class="tp">Record</span>&lt;<span class="tp">string</span>, <span class="tp">unknown</span>&gt;;
+  <span class="kw">export function</span> <span class="fn">stringify</span>(obj: <span class="tp">object</span>): <span class="tp">string</span>;
+  <span class="kw">export const</span> version: <span class="tp">string</span>;
+}</code></pre></div>
+
+  <h3>Augmenting Existing Library Types</h3>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript + Axios</span><span class="cb-lbl">Typed Axios interceptors</span></div>
+  <pre><code><span class="kw">import</span> axios <span class="kw">from</span> <span class="str">'axios'</span>;
+
+<span class="kw">type</span> <span class="iface">ApiError</span> = { code: <span class="tp">number</span>; message: <span class="tp">string</span>; field?: <span class="tp">string</span> };
+
+<span class="kw">const</span> api = axios.<span class="fn">create</span>({ baseURL: <span class="str">"/api"</span> });
+
+<span class="cmt">// Axios generics: axios.get&lt;T&gt; types response.data as T</span>
+<span class="kw">async function</span> <span class="fn">getUser</span>(id: <span class="tp">number</span>): <span class="tp">Promise</span>&lt;<span class="iface">User</span>&gt; {
+  <span class="kw">const</span> { data } = <span class="kw">await</span> api.<span class="fn">get</span>&lt;<span class="iface">User</span>&gt;(<span class="str">`/users/${id}`</span>);
+  <span class="kw">return</span> data; <span class="cmt">// data: User ✅</span>
+}
+
+<span class="cmt">// Typed error interceptor</span>
+api.interceptors.response.<span class="fn">use</span>(
+  res =&gt; res,
+  (error: <span class="tp">unknown</span>) =&gt; {
+    <span class="kw">if</span> (axios.<span class="fn">isAxiosError</span>&lt;<span class="iface">ApiError</span>&gt;(error) &amp;&amp; error.response) {
+      <span class="kw">throw</span> <span class="kw">new</span> Error(error.response.data.message);
+    }
+    <span class="kw">throw</span> error;
+  }
+);</code></pre></div>
+
+  <div class="sub-header"><div class="sub-num green">5</div><h3>🔥 Real-World — TanStack Query with typed fetch</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript + TanStack Query</span><span class="cb-lbl">Fully typed query layer</span></div>
+  <pre><code><span class="kw">import</span> { <span class="fn">useQuery</span>, <span class="fn">useMutation</span>, <span class="fn">useQueryClient</span> } <span class="kw">from</span> <span class="str">'@tanstack/react-query'</span>;
+
+<span class="kw">async function</span> <span class="fn">fetchUsers</span>(): <span class="tp">Promise</span>&lt;<span class="iface">User</span>[]&gt; {
+  <span class="kw">const</span> { data } = <span class="kw">await</span> api.<span class="fn">get</span>&lt;<span class="iface">User</span>[]&gt;(<span class="str">"/users"</span>);
+  <span class="kw">return</span> data;
+}
+
+<span class="kw">async function</span> <span class="fn">createUser</span>(dto: <span class="iface">CreateUserDto</span>): <span class="tp">Promise</span>&lt;<span class="iface">User</span>&gt; {
+  <span class="kw">const</span> { data } = <span class="kw">await</span> api.<span class="fn">post</span>&lt;<span class="iface">User</span>&gt;(<span class="str">"/users"</span>, dto);
+  <span class="kw">return</span> data;
+}
+
+<span class="kw">function</span> <span class="fn">useUsers</span>() {
+  <span class="kw">const</span> qc = <span class="fn">useQueryClient</span>();
+  <span class="kw">const</span> query = <span class="fn">useQuery</span>&lt;<span class="iface">User</span>[], <span class="tp">Error</span>&gt;({ queryKey: [<span class="str">"users"</span>], queryFn: fetchUsers });
+  <span class="kw">const</span> create = <span class="fn">useMutation</span>&lt;<span class="iface">User</span>, <span class="tp">Error</span>, <span class="iface">CreateUserDto</span>&gt;({
+    mutationFn: createUser,
+    onSuccess: () =&gt; qc.<span class="fn">invalidateQueries</span>({ queryKey: [<span class="str">"users"</span>] }),
+  });
+  <span class="kw">return</span> { ...query, create };
+}</code></pre></div>
+
+  <div class="sub-header"><div class="sub-num red">6</div><h3>⚠️ Pitfalls</h3></div>
+  <div class="warn-box"><div class="wt">❌ Casting API responses to a type without validation</div>
+  <p style="margin:0;font-size:13.5px">Writing <code>const data = await res.json() as User</code> is a lie — you're telling TypeScript it's a <code>User</code> but you haven't verified it. API contracts change. Always pair type assertions with runtime validation (Zod's <code>safeParse</code>) at the boundary where data enters your app.</p></div>
+
+  <div class="sub-header"><div class="sub-num green">7</div><h3>🧪 Practice Task</h3></div>
+  <div class="task"><span class="tbadge hard">🔴 REAL-WORLD</span><div class="task-body"><h4>Typed API client layer</h4><p>Build a typed <code>api.ts</code> module using axios with: a generic <code>get&lt;T&gt;</code> and <code>post&lt;T&gt;</code> helper, a typed error interceptor, and at least two functions (<code>getProducts</code>, <code>createProduct</code>) that use Zod to validate responses before returning typed data.</p></div></div>
+</section>
+
+<hr/>
+
+<!-- ─── TOPIC 19: ERROR TYPING ─── -->
+<section class="section" id="error-typing">
+  <div class="section-header">
+    <div class="s-num">19</div>
+    <h2>Error Typing Strategies</h2>
+  </div>
+
+  <div class="sub-header"><div class="sub-num teal">1</div><h3>📘 Definition</h3></div>
+  <p>TypeScript types <em>thrown values</em> as <code>unknown</code> in catch blocks (since TS 4.0 with <code>"useUnknownInCatchVariables": true</code>). <strong>Error typing</strong> is the set of patterns for handling, modeling, and propagating errors in a type-safe way across your application.</p>
+
+  <div class="sub-header"><div class="sub-num purple">2</div><h3>📖 Official Insight</h3></div>
+  <div class="official"><div class="wt">📖 TypeScript Docs say…</div>
+  <p style="margin:0;font-size:13.5px">"When <code>useUnknownInCatchVariables</code> is enabled (included with <code>strict</code>), catch clause variables are typed as <code>unknown</code> instead of <code>any</code>." This forces you to narrow the error before using it — making your error handling actually safe.</p></div>
+
+  <div class="sub-header"><div class="sub-num teal">3</div><h3>🧠 Core Patterns</h3></div>
+  <h3>Pattern 1: Type-safe catch</h3>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">unknown in catch</span></div>
+  <pre><code><span class="kw">function</span> <span class="fn">getErrorMessage</span>(err: <span class="tp">unknown</span>): <span class="tp">string</span> {
+  <span class="kw">if</span> (err <span class="kw">instanceof</span> <span class="tp">Error</span>) <span class="kw">return</span> err.message;
+  <span class="kw">if</span> (<span class="kw">typeof</span> err === <span class="str">"string"</span>) <span class="kw">return</span> err;
+  <span class="kw">return</span> <span class="str">"An unknown error occurred"</span>;
+}
+
+<span class="kw">try</span> {
+  <span class="kw">await</span> <span class="fn">riskyOperation</span>();
+} <span class="kw">catch</span> (err) {
+  <span class="cmt">// err: unknown — must narrow before use</span>
+  <span class="fn">toast</span>.<span class="fn">error</span>(<span class="fn">getErrorMessage</span>(err)); <span class="cmt">// ✅ safe</span>
+}</code></pre></div>
+
+  <h3>Pattern 2: Result Type (no exceptions)</h3>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">Result&lt;T, E&gt; pattern</span></div>
+  <pre><code><span class="kw">type</span> <span class="iface">Result</span>&lt;<span class="tp">T</span>, <span class="tp">E</span> = <span class="tp">Error</span>&gt; =
+  | { ok: <span class="bool">true</span>;  value: <span class="tp">T</span> }
+  | { ok: <span class="bool">false</span>; error: <span class="tp">E</span> };
+
+<span class="kw">async function</span> <span class="fn">fetchUser</span>(id: <span class="tp">number</span>): <span class="tp">Promise</span>&lt;<span class="iface">Result</span>&lt;<span class="iface">User</span>&gt;&gt; {
+  <span class="kw">try</span> {
+    <span class="kw">const</span> user = <span class="kw">await</span> db.user.<span class="fn">findUniqueOrThrow</span>({ where: { id } });
+    <span class="kw">return</span> { ok: <span class="bool">true</span>, value: user };
+  } <span class="kw">catch</span> (e) {
+    <span class="kw">return</span> { ok: <span class="bool">false</span>, error: e <span class="kw">instanceof</span> Error ? e : <span class="kw">new</span> Error(<span class="str">"Unknown"</span>) };
+  }
+}
+
+<span class="cmt">// Caller — no try/catch, discriminant narrows the type</span>
+<span class="kw">const</span> result = <span class="kw">await</span> <span class="fn">fetchUser</span>(<span class="num">1</span>);
+<span class="kw">if</span> (!result.ok) {
+  <span class="kw">return</span> <span class="fn">NextResponse</span>.<span class="fn">json</span>({ error: result.error.message }, { status: <span class="num">404</span> });
+}
+<span class="fn">console</span>.<span class="fn">log</span>(result.value.name); <span class="cmt">// result.value: User ✅</span></code></pre></div>
+
+  <h3>Pattern 3: Custom Error classes</h3>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">Typed error hierarchy</span></div>
+  <pre><code><span class="kw">class</span> <span class="iface">AppError</span> <span class="kw">extends</span> <span class="tp">Error</span> {
+  <span class="kw">constructor</span>(<span class="kw">public</span> code: <span class="tp">number</span>, message: <span class="tp">string</span>) {
+    <span class="kw">super</span>(message);
+    <span class="kw">this</span>.name = <span class="str">"AppError"</span>;
+  }
+}
+
+<span class="kw">class</span> <span class="iface">NotFoundError</span> <span class="kw">extends</span> <span class="iface">AppError</span> {
+  <span class="kw">constructor</span>(resource: <span class="tp">string</span>) { <span class="kw">super</span>(<span class="num">404</span>, <span class="str">`${resource} not found`</span>); }
+}
+
+<span class="kw">class</span> <span class="iface">UnauthorizedError</span> <span class="kw">extends</span> <span class="iface">AppError</span> {
+  <span class="kw">constructor</span>() { <span class="kw">super</span>(<span class="num">401</span>, <span class="str">"Unauthorized"</span>); }
+}
+
+<span class="cmt">// In an Express error handler</span>
+<span class="kw">app</span>.<span class="fn">use</span>((err: <span class="tp">unknown</span>, req, res, next) =&gt; {
+  <span class="kw">if</span> (err <span class="kw">instanceof</span> <span class="iface">AppError</span>) {
+    res.<span class="fn">status</span>(err.code).<span class="fn">json</span>({ error: err.message }); <span class="cmt">// typed ✅</span>
+  } <span class="kw">else</span> {
+    res.<span class="fn">status</span>(<span class="num">500</span>).<span class="fn">json</span>({ error: <span class="str">"Internal Server Error"</span> });
+  }
+});</code></pre></div>
+
+  <div class="sub-header"><div class="sub-num orange">4</div><h3>⚙️ Error Typing with Zod validation</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript + Zod</span><span class="cb-lbl">ZodError handling</span></div>
+  <pre><code><span class="kw">import</span> { z, <span class="tp">ZodError</span> } <span class="kw">from</span> <span class="str">'zod'</span>;
+
+<span class="kw">const</span> schema = z.<span class="fn">object</span>({ name: z.<span class="fn">string</span>(), age: z.<span class="fn">number</span>().<span class="fn">min</span>(<span class="num">18</span>) });
+
+<span class="kw">function</span> <span class="fn">validate</span>(input: <span class="tp">unknown</span>) {
+  <span class="kw">const</span> result = schema.<span class="fn">safeParse</span>(input);
+  <span class="kw">if</span> (!result.success) {
+    <span class="cmt">// result.error: ZodError — fully typed field errors</span>
+    <span class="kw">const</span> fieldErrors = result.error.<span class="fn">flatten</span>().fieldErrors;
+    <span class="kw">return</span> { errors: fieldErrors }; <span class="cmt">// { name?: string[]; age?: string[] }</span>
+  }
+  <span class="kw">return</span> { data: result.data };
+}</code></pre></div>
+
+  <div class="sub-header"><div class="sub-num green">5</div><h3>🔥 Real-World — Next.js API Route error handling</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript + Next.js App Router</span><span class="cb-lbl">Route Handler with typed errors</span></div>
+  <pre><code><span class="kw">import</span> { <span class="tp">NextRequest</span>, <span class="tp">NextResponse</span> } <span class="kw">from</span> <span class="str">'next/server'</span>;
+<span class="kw">import</span> { z } <span class="kw">from</span> <span class="str">'zod'</span>;
+
+<span class="kw">const</span> bodySchema = z.<span class="fn">object</span>({
+  title:   z.<span class="fn">string</span>().<span class="fn">min</span>(<span class="num">1</span>),
+  content: z.<span class="fn">string</span>().<span class="fn">min</span>(<span class="num">10</span>),
+});
+
+<span class="kw">export async function</span> <span class="fn">POST</span>(req: <span class="tp">NextRequest</span>) {
+  <span class="kw">const</span> raw: <span class="tp">unknown</span> = <span class="kw">await</span> req.<span class="fn">json</span>();
+  <span class="kw">const</span> parsed = bodySchema.<span class="fn">safeParse</span>(raw);
+
+  <span class="kw">if</span> (!parsed.success) {
+    <span class="kw">return</span> <span class="tp">NextResponse</span>.<span class="fn">json</span>(
+      { errors: parsed.error.<span class="fn">flatten</span>().fieldErrors },
+      { status: <span class="num">400</span> }
+    );
+  }
+
+  <span class="kw">try</span> {
+    <span class="kw">const</span> post = <span class="kw">await</span> db.post.<span class="fn">create</span>({ data: parsed.data });
+    <span class="kw">return</span> <span class="tp">NextResponse</span>.<span class="fn">json</span>(post, { status: <span class="num">201</span> });
+  } <span class="kw">catch</span> (err) {
+    <span class="fn">console</span>.<span class="fn">error</span>(err);
+    <span class="kw">return</span> <span class="tp">NextResponse</span>.<span class="fn">json</span>({ error: <span class="str">"Failed to create post"</span> }, { status: <span class="num">500</span> });
+  }
+}</code></pre></div>
+
+  <div class="sub-header"><div class="sub-num red">6</div><h3>⚠️ Pitfalls</h3></div>
+  <div class="warn-box"><div class="wt">❌ Typing catch variable as Error</div>
+  <div class="cb" style="margin:8px 0"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl warn">Don't assume catch type</span></div>
+  <pre><code><span class="cmt">// ❌ Old pattern — dangerous even with strict mode off</span>
+<span class="kw">try</span> { ... } <span class="kw">catch</span> (err: <span class="tp">Error</span>) { <span class="cmt">// TS error in strict mode</span>
+  <span class="fn">console</span>.<span class="fn">log</span>(err.message);
+}
+
+<span class="cmt">// ✅ Always type as unknown and narrow</span>
+<span class="kw">try</span> { ... } <span class="kw">catch</span> (err: <span class="tp">unknown</span>) {
+  <span class="kw">if</span> (err <span class="kw">instanceof</span> Error) <span class="fn">console</span>.<span class="fn">log</span>(err.message);
+}</code></pre></div></div>
+
+  <div class="sub-header"><div class="sub-num green">7</div><h3>🧪 Practice Task</h3></div>
+  <div class="task"><span class="tbadge hard">🔴 REAL-WORLD</span><div class="task-body"><h4>Full error layer</h4><p>Build a <code>tryCatch&lt;T&gt;</code> utility: <code>async function tryCatch&lt;T&gt;(fn: () =&gt; Promise&lt;T&gt;): Promise&lt;Result&lt;T&gt;&gt;</code>. Wrap all async operations in your app with it. Create a typed Express error handler that distinguishes between <code>NotFoundError</code>, <code>UnauthorizedError</code>, and unknown errors — each returning a different HTTP status.</p></div></div>
+</section>
+
+<hr/>
+
+<!-- ══════════════════════════════════════
+     ADVANCED PHASE
+══════════════════════════════════════ -->
+<div class="phase-banner">
+  <div class="phase-icon">🔴</div>
+  <div class="phase-info">
+    <h2>Step 3 — Advanced</h2>
+    <p>Conditional Types · Mapped Types · infer · Type Transformations · Reusable Type Systems · Type Performance</p>
+  </div>
+</div>
+
+<!-- ─── TOPIC 20: CONDITIONAL TYPES ─── -->
+<section class="section" id="conditional-types">
+  <div class="section-header">
+    <div class="s-num">20</div>
+    <h2>Conditional Types</h2>
+  </div>
+
+  <div class="sub-header"><div class="sub-num teal">1</div><h3>📘 Definition</h3></div>
+  <p><strong>Conditional types</strong> let you express types that depend on a condition — they act like <code>if/else</code> logic but at the type level. The syntax mirrors JavaScript's ternary operator: <code>T extends U ? X : Y</code>. If <code>T</code> is assignable to <code>U</code>, the type resolves to <code>X</code>; otherwise <code>Y</code>.</p>
+  <p>They are the foundation of TypeScript's most powerful utility types like <code>NonNullable</code>, <code>ReturnType</code>, <code>Parameters</code>, and <code>Awaited</code>.</p>
+
+  <div class="sub-header"><div class="sub-num purple">2</div><h3>📖 Official Insight</h3></div>
+  <div class="official"><div class="wt">📖 TypeScript Docs say…</div>
+  <p style="margin:0;font-size:13.5px">"Conditional types take a form that looks a little like conditional expressions in JavaScript: <code>SomeType extends OtherType ? TrueType : FalseType</code>. When the type on the left of <code>extends</code> is assignable to the one on the right, you'll get the type in the first branch; otherwise you'll get the type in the latter branch." — The docs also call out <strong>distributive conditional types</strong>: when <code>T</code> is a naked type parameter and a union, the condition distributes over each member.</p></div>
+
+  <div class="sub-header"><div class="sub-num teal">3</div><h3>🧠 Core Concept</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">Basic conditional type</span></div>
+  <pre><code><span class="cmt">// "Is T a string? If yes → 'string-type', else → 'other-type'"</span>
+<span class="kw">type</span> <span class="iface">IsString</span>&lt;<span class="tp">T</span>&gt; = <span class="tp">T</span> <span class="kw">extends</span> <span class="tp">string</span> ? <span class="str">"string-type"</span> : <span class="str">"other-type"</span>;
+
+<span class="kw">type</span> A = <span class="iface">IsString</span>&lt;<span class="tp">string</span>&gt;;   <span class="cmt">// "string-type"</span>
+<span class="kw">type</span> B = <span class="iface">IsString</span>&lt;<span class="tp">number</span>&gt;;   <span class="cmt">// "other-type"</span>
+
+<span class="cmt">// Practical: unwrap a Promise — Awaited&lt;T&gt; is built on this</span>
+<span class="kw">type</span> <span class="iface">Unwrap</span>&lt;<span class="tp">T</span>&gt; = <span class="tp">T</span> <span class="kw">extends</span> <span class="tp">Promise</span>&lt;<span class="kw">infer</span> <span class="tp">U</span>&gt; ? <span class="tp">U</span> : <span class="tp">T</span>;
+
+<span class="kw">type</span> C = <span class="iface">Unwrap</span>&lt;<span class="tp">Promise</span>&lt;<span class="tp">string</span>&gt;&gt;;  <span class="cmt">// string</span>
+<span class="kw">type</span> D = <span class="iface">Unwrap</span>&lt;<span class="tp">number</span>&gt;;            <span class="cmt">// number (not a Promise — passes through)</span></code></pre></div>
+
+  <h3>Distributive Conditional Types</h3>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">Distributes over union members</span></div>
+  <pre><code><span class="cmt">// When T is a naked type parameter, the condition runs for EACH union member</span>
+<span class="kw">type</span> <span class="iface">ToArray</span>&lt;<span class="tp">T</span>&gt; = <span class="tp">T</span> <span class="kw">extends</span> <span class="tp">unknown</span> ? <span class="tp">T</span>[] : <span class="kw">never</span>;
+
+<span class="kw">type</span> E = <span class="iface">ToArray</span>&lt;<span class="tp">string</span> | <span class="tp">number</span>&gt;;
+<span class="cmt">// Distributes: (string extends unknown ? string[] : never) | (number extends unknown ? number[] : never)</span>
+<span class="cmt">// Result:      string[] | number[]</span>
+
+<span class="cmt">// NonNullable&lt;T&gt; from the standard library — removes null and undefined</span>
+<span class="kw">type</span> <span class="iface">NonNullable</span>&lt;<span class="tp">T</span>&gt; = <span class="tp">T</span> <span class="kw">extends</span> <span class="kw">null</span> | <span class="kw">undefined</span> ? <span class="kw">never</span> : <span class="tp">T</span>;
+
+<span class="kw">type</span> F = <span class="iface">NonNullable</span>&lt;<span class="tp">string</span> | <span class="kw">null</span> | <span class="kw">undefined</span>&gt;; <span class="cmt">// string</span></code></pre></div>
+
+  <div class="sub-header"><div class="sub-num orange">4</div><h3>⚙️ Syntax Patterns</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">Nested conditionals + never filtering</span></div>
+  <pre><code><span class="cmt">// Extract only function members from an object type</span>
+<span class="kw">type</span> <span class="iface">FunctionKeys</span>&lt;<span class="tp">T</span>&gt; = {
+  [<span class="tp">K</span> <span class="kw">in keyof</span> <span class="tp">T</span>]: <span class="tp">T</span>[<span class="tp">K</span>] <span class="kw">extends</span> <span class="tp">Function</span> ? <span class="tp">K</span> : <span class="kw">never</span>
+}[<span class="kw">keyof</span> <span class="tp">T</span>];
+
+<span class="kw">type</span> <span class="iface">Obj</span> = { id: <span class="tp">number</span>; name: <span class="tp">string</span>; <span class="fn">save</span>(): <span class="tp">void</span>; <span class="fn">delete</span>(): <span class="tp">void</span> };
+<span class="kw">type</span> <span class="iface">Methods</span> = <span class="iface">FunctionKeys</span>&lt;<span class="iface">Obj</span>&gt;; <span class="cmt">// "save" | "delete"</span>
+
+<span class="cmt">// Deep readonly — conditional type recursion</span>
+<span class="kw">type</span> <span class="iface">DeepReadonly</span>&lt;<span class="tp">T</span>&gt; = {
+  <span class="kw">readonly</span> [<span class="tp">K</span> <span class="kw">in keyof</span> <span class="tp">T</span>]: <span class="tp">T</span>[<span class="tp">K</span>] <span class="kw">extends</span> <span class="tp">object</span> ? <span class="iface">DeepReadonly</span>&lt;<span class="tp">T</span>[<span class="tp">K</span>]&gt; : <span class="tp">T</span>[<span class="tp">K</span>]
+};</code></pre></div>
+
+  <div class="sub-header"><div class="sub-num green">5</div><h3>🔥 Real-World — Prisma-style select return type</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">Conditional return based on select shape</span></div>
+  <pre><code><span class="kw">type</span> <span class="iface">SelectResult</span>&lt;<span class="tp">T</span>, <span class="tp">S</span> <span class="kw">extends</span> <span class="tp">Partial</span>&lt;<span class="tp">Record</span>&lt;<span class="kw">keyof</span> <span class="tp">T</span>, <span class="tp">boolean</span>&gt;&gt;&gt; = {
+  [<span class="tp">K</span> <span class="kw">in keyof</span> <span class="tp">T</span> <span class="kw">as</span> <span class="tp">S</span>[<span class="tp">K</span>] <span class="kw">extends</span> <span class="bool">true</span> ? <span class="tp">K</span> : <span class="kw">never</span>]: <span class="tp">T</span>[<span class="tp">K</span>]
+};
+
+<span class="kw">type</span> <span class="iface">User</span> = { id: <span class="tp">number</span>; name: <span class="tp">string</span>; email: <span class="tp">string</span>; password: <span class="tp">string</span> };
+
+<span class="kw">type</span> <span class="iface">PublicUser</span> = <span class="iface">SelectResult</span>&lt;<span class="iface">User</span>, { id: <span class="bool">true</span>; name: <span class="bool">true</span>; email: <span class="bool">true</span> }&gt;;
+<span class="cmt">// { id: number; name: string; email: string } — password excluded ✅</span></code></pre></div>
+
+  <div class="sub-header"><div class="sub-num red">6</div><h3>⚠️ Pitfalls</h3></div>
+  <div class="warn-box"><div class="wt">❌ Wrapping T in brackets kills distribution</div>
+  <div class="cb" style="margin:8px 0"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl warn">Non-distributive form</span></div>
+  <pre><code><span class="cmt">// Distributive — T is naked</span>
+<span class="kw">type</span> <span class="iface">Dist</span>&lt;<span class="tp">T</span>&gt;    = <span class="tp">T</span> <span class="kw">extends</span> <span class="tp">string</span> ? <span class="str">"yes"</span> : <span class="str">"no"</span>;
+<span class="kw">type</span> R1 = <span class="iface">Dist</span>&lt;<span class="tp">string</span> | <span class="tp">number</span>&gt;; <span class="cmt">// "yes" | "no"  ← distributes</span>
+
+<span class="cmt">// Non-distributive — T is wrapped in []</span>
+<span class="kw">type</span> <span class="iface">NoDist</span>&lt;<span class="tp">T</span>&gt;  = [<span class="tp">T</span>] <span class="kw">extends</span> [<span class="tp">string</span>] ? <span class="str">"yes"</span> : <span class="str">"no"</span>;
+<span class="kw">type</span> R2 = <span class="iface">NoDist</span>&lt;<span class="tp">string</span> | <span class="tp">number</span>&gt;; <span class="cmt">// "no"  ← union not distributed</span></code></pre></div>
+  <p style="margin:0;font-size:13.5px">Use <code>[T] extends [U]</code> intentionally when you want to check the union <em>as a whole</em> — and avoid it accidentally when you do want distribution.</p></div>
+
+  <div class="sub-header"><div class="sub-num green">7</div><h3>🧪 Practice Task</h3></div>
+  <div class="task"><span class="tbadge med">🟡 MEDIUM</span><div class="task-body"><h4>IsNever&lt;T&gt;</h4><p>Write <code>IsNever&lt;T&gt;</code> that resolves to <code>true</code> if <code>T</code> is <code>never</code> and <code>false</code> otherwise. Hint: use the non-distributive <code>[T] extends [never]</code> form — explain why the naked form fails.</p></div></div>
+  <div class="task"><span class="tbadge hard">🔴 REAL-WORLD</span><div class="task-body"><h4>DeepReadonly&lt;T&gt;</h4><p>Implement <code>DeepReadonly&lt;T&gt;</code> that recursively makes every nested object property readonly. Test it on a nested type like <code>{ user: { profile: { name: string; age: number } } }</code> — modifying any level should cause a TypeScript error.</p></div></div>
+</section>
+
+<hr/>
+
+<!-- ─── TOPIC 21: MAPPED TYPES ─── -->
+<section class="section" id="mapped-types">
+  <div class="section-header">
+    <div class="s-num">21</div>
+    <h2>Mapped Types</h2>
+  </div>
+
+  <div class="sub-header"><div class="sub-num teal">1</div><h3>📘 Definition</h3></div>
+  <p><strong>Mapped types</strong> let you create a new type by iterating over the keys of an existing type and transforming each property. They are the engine behind every built-in utility type: <code>Partial</code>, <code>Required</code>, <code>Readonly</code>, <code>Pick</code>, and <code>Record</code> are all mapped types internally.</p>
+  <p>The syntax is <code>{ [K in keyof T]: ... }</code> — read as "for each key <code>K</code> in <code>T</code>, define a property".</p>
+
+  <div class="sub-header"><div class="sub-num purple">2</div><h3>📖 Official Insight</h3></div>
+  <div class="official"><div class="wt">📖 TypeScript Docs say…</div>
+  <p style="margin:0;font-size:13.5px">"A mapped type is a generic type which uses a union of <code>PropertyKey</code>s (frequently created via a <code>keyof</code>) to iterate through keys to create a type." The docs also describe <strong>mapping modifiers</strong>: you can add or remove <code>readonly</code> and <code>?</code> optionality using <code>+</code> and <code>-</code> prefixes, and use <strong>key remapping</strong> via <code>as</code> to filter or rename keys.</p></div>
+
+  <div class="sub-header"><div class="sub-num teal">3</div><h3>🧠 Core Concept — Anatomy of a Mapped Type</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">How the standard utility types work internally</span></div>
+  <pre><code><span class="cmt">// How Partial&lt;T&gt; is implemented in TypeScript's lib</span>
+<span class="kw">type</span> <span class="iface">MyPartial</span>&lt;<span class="tp">T</span>&gt; = {
+  [<span class="tp">K</span> <span class="kw">in keyof</span> <span class="tp">T</span>]?: <span class="tp">T</span>[<span class="tp">K</span>]   <span class="cmt">// '?' adds optionality to every key</span>
+};
+
+<span class="cmt">// How Required&lt;T&gt; removes optionality with '-?'</span>
+<span class="kw">type</span> <span class="iface">MyRequired</span>&lt;<span class="tp">T</span>&gt; = {
+  [<span class="tp">K</span> <span class="kw">in keyof</span> <span class="tp">T</span>]-?: <span class="tp">T</span>[<span class="tp">K</span>]  <span class="cmt">// '-?' strips the optional modifier</span>
+};
+
+<span class="cmt">// How Readonly&lt;T&gt; adds readonly with '+'</span>
+<span class="kw">type</span> <span class="iface">MyReadonly</span>&lt;<span class="tp">T</span>&gt; = {
+  <span class="kw">+readonly</span> [<span class="tp">K</span> <span class="kw">in keyof</span> <span class="tp">T</span>]: <span class="tp">T</span>[<span class="tp">K</span>]
+};
+
+<span class="cmt">// How Mutable&lt;T&gt; removes readonly with '-readonly'</span>
+<span class="kw">type</span> <span class="iface">Mutable</span>&lt;<span class="tp">T</span>&gt; = {
+  <span class="kw">-readonly</span> [<span class="tp">K</span> <span class="kw">in keyof</span> <span class="tp">T</span>]: <span class="tp">T</span>[<span class="tp">K</span>]
+};</code></pre></div>
+
+  <div class="sub-header"><div class="sub-num orange">4</div><h3>⚙️ Key Remapping with <code>as</code></h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">Filter, rename, and transform keys</span></div>
+  <pre><code><span class="cmt">// Filter out keys — map to 'never' to exclude them</span>
+<span class="kw">type</span> <span class="iface">OmitFunctions</span>&lt;<span class="tp">T</span>&gt; = {
+  [<span class="tp">K</span> <span class="kw">in keyof</span> <span class="tp">T</span> <span class="kw">as</span> <span class="tp">T</span>[<span class="tp">K</span>] <span class="kw">extends</span> <span class="tp">Function</span> ? <span class="kw">never</span> : <span class="tp">K</span>]: <span class="tp">T</span>[<span class="tp">K</span>]
+};
+
+<span class="kw">type</span> <span class="iface">User</span> = { id: <span class="tp">number</span>; name: <span class="tp">string</span>; <span class="fn">greet</span>(): <span class="tp">void</span> };
+<span class="kw">type</span> <span class="iface">DataOnly</span> = <span class="iface">OmitFunctions</span>&lt;<span class="iface">User</span>&gt;; <span class="cmt">// { id: number; name: string }</span>
+
+<span class="cmt">// Rename keys — prefix every key with "get"</span>
+<span class="kw">type</span> <span class="iface">Getters</span>&lt;<span class="tp">T</span>&gt; = {
+  [<span class="tp">K</span> <span class="kw">in keyof</span> <span class="tp">T</span> <span class="kw">as</span> <span class="str">`get${Capitalize&lt;string &amp; K&gt;}`</span>]: () =&gt; <span class="tp">T</span>[<span class="tp">K</span>]
+};
+
+<span class="kw">type</span> <span class="iface">UserGetters</span> = <span class="iface">Getters</span>&lt;{ name: <span class="tp">string</span>; age: <span class="tp">number</span> }&gt;;
+<span class="cmt">// { getName(): string; getAge(): number }</span>
+
+<span class="cmt">// Map values — transform every value type</span>
+<span class="kw">type</span> <span class="iface">Nullable</span>&lt;<span class="tp">T</span>&gt; = { [<span class="tp">K</span> <span class="kw">in keyof</span> <span class="tp">T</span>]: <span class="tp">T</span>[<span class="tp">K</span>] | <span class="kw">null</span> };
+<span class="kw">type</span> <span class="iface">Stringify</span>&lt;<span class="tp">T</span>&gt; = { [<span class="tp">K</span> <span class="kw">in keyof</span> <span class="tp">T</span>]: <span class="tp">string</span> };</code></pre></div>
+
+  <div class="sub-header"><div class="sub-num green">5</div><h3>🔥 Real-World — Form state and validation maps</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript + React</span><span class="cb-lbl">Typed form errors derived from schema</span></div>
+  <pre><code><span class="kw">type</span> <span class="iface">FormFields</span> = {
+  name:     <span class="tp">string</span>;
+  email:    <span class="tp">string</span>;
+  password: <span class="tp">string</span>;
+};
+
+<span class="cmt">// Derive a matching error map — same keys, string[] values</span>
+<span class="kw">type</span> <span class="iface">FormErrors</span> = {
+  [<span class="tp">K</span> <span class="kw">in keyof</span> <span class="iface">FormFields</span>]?: <span class="tp">string</span>[]
+};
+
+<span class="cmt">// Derive a "touched" map — same keys, boolean values</span>
+<span class="kw">type</span> <span class="iface">FormTouched</span> = {
+  [<span class="tp">K</span> <span class="kw">in keyof</span> <span class="iface">FormFields</span>]?: <span class="tp">boolean</span>
+};
+
+<span class="cmt">// These three types stay in sync — add a field to FormFields</span>
+<span class="cmt">// and FormErrors + FormTouched automatically pick it up ✅</span>
+
+<span class="kw">type</span> <span class="iface">FormState</span> = {
+  values:  <span class="iface">FormFields</span>;
+  errors:  <span class="iface">FormErrors</span>;
+  touched: <span class="iface">FormTouched</span>;
+};</code></pre></div>
+
+  <div class="sub-header"><div class="sub-num red">6</div><h3>⚠️ Pitfalls</h3></div>
+  <div class="warn-box"><div class="wt">❌ Forgetting that mapped types create a new object type</div>
+  <p style="margin:0;font-size:13.5px">Mapped types work on <em>object types</em>. Applying them to primitives (<code>string</code>, <code>number</code>) usually returns <code>{}</code> — not an error, just silently useless. Always test edge cases with <code>type X = YourMappedType&lt;string&gt;</code> and hover to see what you actually get.</p></div>
+
+  <div class="sub-header"><div class="sub-num green">7</div><h3>🧪 Practice Task</h3></div>
+  <div class="task"><span class="tbadge med">🟡 MEDIUM</span><div class="task-body"><h4>EventMap to handlers</h4><p>Given <code>type Events = { click: MouseEvent; keydown: KeyboardEvent; submit: SubmitEvent }</code>, write a mapped type <code>EventHandlers&lt;T&gt;</code> that produces <code>{ onClick: (e: MouseEvent) =&gt; void; onKeydown: (e: KeyboardEvent) =&gt; void; ... }</code> — prefixing each key with "on" and capitalising it.</p></div></div>
+  <div class="task"><span class="tbadge hard">🔴 REAL-WORLD</span><div class="task-body"><h4>Configuration builder</h4><p>Build a <code>Config&lt;T&gt;</code> mapped type where every value in <code>T</code> becomes <code>{ value: T[K]; default: T[K]; required: boolean }</code>. Apply it to an app settings object and verify TypeScript enforces the shape.</p></div></div>
+</section>
+
+<hr/>
+
+<!-- ─── TOPIC 22: INFER KEYWORD ─── -->
+<section class="section" id="infer-keyword">
+  <div class="section-header">
+    <div class="s-num">22</div>
+    <h2>The <code>infer</code> Keyword</h2>
+  </div>
+
+  <div class="sub-header"><div class="sub-num teal">1</div><h3>📘 Definition</h3></div>
+  <p><code>infer</code> is used <em>inside a conditional type</em> to declare a type variable that TypeScript will automatically infer from a matched position. Instead of you specifying the type, you ask TypeScript: <em>"figure this out for me and give it a name I can use"</em>.</p>
+  <p>It is the mechanism behind <code>ReturnType&lt;T&gt;</code>, <code>Parameters&lt;T&gt;</code>, <code>InstanceType&lt;T&gt;</code>, and <code>Awaited&lt;T&gt;</code> in TypeScript's standard library.</p>
+
+  <div class="sub-header"><div class="sub-num purple">2</div><h3>📖 Official Insight</h3></div>
+  <div class="official"><div class="wt">📖 TypeScript Docs say…</div>
+  <p style="margin:0;font-size:13.5px">"Within the <code>extends</code> clause of a conditional type, it is now possible to have <code>infer</code> declarations that introduce a type variable to be inferred… infer placements represent types that TypeScript should <em>extract</em> from the matched type." The variable introduced by <code>infer</code> is only available in the <em>true branch</em> of the conditional.</p></div>
+
+  <div class="sub-header"><div class="sub-num teal">3</div><h3>🧠 Core Concept</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">infer in action — how ReturnType works</span></div>
+  <pre><code><span class="cmt">// Built-in ReturnType&lt;T&gt; — implemented exactly like this</span>
+<span class="kw">type</span> <span class="iface">MyReturnType</span>&lt;<span class="tp">T</span> <span class="kw">extends</span> (...<span class="tp">args</span>: <span class="tp">any</span>) =&gt; <span class="tp">any</span>&gt; =
+  <span class="tp">T</span> <span class="kw">extends</span> (...<span class="tp">args</span>: <span class="tp">any</span>) =&gt; <span class="kw">infer</span> <span class="tp">R</span> ? <span class="tp">R</span> : <span class="kw">never</span>;
+  <span class="cmt">//                              ↑ TypeScript figures out R from the function</span>
+
+<span class="kw">function</span> <span class="fn">getUser</span>() { <span class="kw">return</span> { id: <span class="num">1</span>, name: <span class="str">"Vipin"</span> }; }
+
+<span class="kw">type</span> <span class="iface">User</span> = <span class="iface">MyReturnType</span>&lt;<span class="kw">typeof</span> <span class="fn">getUser</span>&gt;; <span class="cmt">// { id: number; name: string } ✅</span>
+
+<span class="cmt">// Built-in Parameters&lt;T&gt;</span>
+<span class="kw">type</span> <span class="iface">MyParameters</span>&lt;<span class="tp">T</span> <span class="kw">extends</span> (...<span class="tp">args</span>: <span class="tp">any</span>) =&gt; <span class="tp">any</span>&gt; =
+  <span class="tp">T</span> <span class="kw">extends</span> (...<span class="tp">args</span>: <span class="kw">infer</span> <span class="tp">P</span>) =&gt; <span class="tp">any</span> ? <span class="tp">P</span> : <span class="kw">never</span>;
+
+<span class="kw">function</span> <span class="fn">createPost</span>(title: <span class="tp">string</span>, body: <span class="tp">string</span>, userId: <span class="tp">number</span>) {}
+<span class="kw">type</span> <span class="iface">CreateArgs</span> = <span class="iface">MyParameters</span>&lt;<span class="kw">typeof</span> <span class="fn">createPost</span>&gt;; <span class="cmt">// [title: string, body: string, userId: number]</span></code></pre></div>
+
+  <div class="sub-header"><div class="sub-num orange">4</div><h3>⚙️ Patterns — infer in multiple positions</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">Extracting from arrays, promises, tuples</span></div>
+  <pre><code><span class="cmt">// Extract the element type from an array</span>
+<span class="kw">type</span> <span class="iface">ElementOf</span>&lt;<span class="tp">T</span>&gt; = <span class="tp">T</span> <span class="kw">extends</span> (<span class="kw">infer</span> <span class="tp">E</span>)[] ? <span class="tp">E</span> : <span class="kw">never</span>;
+<span class="kw">type</span> A = <span class="iface">ElementOf</span>&lt;<span class="tp">string</span>[]&gt;;  <span class="cmt">// string</span>
+<span class="kw">type</span> B = <span class="iface">ElementOf</span>&lt;<span class="iface">User</span>[]&gt;;    <span class="cmt">// User</span>
+
+<span class="cmt">// Unwrap a Promise (same as built-in Awaited&lt;T&gt;)</span>
+<span class="kw">type</span> <span class="iface">Awaited</span>&lt;<span class="tp">T</span>&gt; = <span class="tp">T</span> <span class="kw">extends</span> <span class="tp">Promise</span>&lt;<span class="kw">infer</span> <span class="tp">U</span>&gt; ? <span class="iface">Awaited</span>&lt;<span class="tp">U</span>&gt; : <span class="tp">T</span>; <span class="cmt">// recursive!</span>
+<span class="kw">type</span> C = <span class="iface">Awaited</span>&lt;<span class="tp">Promise</span>&lt;<span class="tp">Promise</span>&lt;<span class="tp">string</span>&gt;&gt;&gt;; <span class="cmt">// string</span>
+
+<span class="cmt">// Extract first and last from a tuple</span>
+<span class="kw">type</span> <span class="iface">Head</span>&lt;<span class="tp">T</span> <span class="kw">extends</span> <span class="tp">any</span>[]&gt; = <span class="tp">T</span> <span class="kw">extends</span> [<span class="kw">infer</span> <span class="tp">H</span>, ...any[]] ? <span class="tp">H</span> : <span class="kw">never</span>;
+<span class="kw">type</span> <span class="iface">Tail</span>&lt;<span class="tp">T</span> <span class="kw">extends</span> <span class="tp">any</span>[]&gt; = <span class="tp">T</span> <span class="kw">extends</span> [<span class="tp">any</span>, ...<span class="kw">infer</span> <span class="tp">Rest</span>] ? <span class="tp">Rest</span> : <span class="kw">never</span>;
+
+<span class="kw">type</span> H = <span class="iface">Head</span>&lt;[<span class="tp">string</span>, <span class="tp">number</span>, <span class="tp">boolean</span>]&gt;; <span class="cmt">// string</span>
+<span class="kw">type</span> T = <span class="iface">Tail</span>&lt;[<span class="tp">string</span>, <span class="tp">number</span>, <span class="tp">boolean</span>]&gt;; <span class="cmt">// [number, boolean]</span></code></pre></div>
+
+  <div class="sub-header"><div class="sub-num green">5</div><h3>🔥 Real-World — Infer React component props</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript + React</span><span class="cb-lbl">Extract props from any component</span></div>
+  <pre><code><span class="kw">import</span> { <span class="tp">ComponentProps</span>, <span class="tp">ComponentType</span> } <span class="kw">from</span> <span class="str">'react'</span>;
+
+<span class="cmt">// How React's built-in ComponentProps&lt;T&gt; works internally</span>
+<span class="kw">type</span> <span class="iface">PropsOf</span>&lt;<span class="tp">T</span>&gt; =
+  <span class="tp">T</span> <span class="kw">extends</span> <span class="tp">ComponentType</span>&lt;<span class="kw">infer</span> <span class="tp">P</span>&gt; ? <span class="tp">P</span> : <span class="kw">never</span>;
+
+<span class="cmt">// Extract props from a third-party component you don't own</span>
+<span class="kw">import</span> { DatePicker } <span class="kw">from</span> <span class="str">'some-ui-lib'</span>;
+<span class="kw">type</span> <span class="iface">DatePickerProps</span> = <span class="iface">PropsOf</span>&lt;<span class="kw">typeof</span> DatePicker&gt;;
+
+<span class="cmt">// Now extend it without re-declaring every prop manually</span>
+<span class="kw">type</span> <span class="iface">MyDatePickerProps</span> = <span class="iface">DatePickerProps</span> &amp; { label: <span class="tp">string</span>; required?: <span class="tp">boolean</span> };</code></pre></div>
+
+  <div class="sub-header"><div class="sub-num red">6</div><h3>⚠️ Pitfalls</h3></div>
+  <div class="warn-box"><div class="wt">❌ Using infer outside of a conditional type</div>
+  <p style="margin:0;font-size:13.5px"><code>infer</code> is only valid inside the <code>extends</code> clause of a conditional type. Writing <code>type X = infer T</code> at the top level is a syntax error. If you find yourself wanting <code>infer</code> outside a conditional, you likely need <code>ReturnType</code>, <code>Parameters</code>, or a built-in utility instead.</p></div>
+
+  <div class="sub-header"><div class="sub-num green">7</div><h3>🧪 Practice Task</h3></div>
+  <div class="task"><span class="tbadge med">🟡 MEDIUM</span><div class="task-body"><h4>UnwrapArray&lt;T&gt;</h4><p>Write <code>UnwrapArray&lt;T&gt;</code> that recursively unwraps nested arrays: <code>UnwrapArray&lt;string[][][]&gt;</code> → <code>string</code>. Use <code>infer</code> + recursion. Test it with 1, 2, and 3 levels of nesting.</p></div></div>
+  <div class="task"><span class="tbadge hard">🔴 REAL-WORLD</span><div class="task-body"><h4>PromiseChain&lt;T&gt;</h4><p>Build <code>PromiseChain&lt;T&gt;</code> that extracts the final resolved type from any depth of nested Promises — identical to the built-in <code>Awaited&lt;T&gt;</code>. Write it yourself using <code>infer</code> and recursion, then verify it handles <code>Promise&lt;Promise&lt;Promise&lt;User&gt;&gt;&gt;</code>.</p></div></div>
+</section>
+
+<hr/>
+
+<!-- ─── TOPIC 23: ADVANCED TYPE TRANSFORMATIONS ─── -->
+<section class="section" id="type-transformations">
+  <div class="section-header">
+    <div class="s-num">23</div>
+    <h2>Advanced Type Transformations</h2>
+  </div>
+
+  <div class="sub-header"><div class="sub-num teal">1</div><h3>📘 Definition</h3></div>
+  <p><strong>Advanced type transformations</strong> combine conditional types, mapped types, <code>infer</code>, template literal types, and recursive types to derive complex new types from existing ones — entirely at compile time, with zero runtime cost. These are the techniques used inside TypeScript's own standard library and in libraries like Zod, tRPC, and Prisma.</p>
+
+  <div class="sub-header"><div class="sub-num purple">2</div><h3>📖 Official Insight</h3></div>
+  <div class="official"><div class="wt">📖 TypeScript Docs say…</div>
+  <p style="margin:0;font-size:13.5px">"Template literal types build on string literal types, and have the ability to expand into many strings via unions… When a union is used in the interpolated position, the type is the set of every possible string literal that could be represented by each union member." Combined with <code>keyof</code>, <code>infer</code>, and conditional types, this enables fully type-safe string manipulation at the type level.</p></div>
+
+  <div class="sub-header"><div class="sub-num teal">3</div><h3>🧠 Template Literal Types</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">String manipulation at the type level</span></div>
+  <pre><code><span class="cmt">// Template literal types — like JS template strings but for types</span>
+<span class="kw">type</span> <span class="iface">EventName</span>&lt;<span class="tp">T</span> <span class="kw">extends</span> <span class="tp">string</span>&gt; = <span class="str">`on${Capitalize&lt;T&gt;}`</span>;
+
+<span class="kw">type</span> A = <span class="iface">EventName</span>&lt;<span class="str">"click"</span>&gt;;   <span class="cmt">// "onClick"</span>
+<span class="kw">type</span> B = <span class="iface">EventName</span>&lt;<span class="str">"focus"</span>&gt;;   <span class="cmt">// "onFocus"</span>
+
+<span class="cmt">// Distribute over a union of strings</span>
+<span class="kw">type</span> <span class="iface">DOMEvents</span> = <span class="iface">EventName</span>&lt;<span class="str">"click"</span> | <span class="str">"focus"</span> | <span class="str">"blur"</span>&gt;;
+<span class="cmt">// "onClick" | "onFocus" | "onBlur"</span>
+
+<span class="cmt">// Built-in string utility types</span>
+<span class="kw">type</span> U = <span class="tp">Uppercase</span>&lt;<span class="str">"hello"</span>&gt;;   <span class="cmt">// "HELLO"</span>
+<span class="kw">type</span> L = <span class="tp">Lowercase</span>&lt;<span class="str">"WORLD"</span>&gt;;   <span class="cmt">// "world"</span>
+<span class="kw">type</span> C = <span class="tp">Capitalize</span>&lt;<span class="str">"foo"</span>&gt;;    <span class="cmt">// "Foo"</span>
+<span class="kw">type</span> D = <span class="tp">Uncapitalize</span>&lt;<span class="str">"Bar"</span>&gt;;  <span class="cmt">// "bar"</span></code></pre></div>
+
+  <div class="sub-header"><div class="sub-num orange">4</div><h3>⚙️ Recursive Types</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">JSON, deep path access, nested structures</span></div>
+  <pre><code><span class="cmt">// Recursive JSON type</span>
+<span class="kw">type</span> <span class="iface">Json</span> =
+  | <span class="tp">string</span> | <span class="tp">number</span> | <span class="tp">boolean</span> | <span class="kw">null</span>
+  | <span class="iface">Json</span>[]
+  | { [key: <span class="tp">string</span>]: <span class="iface">Json</span> };
+
+<span class="cmt">// Deep path access — get the type at a nested key path</span>
+<span class="kw">type</span> <span class="iface">DeepGet</span>&lt;<span class="tp">T</span>, <span class="tp">K</span> <span class="kw">extends</span> <span class="tp">string</span>&gt; =
+  <span class="tp">K</span> <span class="kw">extends</span> <span class="str">`${infer Head}.${infer Tail}`</span>
+    ? <span class="tp">Head</span> <span class="kw">extends keyof</span> <span class="tp">T</span> ? <span class="iface">DeepGet</span>&lt;<span class="tp">T</span>[<span class="tp">Head</span>], <span class="tp">Tail</span>&gt; : <span class="kw">never</span>
+    : <span class="tp">K</span> <span class="kw">extends keyof</span> <span class="tp">T</span> ? <span class="tp">T</span>[<span class="tp">K</span>] : <span class="kw">never</span>;
+
+<span class="kw">type</span> <span class="iface">Config</span> = { db: { host: <span class="tp">string</span>; port: <span class="tp">number</span> }; app: { name: <span class="tp">string</span> } };
+<span class="kw">type</span> H = <span class="iface">DeepGet</span>&lt;<span class="iface">Config</span>, <span class="str">"db.host"</span>&gt;; <span class="cmt">// string ✅</span>
+<span class="kw">type</span> P = <span class="iface">DeepGet</span>&lt;<span class="iface">Config</span>, <span class="str">"db.port"</span>&gt;; <span class="cmt">// number ✅</span></code></pre></div>
+
+  <div class="sub-header"><div class="sub-num green">5</div><h3>🔥 Real-World — tRPC-style type-safe router paths</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">Typed route key extraction</span></div>
+  <pre><code><span class="cmt">// Build a union of all dot-notation paths in a nested object</span>
+<span class="kw">type</span> <span class="iface">DotPaths</span>&lt;<span class="tp">T</span>, <span class="tp">Prefix</span> <span class="kw">extends</span> <span class="tp">string</span> = <span class="str">""</span>&gt; = {
+  [<span class="tp">K</span> <span class="kw">in keyof</span> <span class="tp">T</span> &amp; <span class="tp">string</span>]:
+    <span class="tp">T</span>[<span class="tp">K</span>] <span class="kw">extends</span> <span class="tp">object</span>
+      ? <span class="iface">DotPaths</span>&lt;<span class="tp">T</span>[<span class="tp">K</span>], <span class="str">`${Prefix}${K}.`</span>&gt;
+      : <span class="str">`${Prefix}${K}`</span>
+}[<span class="kw">keyof</span> <span class="tp">T</span> &amp; <span class="tp">string</span>];
+
+<span class="kw">type</span> <span class="iface">AppRoutes</span> = {
+  users: { list: <span class="tp">string</span>; create: <span class="tp">string</span> };
+  posts: { list: <span class="tp">string</span>; getById: <span class="tp">string</span> };
+};
+<span class="kw">type</span> <span class="iface">Route</span> = <span class="iface">DotPaths</span>&lt;<span class="iface">AppRoutes</span>&gt;;
+<span class="cmt">// "users.list" | "users.create" | "posts.list" | "posts.getById" ✅</span></code></pre></div>
+
+  <div class="sub-header"><div class="sub-num red">6</div><h3>⚠️ Pitfalls</h3></div>
+  <div class="warn-box"><div class="wt">❌ Infinite recursion without a base case</div>
+  <p style="margin:0;font-size:13.5px">Recursive types must have a base case that terminates the recursion. TypeScript has a recursion depth limit — hitting it gives a cryptic "Type instantiation is excessively deep" error. Always test recursive types with shallow inputs first, and add <code>extends string ? ... : never</code> style guards to short-circuit early.</p></div>
+
+  <div class="sub-header"><div class="sub-num green">7</div><h3>🧪 Practice Task</h3></div>
+  <div class="task"><span class="tbadge hard">🔴 REAL-WORLD</span><div class="task-body"><h4>i18n translation key paths</h4><p>Given a nested translations object like <code>{ common: { save: string; cancel: string }; auth: { login: string; logout: string } }</code>, write a <code>TranslationKeys&lt;T&gt;</code> type that produces the union <code>"common.save" | "common.cancel" | "auth.login" | "auth.logout"</code>. Use template literal types and recursion.</p></div></div>
+</section>
+
+<hr/>
+
+<!-- ─── TOPIC 24: REUSABLE TYPE SYSTEMS ─── -->
+<section class="section" id="reusable-type-systems">
+  <div class="section-header">
+    <div class="s-num">24</div>
+    <h2>Designing Reusable Type Systems</h2>
+  </div>
+
+  <div class="sub-header"><div class="sub-num teal">1</div><h3>📘 Definition</h3></div>
+  <p>A <strong>reusable type system</strong> is a set of generic, composable types that model your application's domain once — and then flow end-to-end from database schema to API response to UI component without duplication or casting. It is the pinnacle of TypeScript design: types that eliminate bugs by construction.</p>
+
+  <div class="sub-header"><div class="sub-num purple">2</div><h3>📖 Official Insight</h3></div>
+  <div class="official"><div class="wt">📖 TypeScript Docs say…</div>
+  <p style="margin:0;font-size:13.5px">"TypeScript's type system is <em>structural</em> — it cares about the <em>shape</em> of types, not their names. This means you can design type hierarchies that describe your domain without inheritance chains." Good type design leverages this: one well-shaped generic type can describe hundreds of specific cases.</p></div>
+
+  <div class="sub-header"><div class="sub-num teal">3</div><h3>🧠 Core Patterns</h3></div>
+
+  <h3>Pattern 1 — Brand Types (Nominal Typing)</h3>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">Preventing primitive mix-ups</span></div>
+  <pre><code><span class="cmt">// TypeScript is structural — string is string, even if semantically different</span>
+<span class="kw">function</span> <span class="fn">sendEmail</span>(to: <span class="tp">string</span>, from: <span class="tp">string</span>) {}
+<span class="fn">sendEmail</span>(userId, email); <span class="cmt">// ❌ args swapped — TS won't catch this</span>
+
+<span class="cmt">// Brand types: create a unique type identity for a primitive</span>
+<span class="kw">type</span> <span class="iface">Brand</span>&lt;<span class="tp">T</span>, <span class="tp">B</span>&gt; = <span class="tp">T</span> &amp; { <span class="kw">readonly</span> __brand: <span class="tp">B</span> };
+
+<span class="kw">type</span> <span class="iface">UserId</span>  = <span class="iface">Brand</span>&lt;<span class="tp">string</span>, <span class="str">"UserId"</span>&gt;;
+<span class="kw">type</span> <span class="iface">Email</span>   = <span class="iface">Brand</span>&lt;<span class="tp">string</span>, <span class="str">"Email"</span>&gt;;
+
+<span class="kw">function</span> <span class="fn">createUserId</span>(id: <span class="tp">string</span>): <span class="iface">UserId</span>  { <span class="kw">return</span> id <span class="kw">as</span> <span class="iface">UserId</span>; }
+<span class="kw">function</span> <span class="fn">createEmail</span>(e: <span class="tp">string</span>):   <span class="iface">Email</span>   { <span class="kw">return</span> e  <span class="kw">as</span> <span class="iface">Email</span>; }
+
+<span class="kw">function</span> <span class="fn">sendEmail</span>(to: <span class="iface">Email</span>, from: <span class="iface">Email</span>) {}
+
+<span class="kw">const</span> uid = <span class="fn">createUserId</span>(<span class="str">"u_123"</span>);
+<span class="kw">const</span> em  = <span class="fn">createEmail</span>(<span class="str">"v@example.com"</span>);
+
+<span class="fn">sendEmail</span>(em, em);   <span class="cmt">// ✅</span>
+<span class="fn">sendEmail</span>(uid, em);  <span class="cmt">// ❌ Argument of type 'UserId' is not assignable to 'Email' ✅</span></code></pre></div>
+
+  <h3>Pattern 2 — Builder Pattern with Generics</h3>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">Type-safe query builder</span></div>
+  <pre><code><span class="cmt">// Each method call narrows the return type — chaining is type-safe</span>
+<span class="kw">class</span> <span class="iface">QueryBuilder</span>&lt;<span class="tp">T</span>, <span class="tp">Selected</span> <span class="kw">extends</span> <span class="kw">keyof</span> <span class="tp">T</span> = <span class="kw">keyof</span> <span class="tp">T</span>&gt; {
+  <span class="kw">private</span> _fields: (<span class="kw">keyof</span> <span class="tp">T</span>)[] = [];
+
+  <span class="fn">select</span>&lt;<span class="tp">K</span> <span class="kw">extends keyof</span> <span class="tp">T</span>&gt;(...fields: <span class="tp">K</span>[]): <span class="iface">QueryBuilder</span>&lt;<span class="tp">T</span>, <span class="tp">K</span>&gt; {
+    <span class="kw">this</span>._fields = fields;
+    <span class="kw">return</span> <span class="kw">this</span> <span class="kw">as</span> <span class="tp">any</span>;
+  }
+
+  <span class="fn">build</span>(): <span class="tp">Promise</span>&lt;<span class="tp">Pick</span>&lt;<span class="tp">T</span>, <span class="tp">Selected</span>&gt;[]&gt; {
+    <span class="kw">return</span> <span class="fn">fetch</span>(<span class="str">"/api/data"</span>).<span class="fn">then</span>(r =&gt; r.<span class="fn">json</span>());
+  }
+}
+
+<span class="kw">const</span> result = <span class="kw">await</span> <span class="kw">new</span> <span class="iface">QueryBuilder</span>&lt;<span class="iface">User</span>&gt;()
+  .<span class="fn">select</span>(<span class="str">"id"</span>, <span class="str">"name"</span>)
+  .<span class="fn">build</span>();
+<span class="cmt">// result: Pick&lt;User, "id" | "name"&gt;[] ✅</span></code></pre></div>
+
+  <h3>Pattern 3 — Discriminated Union State Machine</h3>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript + React</span><span class="cb-lbl">Async state — impossible states made impossible</span></div>
+  <pre><code><span class="cmt">// Model async state so idle/loading/success/error can't overlap</span>
+<span class="kw">type</span> <span class="iface">AsyncState</span>&lt;<span class="tp">T</span>&gt; =
+  | { status: <span class="str">"idle"</span> }
+  | { status: <span class="str">"loading"</span> }
+  | { status: <span class="str">"success"</span>; data: <span class="tp">T</span> }
+  | { status: <span class="str">"error"</span>;   error: <span class="tp">Error</span> };
+
+<span class="kw">function</span> <span class="fn">UserCard</span>({ state }: { state: <span class="iface">AsyncState</span>&lt;<span class="iface">User</span>&gt; }) {
+  <span class="kw">if</span> (state.status === <span class="str">"loading"</span>) <span class="kw">return</span> &lt;Spinner /&gt;;
+  <span class="kw">if</span> (state.status === <span class="str">"error"</span>)   <span class="kw">return</span> &lt;ErrorMsg msg={state.error.message} /&gt;;
+  <span class="kw">if</span> (state.status === <span class="str">"success"</span>) <span class="kw">return</span> &lt;div&gt;{state.data.name}&lt;/div&gt;; <span class="cmt">// state.data: User ✅</span>
+  <span class="kw">return</span> <span class="kw">null</span>;
+}</code></pre></div>
+
+  <div class="sub-header"><div class="sub-num orange">4</div><h3>⚙️ End-to-End Type Safety — Prisma → API → Client</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript + Prisma + Next.js</span><span class="cb-lbl">Types flow from DB schema to UI</span></div>
+  <pre><code><span class="cmt">// 1. Prisma generates these types from schema.prisma</span>
+<span class="kw">import</span> { <span class="tp">User</span> } <span class="kw">from</span> <span class="str">'@prisma/client'</span>;
+
+<span class="cmt">// 2. Derive API shapes from the DB type — no duplication</span>
+<span class="kw">type</span> <span class="iface">UserPublic</span>    = <span class="tp">Pick</span>&lt;<span class="iface">User</span>, <span class="str">"id"</span> | <span class="str">"name"</span> | <span class="str">"email"</span>&gt;;
+<span class="kw">type</span> <span class="iface">CreateUserDto</span> = <span class="tp">Omit</span>&lt;<span class="iface">User</span>, <span class="str">"id"</span> | <span class="str">"createdAt"</span> | <span class="str">"updatedAt"</span>&gt;;
+
+<span class="cmt">// 3. Validate at the API boundary with Zod</span>
+<span class="kw">const</span> createUserSchema: z.<span class="tp">ZodType</span>&lt;<span class="iface">CreateUserDto</span>&gt; = z.<span class="fn">object</span>({
+  name:     z.<span class="fn">string</span>(),
+  email:    z.<span class="fn">string</span>().<span class="fn">email</span>(),
+  password: z.<span class="fn">string</span>().<span class="fn">min</span>(<span class="num">8</span>),
+  role:     z.<span class="fn">enum</span>([<span class="str">"USER"</span>, <span class="str">"ADMIN"</span>]),
+});
+
+<span class="cmt">// 4. Route handler — types from step 2 are already enforced</span>
+<span class="kw">export async function</span> <span class="fn">POST</span>(req: <span class="tp">NextRequest</span>): <span class="tp">Promise</span>&lt;<span class="tp">NextResponse</span>&lt;<span class="iface">UserPublic</span>&gt;&gt; {
+  <span class="kw">const</span> parsed = createUserSchema.<span class="fn">safeParse</span>(<span class="kw">await</span> req.<span class="fn">json</span>());
+  <span class="kw">if</span> (!parsed.success) <span class="kw">return</span> <span class="tp">NextResponse</span>.<span class="fn">json</span>(<span class="tp">parsed</span>.error <span class="kw">as</span> <span class="tp">any</span>, { status: <span class="num">400</span> });
+  <span class="kw">const</span> user = <span class="kw">await</span> db.user.<span class="fn">create</span>({ data: parsed.data });
+  <span class="kw">return</span> <span class="tp">NextResponse</span>.<span class="fn">json</span>({ id: user.id, name: user.name, email: user.email });
+}</code></pre></div>
+
+  <div class="sub-header"><div class="sub-num red">6</div><h3>⚠️ Pitfalls</h3></div>
+  <div class="warn-box"><div class="wt">❌ Manually duplicating types instead of deriving them</div>
+  <p style="margin:0;font-size:13.5px">Writing a separate <code>UserResponse</code> type that manually re-lists every field from <code>User</code> is the #1 type maintenance problem in TypeScript apps. When the Prisma model changes, the manual copy gets out of sync. Always derive: <code>Pick</code>, <code>Omit</code>, <code>Partial</code>, and <code>z.infer</code> ensure your types stay in sync automatically.</p></div>
+
+  <div class="sub-header"><div class="sub-num green">7</div><h3>🧪 Practice Task</h3></div>
+  <div class="task"><span class="tbadge hard">🔴 REAL-WORLD</span><div class="task-body"><h4>End-to-end type flow</h4><p>Model a <code>Post</code> entity (id, title, content, published, authorId, createdAt). Derive: <code>PostPublic</code> (no authorId), <code>CreatePostDto</code> (no id/timestamps), <code>UpdatePostDto</code> (partial, no id/timestamps). Write a Zod schema for <code>CreatePostDto</code>. Connect it to a Next.js App Router POST handler that returns <code>PostPublic</code>. No manual type copying allowed.</p></div></div>
+</section>
+
+<hr/>
+
+<!-- ─── TOPIC 25: TYPE PERFORMANCE ─── -->
+<section class="section" id="type-performance">
+  <div class="section-header">
+    <div class="s-num">25</div>
+    <h2>Type Performance &amp; Complexity</h2>
+  </div>
+
+  <div class="sub-header"><div class="sub-num teal">1</div><h3>📘 Definition</h3></div>
+  <p><strong>Type performance</strong> is about how fast TypeScript's compiler resolves your types. Complex recursive types, deeply nested generics, and large union types can make the language server slow — causing poor editor experience, long CI builds, and "type instantiation is excessively deep" errors. Understanding what makes types slow lets you write fast, ergonomic type systems.</p>
+
+  <div class="sub-header"><div class="sub-num purple">2</div><h3>📖 Official Insight</h3></div>
+  <div class="official"><div class="wt">📖 TypeScript Docs say…</div>
+  <p style="margin:0;font-size:13.5px">"There are common ways to see whether your project has type-checking performance issues — running <code>tsc --diagnostics</code> will give you information about… instantiation counts and time spent on type checking." The TypeScript wiki also lists: prefer interfaces over type aliases for large object shapes (interfaces are cached; type aliases re-evaluated on each use), avoid excessive use of conditional types in hot paths, and use <code>extends</code> to constrain eagerly.</p></div>
+
+  <div class="sub-header"><div class="sub-num teal">3</div><h3>🧠 What Makes Types Slow</h3></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Pattern</th><th>Cost</th><th>Alternative</th></tr></thead>
+    <tbody>
+      <tr><td>Deep recursive conditional types</td><td>🔴 Very high</td><td>Add depth limit or use interface</td></tr>
+      <tr><td>Very large union types (100+ members)</td><td>🔴 High</td><td>Use <code>string</code> + branding</td></tr>
+      <tr><td><code>type</code> alias for large objects</td><td>🟡 Medium</td><td>Use <code>interface</code> (it's cached)</td></tr>
+      <tr><td>Re-computing the same mapped type repeatedly</td><td>🟡 Medium</td><td>Assign to a named type alias</td></tr>
+      <tr><td>Generic function with many overloads</td><td>🟢 Low</td><td>Reduce overload count</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="sub-header"><div class="sub-num orange">4</div><h3>⚙️ Practical Optimisation Techniques</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">interface vs type for large shapes</span></div>
+  <pre><code><span class="cmt">// ❌ type alias — re-evaluated on every use in complex scenarios</span>
+<span class="kw">type</span> <span class="iface">BigObjectType</span> = {
+  a: <span class="tp">string</span>; b: <span class="tp">number</span>; c: <span class="tp">boolean</span>; <span class="cmt">/* ... 50 more fields */</span>
+};
+
+<span class="cmt">// ✅ interface — TypeScript caches the shape after the first check</span>
+<span class="kw">interface</span> <span class="iface">BigObjectInterface</span> {
+  a: <span class="tp">string</span>; b: <span class="tp">number</span>; c: <span class="tp">boolean</span>; <span class="cmt">/* ... 50 more fields */</span>
+}</code></pre></div>
+
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript</span><span class="cb-lbl">Caching expensive types + depth limiting recursion</span></div>
+  <pre><code><span class="cmt">// ❌ Inline computation repeated everywhere</span>
+<span class="kw">function</span> <span class="fn">process</span>(data: <span class="tp">Omit</span>&lt;<span class="tp">Pick</span>&lt;<span class="iface">User</span>, <span class="str">"name"</span> | <span class="str">"email"</span> | <span class="str">"role"</span>&gt;, <span class="str">"role"</span>&gt;) {}
+
+<span class="cmt">// ✅ Name the derived type once — TypeScript reuses the cached result</span>
+<span class="kw">type</span> <span class="iface">UserContact</span> = <span class="tp">Omit</span>&lt;<span class="tp">Pick</span>&lt;<span class="iface">User</span>, <span class="str">"name"</span> | <span class="str">"email"</span> | <span class="str">"role"</span>&gt;, <span class="str">"role"</span>&gt;;
+<span class="kw">function</span> <span class="fn">process</span>(data: <span class="iface">UserContact</span>) {}
+
+<span class="cmt">// Depth-limited recursion — add a counter tuple to cap depth</span>
+<span class="kw">type</span> <span class="iface">Prev</span> = [<span class="kw">never</span>, <span class="num">0</span>, <span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>];
+
+<span class="kw">type</span> <span class="iface">DeepPartial</span>&lt;<span class="tp">T</span>, <span class="tp">Depth</span> <span class="kw">extends</span> <span class="tp">number</span> = <span class="num">5</span>&gt; = [<span class="tp">Depth</span>] <span class="kw">extends</span> [<span class="num">0</span>]
+  ? <span class="tp">T</span>
+  : { [<span class="tp">K</span> <span class="kw">in keyof</span> <span class="tp">T</span>]?: <span class="tp">T</span>[<span class="tp">K</span>] <span class="kw">extends</span> <span class="tp">object</span> ? <span class="iface">DeepPartial</span>&lt;<span class="tp">T</span>[<span class="tp">K</span>], <span class="iface">Prev</span>[<span class="tp">Depth</span>]&gt; : <span class="tp">T</span>[<span class="tp">K</span>] };</code></pre></div>
+
+  <h3>Diagnosing with tsc --diagnostics</h3>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">bash</span><span class="cb-lbl">Compiler performance report</span></div>
+  <pre><code><span class="cmt"># Run type-check and print performance stats</span>
+npx tsc --noEmit --diagnostics
+
+<span class="cmt"># Output includes:</span>
+<span class="cmt"># Files:              142</span>
+<span class="cmt"># Lines of Library:   35000</span>
+<span class="cmt"># Instantiation count: 180000  ← high = slow types</span>
+<span class="cmt"># Check time:         3.50s    ← aim for under 5s on large projects</span>
+
+<span class="cmt"># For detailed per-file analysis:</span>
+npx tsc --noEmit --generateTrace ./trace-output
+<span class="cmt"># Open trace-output in chrome://tracing to see which types are slowest</span></code></pre></div>
+
+  <div class="sub-header"><div class="sub-num green">5</div><h3>🔥 Real-World — Keeping a large Next.js project fast</h3></div>
+  <div class="cb"><div class="cb-head"><span class="cb-lang">TypeScript — Project best practices</span><span class="cb-lbl">Performance checklist</span></div>
+  <pre><code><span class="cmt">// 1. Use project references to split large monorepos into sub-projects</span>
+<span class="cmt">//    Each sub-project type-checks independently → parallel, incremental</span>
+
+<span class="cmt">// 2. Set skipLibCheck: true in tsconfig — don't re-check node_modules .d.ts files</span>
+{ <span class="str">"compilerOptions"</span>: { <span class="str">"skipLibCheck"</span>: <span class="bool">true</span> } }
+
+<span class="cmt">// 3. Prefer 'interface' for frequently extended types (Prisma models, API shapes)</span>
+<span class="kw">interface</span> <span class="iface">UserBase</span> { id: <span class="tp">string</span>; email: <span class="tp">string</span> }
+<span class="kw">interface</span> <span class="iface">AdminUser</span> <span class="kw">extends</span> <span class="iface">UserBase</span> { permissions: <span class="tp">string</span>[] }
+
+<span class="cmt">// 4. Avoid 'export *' in barrel files — it forces TS to resolve all re-exports eagerly</span>
+<span class="cmt">//    Use named exports: export { UserService } from './user'</span>
+
+<span class="cmt">// 5. Use satisfies instead of 'as' — gets type checking without widening</span>
+<span class="kw">const</span> config = {
+  port: <span class="num">3000</span>,
+  host: <span class="str">"localhost"</span>,
+} <span class="kw">satisfies</span> <span class="tp">Record</span>&lt;<span class="tp">string</span>, <span class="tp">string</span> | <span class="tp">number</span>&gt;; <span class="cmt">// checked ✅, type not widened ✅</span></code></pre></div>
+
+  <div class="sub-header"><div class="sub-num red">6</div><h3>⚠️ Pitfalls</h3></div>
+  <div class="warn-box"><div class="wt">❌ Using 'as' to silence slow complex types</div>
+  <p style="margin:0;font-size:13.5px">When a complex type is slow to resolve, the temptation is to cast with <code>as</code> to skip the check. This is wrong twice over: it hides the performance problem <em>and</em> removes type safety. Instead, simplify the type — name intermediate results, swap recursion for union enumeration, or use a simpler structural approximation.</p></div>
+
+  <div class="sub-header"><div class="sub-num green">7</div><h3>🧪 Practice Task</h3></div>
+  <div class="task"><span class="tbadge hard">🔴 REAL-WORLD</span><div class="task-body"><h4>Performance audit</h4><p>Run <code>tsc --noEmit --diagnostics</code> on a TypeScript project. Identify the three highest-instantiation-count types. Refactor at least one: either cache it as a named type alias, replace a deep recursive type with a depth-limited version, or convert a <code>type</code> alias to an <code>interface</code>. Confirm instantiation count drops.</p></div></div>
 </section>
 
 </main></div>
