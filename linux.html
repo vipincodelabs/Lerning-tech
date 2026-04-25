@@ -1,0 +1,2142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linux Mastery — Basic to Advanced</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0d0f12;
+            --bg2: #13161b;
+            --bg3: #1a1e25;
+            --border: #2a2f3a;
+            --border2: #3a4050;
+            --text: #e8eaf0;
+            --muted: #8892a4;
+            --green: #4ade80;
+            --green-dim: #166534;
+            --cyan: #22d3ee;
+            --cyan-dim: #0e7490;
+            --amber: #fbbf24;
+            --amber-dim: #92400e;
+            --purple: #a78bfa;
+            --purple-dim: #4c1d95;
+            --red: #f87171;
+            --red-dim: #7f1d1d;
+            --blue: #60a5fa;
+            --blue-dim: #1e3a8a;
+            --pink: #f472b6;
+            --font-mono: 'JetBrains Mono', monospace;
+            --font-display: 'Syne', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-display);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ── HEADER ── */
+        .hero {
+            padding: 3rem 2rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 300px;
+            background: radial-gradient(ellipse, rgba(74, 222, 128, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--green);
+            border: 1px solid var(--green-dim);
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 1rem;
+            letter-spacing: 0.1em;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            margin-bottom: 0.75rem;
+        }
+
+        .hero h1 span {
+            color: var(--green);
+        }
+
+        .hero p {
+            color: var(--muted);
+            font-size: 1rem;
+            max-width: 540px;
+            margin: 0 auto 1.5rem;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        /* ── PROGRESS BAR ── */
+        .progress-bar {
+            display: flex;
+            gap: 0;
+            max-width: 600px;
+            margin: 0 auto;
+            border-radius: 6px;
+            overflow: hidden;
+            height: 6px;
+        }
+
+        .pb-basic {
+            flex: 3;
+            background: var(--green);
+        }
+
+        .pb-intermediate {
+            flex: 4;
+            background: var(--cyan);
+        }
+
+        .pb-advanced {
+            flex: 3;
+            background: var(--amber);
+        }
+
+        .pb-docker {
+            flex: 2;
+            background: var(--purple);
+        }
+
+        /* ── LAYOUT ── */
+        .container {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: calc(100vh - 200px);
+        }
+
+        /* ── SIDEBAR ── */
+        .sidebar {
+            border-right: 1px solid var(--border);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: var(--border2);
+            border-radius: 2px;
+        }
+
+        .sidebar-section {
+            margin-bottom: 0.25rem;
+        }
+
+        .sidebar-label {
+            font-size: 10px;
+            font-family: var(--font-mono);
+            letter-spacing: 0.12em;
+            color: var(--muted);
+            padding: 0.75rem 1.5rem 0.4rem;
+            text-transform: uppercase;
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.45rem 1.5rem;
+            cursor: pointer;
+            font-size: 13.5px;
+            color: var(--muted);
+            border-left: 2px solid transparent;
+            transition: all 0.15s;
+            text-decoration: none;
+        }
+
+        .sidebar-item:hover {
+            color: var(--text);
+            background: var(--bg2);
+        }
+
+        .sidebar-item.active {
+            color: var(--text);
+            border-left-color: var(--green);
+            background: var(--bg2);
+        }
+
+        .sidebar-item .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .level-basic .dot {
+            background: var(--green);
+        }
+
+        .level-intermediate .dot {
+            background: var(--cyan);
+        }
+
+        .level-advanced .dot {
+            background: var(--amber);
+        }
+
+        .level-docker .dot {
+            background: var(--purple);
+        }
+
+        /* ── MAIN CONTENT ── */
+        .main {
+            padding: 2rem 2.5rem;
+            overflow-y: auto;
+        }
+
+        /* ── SECTION ── */
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .icon-basic {
+            background: rgba(74, 222, 128, 0.12);
+        }
+
+        .icon-intermediate {
+            background: rgba(34, 211, 238, 0.12);
+        }
+
+        .icon-advanced {
+            background: rgba(251, 191, 36, 0.12);
+        }
+
+        .icon-docker {
+            background: rgba(167, 139, 250, 0.12);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .section-sub {
+            font-size: 13px;
+            color: var(--muted);
+            margin-top: 2px;
+            font-weight: 400;
+        }
+
+        /* ── CONCEPT CARD ── */
+        .concept-card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 1.25rem;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+
+        .concept-card:hover {
+            border-color: var(--border2);
+        }
+
+        .concept-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.25rem;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .concept-title-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .concept-badge {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            letter-spacing: 0.05em;
+        }
+
+        .badge-basic {
+            background: rgba(74, 222, 128, 0.15);
+            color: var(--green);
+        }
+
+        .badge-intermediate {
+            background: rgba(34, 211, 238, 0.15);
+            color: var(--cyan);
+        }
+
+        .badge-advanced {
+            background: rgba(251, 191, 36, 0.15);
+            color: var(--amber);
+        }
+
+        .badge-docker {
+            background: rgba(167, 139, 250, 0.15);
+            color: var(--purple);
+        }
+
+        .badge-tip {
+            background: rgba(96, 165, 250, 0.15);
+            color: var(--blue);
+        }
+
+        .concept-name {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .concept-desc {
+            font-size: 13px;
+            color: var(--muted);
+            margin-top: 2px;
+            font-weight: 400;
+        }
+
+        .chevron {
+            color: var(--muted);
+            font-size: 12px;
+            transition: transform 0.2s;
+        }
+
+        .concept-card.open .chevron {
+            transform: rotate(180deg);
+        }
+
+        .concept-body {
+            display: none;
+            padding: 0 1.25rem 1.25rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .concept-card.open .concept-body {
+            display: block;
+        }
+
+        /* ── SIMPLE EXPLANATION ── */
+        .explain-box {
+            background: rgba(74, 222, 128, 0.06);
+            border: 1px solid rgba(74, 222, 128, 0.2);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            margin: 0.75rem 0;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #b2f0cb;
+        }
+
+        .explain-box strong {
+            color: var(--green);
+        }
+
+        /* ── COMMANDS TABLE ── */
+        .cmd-group {
+            margin-top: 0.75rem;
+        }
+
+        .cmd-group-title {
+            font-size: 11px;
+            font-family: var(--font-mono);
+            color: var(--muted);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .cmd-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .cmd-table tr {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .cmd-table tr:last-child {
+            border-bottom: none;
+        }
+
+        .cmd-table td {
+            padding: 7px 0;
+            vertical-align: top;
+        }
+
+        .cmd {
+            font-family: var(--font-mono);
+            font-size: 12.5px;
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.08);
+            padding: 2px 8px;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+
+        .cmd-desc {
+            font-size: 13px;
+            color: var(--muted);
+            padding-left: 16px;
+            line-height: 1.5;
+        }
+
+        .cmd-desc em {
+            color: var(--text);
+            font-style: normal;
+        }
+
+        /* ── CODE BLOCK ── */
+        .code-block {
+            background: #0a0c10;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 0.75rem 0;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            line-height: 1.7;
+            overflow-x: auto;
+        }
+
+        .code-block .prompt {
+            color: var(--green);
+        }
+
+        .code-block .comment {
+            color: var(--muted);
+        }
+
+        .code-block .output {
+            color: var(--amber);
+        }
+
+        .code-block .cmd2 {
+            color: var(--cyan);
+        }
+
+        .code-block .flag {
+            color: var(--purple);
+        }
+
+        .code-block .str {
+            color: #86efac;
+        }
+
+        /* ── WARNING / NOTE ── */
+        .note {
+            display: flex;
+            gap: 8px;
+            padding: 0.65rem 1rem;
+            border-radius: 8px;
+            margin: 0.75rem 0;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .note-warn {
+            background: rgba(251, 191, 36, 0.08);
+            border: 1px solid rgba(251, 191, 36, 0.2);
+            color: #fde68a;
+        }
+
+        .note-info {
+            background: rgba(96, 165, 250, 0.08);
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            color: #bfdbfe;
+        }
+
+        .note-danger {
+            background: rgba(248, 113, 113, 0.08);
+            border: 1px solid rgba(248, 113, 113, 0.2);
+            color: #fecaca;
+        }
+
+        .note-icon {
+            flex-shrink: 0;
+            font-size: 14px;
+        }
+
+        /* ── ANALOGY BOX ── */
+        .analogy {
+            background: rgba(167, 139, 250, 0.06);
+            border-left: 3px solid var(--purple);
+            padding: 0.75rem 1rem;
+            margin: 0.75rem 0;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #ddd6fe;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .analogy strong {
+            color: var(--purple);
+        }
+
+        /* ── DOCKER SPECIFIC ── */
+        .docker-flow {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin: 0.75rem 0;
+        }
+
+        .df-box {
+            background: var(--bg3);
+            border: 1px solid var(--border2);
+            border-radius: 8px;
+            padding: 6px 14px;
+            font-size: 13px;
+            font-family: var(--font-mono);
+            color: var(--purple);
+        }
+
+        .df-arrow {
+            color: var(--muted);
+            font-size: 16px;
+        }
+
+        /* ── SEARCH ── */
+        .search-wrap {
+            padding: 1rem 1.5rem 0.5rem;
+        }
+
+        .search-input {
+            width: 100%;
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--text);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-input:focus {
+            border-color: var(--border2);
+        }
+
+        .search-input::placeholder {
+            color: var(--muted);
+        }
+
+        /* ── LEVEL TABS ── */
+        .level-tabs {
+            display: flex;
+            gap: 8px;
+            padding: 1rem 2rem 0;
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 6px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--muted);
+            transition: all 0.15s;
+            font-family: var(--font-display);
+        }
+
+        .tab-btn:hover {
+            color: var(--text);
+            border-color: var(--border2);
+        }
+
+        .tab-btn.active-basic {
+            background: rgba(74, 222, 128, 0.1);
+            color: var(--green);
+            border-color: var(--green-dim);
+        }
+
+        .tab-btn.active-intermediate {
+            background: rgba(34, 211, 238, 0.1);
+            color: var(--cyan);
+            border-color: var(--cyan-dim);
+        }
+
+        .tab-btn.active-advanced {
+            background: rgba(251, 191, 36, 0.1);
+            color: var(--amber);
+            border-color: var(--amber-dim);
+        }
+
+        .tab-btn.active-docker {
+            background: rgba(167, 139, 250, 0.1);
+            color: var(--purple);
+            border-color: var(--purple-dim);
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                padding: 1.25rem;
+            }
+
+            .level-tabs {
+                padding: 0.75rem 1.25rem 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="hero">
+        <div class="hero-badge">$ sudo learn linux</div>
+        <h1>Linux <span>Mastery</span></h1>
+        <p>From zero to production-ready — covering file system, processes, networking, shell scripting, and Docker
+            fundamentals.</p>
+        <div class="progress-bar">
+            <div class="pb-basic"></div>
+            <div class="pb-intermediate"></div>
+            <div class="pb-advanced"></div>
+            <div class="pb-docker"></div>
+        </div>
+        <div
+            style="display:flex;justify-content:center;gap:1.5rem;margin-top:8px;font-size:11px;color:var(--muted);font-family:var(--font-mono);">
+            <span style="color:var(--green)">■</span> Basic &nbsp;
+            <span style="color:var(--cyan)">■</span> Intermediate &nbsp;
+            <span style="color:var(--amber)">■</span> Advanced &nbsp;
+            <span style="color:var(--purple)">■</span> Docker
+        </div>
+    </div>
+
+    <div class="level-tabs">
+        <button class="tab-btn active-basic" onclick="showSection('basic', this, 'active-basic')">🌱 Basic</button>
+        <button class="tab-btn" onclick="showSection('intermediate', this, 'active-intermediate')">⚡
+            Intermediate</button>
+        <button class="tab-btn" onclick="showSection('advanced', this, 'active-advanced')">🔥 Advanced</button>
+        <button class="tab-btn" onclick="showSection('docker', this, 'active-docker')">🐳 Docker Prep</button>
+    </div>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="search-wrap">
+                <input class="search-input" type="text" placeholder="Search commands..." id="searchInput"
+                    oninput="filterConcepts()" />
+            </div>
+            <div id="sidebarNav"></div>
+        </aside>
+
+        <main class="main">
+
+            <!-- ═══════════════════════════════════════════════ BASIC ══ -->
+            <div class="section active" id="section-basic">
+                <div class="section-header">
+                    <div class="section-icon icon-basic">🌱</div>
+                    <div>
+                        <div class="section-title">Linux Basics</div>
+                        <div class="section-sub">File system, navigation, file ops, permissions, users</div>
+                    </div>
+                </div>
+
+                <!-- WHAT IS LINUX -->
+                <div class="concept-card" data-section="basic">
+                    <div class="concept-header" onclick="toggle(this)">
+                        <div class="concept-title-row">
+                            <div>
+                                <div class="concept-name">What is Linux?</div>
+                                <div class="concept-desc">The OS under everything — servers, Android, Docker</div>
+                            </div>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="concept-body">
+                        <div class="explain-box">
+                            <strong>Simple:</strong> Linux is an open-source operating system kernel. Think of it as the
+                            engine of a car — the programs you run are the body. Linux runs on ~96% of web servers, all
+                            Android phones, and every Docker container.
+                        </div>
+                        <div class="analogy"><strong>Analogy:</strong> Windows is like a pre-built IKEA room. Linux is
+                            like getting the raw materials — you decide what goes where, but you have full control.
+                        </div>
+                        <table class="cmd-table" style="margin-top:0.75rem">
+                            <tr>
+                                <td><code class="cmd">uname -a</code></td>
+                                <td class="cmd-desc">Show kernel version + system info</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">lsb_release -a</code></td>
+                                <td class="cmd-desc">Show Linux distribution name</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">whoami</code></td>
+                                <td class="cmd-desc">Show current logged-in user</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">hostname</code></td>
+                                <td class="cmd-desc">Show machine name</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- FILE SYSTEM -->
+                <div class="concept-card" data-section="basic">
+                    <div class="concept-header" onclick="toggle(this)">
+                        <div class="concept-title-row">
+                            <div>
+                                <div class="concept-name">File System Structure</div>
+                                <div class="concept-desc">Where everything lives — understanding /</div>
+                            </div>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="concept-body">
+                        <div class="analogy"><strong>Analogy:</strong> Linux has one giant tree rooted at <code
+                                style="color:var(--cyan)">/</code> (called "root"). There is no C:\ or D:\ — everything
+                            hangs off this single root.</div>
+                        <table class="cmd-table" style="margin-top:0.75rem">
+                            <tr>
+                                <td><code class="cmd">/</code></td>
+                                <td class="cmd-desc">Root of everything</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">/home/you</code></td>
+                                <td class="cmd-desc">Your personal folder (like Desktop on Windows)</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">/etc</code></td>
+                                <td class="cmd-desc">All config files (nginx, ssh, etc.)</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">/var/log</code></td>
+                                <td class="cmd-desc">Log files — first place to debug issues</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">/usr/bin</code></td>
+                                <td class="cmd-desc">User programs (ls, grep, python...)</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">/tmp</code></td>
+                                <td class="cmd-desc">Temp files, wiped on reboot</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">/proc</code></td>
+                                <td class="cmd-desc">Virtual fs — live kernel/process info</td>
+                            </tr>
+                        </table>
+                        <div class="note note-info"><span class="note-icon">ℹ</span> Docker containers have their own
+                            isolated <code style="color:var(--cyan)">/</code> tree — that's one of the key things that
+                            makes them work!</div>
+                    </div>
+                </div>
+
+                <!-- NAVIGATION -->
+                <div class="concept-card open" data-section="basic">
+                    <div class="concept-header" onclick="toggle(this)">
+                        <div class="concept-title-row">
+                            <div>
+                                <div class="concept-name">Navigation</div>
+                                <div class="concept-desc">cd, ls, pwd — moving around the terminal</div>
+                            </div>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="concept-body">
+                        <table class="cmd-table">
+                            <tr>
+                                <td><code class="cmd">pwd</code></td>
+                                <td class="cmd-desc">Print current directory — <em>"Where am I?"</em></td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">ls</code></td>
+                                <td class="cmd-desc">List files in current folder</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">ls -la</code></td>
+                                <td class="cmd-desc">List ALL files including hidden, with permissions</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">cd /etc</code></td>
+                                <td class="cmd-desc">Go to /etc directory</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">cd ..</code></td>
+                                <td class="cmd-desc">Go one folder up</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">cd ~</code></td>
+                                <td class="cmd-desc">Go to your home directory</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">cd -</code></td>
+                                <td class="cmd-desc">Go back to previous directory</td>
+                            </tr>
+                        </table>
+                        <div class="code-block">
+                            <span class="prompt">$</span> <span class="cmd2">pwd</span>
+                            <span class="output">/home/rahul</span>
+
+                            <span class="prompt">$</span> <span class="cmd2">cd</span> /var/log
+                            <span class="prompt">$</span> <span class="cmd2">ls</span> <span class="flag">-la</span>
+                            <span class="output">drwxr-xr-x syslog
+                                drwxr-xr-x auth.log</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FILE OPERATIONS -->
+                <div class="concept-card" data-section="basic">
+                    <div class="concept-header" onclick="toggle(this)">
+                        <div class="concept-title-row">
+                            <div>
+                                <div class="concept-name">File Operations</div>
+                                <div class="concept-desc">Create, copy, move, delete files and folders</div>
+                            </div>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="concept-body">
+                        <table class="cmd-table">
+                            <tr>
+                                <td><code class="cmd">touch file.txt</code></td>
+                                <td class="cmd-desc">Create empty file</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">mkdir mydir</code></td>
+                                <td class="cmd-desc">Create a directory</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">mkdir -p a/b/c</code></td>
+                                <td class="cmd-desc">Create nested dirs in one shot</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">cp file1 file2</code></td>
+                                <td class="cmd-desc">Copy file</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">cp -r dir1 dir2</code></td>
+                                <td class="cmd-desc">Copy directory recursively</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">mv old new</code></td>
+                                <td class="cmd-desc">Move OR rename file/folder</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">rm file.txt</code></td>
+                                <td class="cmd-desc">Delete a file</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">rm -rf mydir</code></td>
+                                <td class="cmd-desc">Delete folder and everything in it</td>
+                            </tr>
+                        </table>
+                        <div class="note note-danger"><span class="note-icon">⚠</span> <code
+                                style="color:var(--red)">rm -rf /</code> deletes <strong>everything</strong>. Never run
+                            this. Linux has no recycle bin — deletion is permanent.</div>
+                    </div>
+                </div>
+
+                <!-- VIEWING FILES -->
+                <div class="concept-card" data-section="basic">
+                    <div class="concept-header" onclick="toggle(this)">
+                        <div class="concept-title-row">
+                            <div>
+                                <div class="concept-name">Viewing File Content</div>
+                                <div class="concept-desc">cat, less, head, tail — reading files</div>
+                            </div>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="concept-body">
+                        <table class="cmd-table">
+                            <tr>
+                                <td><code class="cmd">cat file.txt</code></td>
+                                <td class="cmd-desc">Print entire file to terminal</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">less file.txt</code></td>
+                                <td class="cmd-desc">Page through file (q to quit)</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">head -20 file</code></td>
+                                <td class="cmd-desc">Show first 20 lines</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">tail -20 file</code></td>
+                                <td class="cmd-desc">Show last 20 lines</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">tail -f log.txt</code></td>
+                                <td class="cmd-desc"><em>Live</em> follow a file as it grows — great for logs!</td>
+                            </tr>
+                        </table>
+                        <div class="note note-info"><span class="note-icon">ℹ</span> <code>tail -f</code> is your best
+                            friend when debugging Docker container logs in real-time.</div>
+                    </div>
+                </div>
+
+                <!-- PERMISSIONS -->
+                <div class="concept-card" data-section="basic">
+                    <div class="concept-header" onclick="toggle(this)">
+                        <div class="concept-title-row">
+                            <div>
+                                <div class="concept-name">File Permissions</div>
+                                <div class="concept-desc">chmod, chown — who can read/write/execute</div>
+                            </div>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="concept-body">
+                        <div class="explain-box">
+                            <strong>Simple:</strong> Every file has 3 sets of permissions — for the <em>owner</em>,
+                            <em>group</em>, and <em>everyone else</em>. Each set has 3 flags: <strong>r</strong>ead,
+                            <strong>w</strong>rite, e<strong>x</strong>ecute.
+                        </div>
+                        <div class="code-block">
+                            <span class="comment"># ls -la shows permissions:</span>
+                            <span class="output">-rwxr-xr-- 1 rahul dev 1024 script.sh</span>
+                            <span class="comment"># rwx = owner can read, write, execute
+                                # r-x = group can read and execute
+                                # r-- = others can only read</span>
+                        </div>
+                        <table class="cmd-table">
+                            <tr>
+                                <td><code class="cmd">chmod +x file</code></td>
+                                <td class="cmd-desc">Make file executable</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">chmod 755 file</code></td>
+                                <td class="cmd-desc">owner=rwx, group=rx, others=rx</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">chmod 644 file</code></td>
+                                <td class="cmd-desc">owner=rw, everyone=read only</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">chown user:group file</code></td>
+                                <td class="cmd-desc">Change owner and group</td>
+                            </tr>
+                        </table>
+                        <div class="analogy"><strong>Numbers:</strong> r=4, w=2, x=1. Add them up. 7=rwx, 5=rx, 4=r. So
+                            755 means full owner, read+exec for others.</div>
+                    </div>
+                </div>
+
+                <!-- USERS -->
+                <div class="concept-card" data-section="basic">
+                    <div class="concept-header" onclick="toggle(this)">
+                        <div class="concept-title-row">
+                            <div>
+                                <div class="concept-name">Users & sudo</div>
+                                <div class="concept-desc">root, sudo, user management</div>
+                            </div>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="concept-body">
+                        <div class="explain-box">
+                            <strong>Simple:</strong> Linux has a superuser called <strong>root</strong> who can do
+                            anything. Normal users have limited access. <code>sudo</code> lets you run a single command
+                            as root.
+                        </div>
+                        <table class="cmd-table">
+                            <tr>
+                                <td><code class="cmd">sudo command</code></td>
+                                <td class="cmd-desc">Run command as root</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">sudo su</code></td>
+                                <td class="cmd-desc">Switch to root shell (use with care!)</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">adduser username</code></td>
+                                <td class="cmd-desc">Create new user</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">passwd username</code></td>
+                                <td class="cmd-desc">Set/change user password</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">id</code></td>
+                                <td class="cmd-desc">Show current user's UID and groups</td>
+                            </tr>
+                        </table>
+                        <div class="note note-warn"><span class="note-icon">⚠</span> Docker containers often run as
+                            <code>root</code> by default — this is a security concern in production. We'll cover this in
+                            the Docker section.</div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- ═══════════════════════ END BASIC ═══════════════════════ -->
+
+
+            <!-- ══════════════════════ INTERMEDIATE ══════════════════════ -->
+            <div class="section" id="section-intermediate">
+                <div class="section-header">
+                    <div class="section-icon icon-intermediate">⚡</div>
+                    <div>
+                        <div class="section-title">Intermediate Linux</div>
+                        <div class="section-sub">Processes, pipes, grep, networking, package management, shell scripting
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PROCESSES -->
+                <div class="concept-card" data-section="intermediate">
+                    <div class="concept-header" onclick="toggle(this)">
+                        <div class="concept-title-row">
+                            <div>
+                                <div class="concept-name">Processes</div>
+                                <div class="concept-desc">ps, top, kill — managing running programs</div>
+                            </div>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="concept-body">
+                        <div class="explain-box">
+                            <strong>Simple:</strong> Every program running on Linux is a "process" with a unique PID
+                            (Process ID). The kernel manages all processes — you can inspect, pause, or kill them.
+                        </div>
+                        <table class="cmd-table">
+                            <tr>
+                                <td><code class="cmd">ps aux</code></td>
+                                <td class="cmd-desc">List all running processes</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">top</code></td>
+                                <td class="cmd-desc">Live process monitor (CPU, memory)</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">htop</code></td>
+                                <td class="cmd-desc">Better top — colorful, interactive</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">kill PID</code></td>
+                                <td class="cmd-desc">Send termination signal to process</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">kill -9 PID</code></td>
+                                <td class="cmd-desc">Force kill (SIGKILL) — immediate</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">pkill nginx</code></td>
+                                <td class="cmd-desc">Kill process by name</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">pgrep nginx</code></td>
+                                <td class="cmd-desc">Get PID of process by name</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">nohup cmd &amp;</code></td>
+                                <td class="cmd-desc">Run in background, survives terminal close</td>
+                            </tr>
+                        </table>
+                        <div class="note note-info"><span class="note-icon">ℹ</span> Docker containers are essentially
+                            just processes on the host OS, managed by the Docker daemon. <code>ps aux</code> on the host
+                            shows all container processes.</div>
+                    </div>
+                </div>
+
+                <!-- PIPES & REDIRECTION -->
+                <div class="concept-card open" data-section="intermediate">
+                    <div class="concept-header" onclick="toggle(this)">
+                        <div class="concept-title-row">
+                            <div>
+                                <div class="concept-name">Pipes & Redirection</div>
+                                <div class="concept-desc">The most powerful Linux concept — chaining commands</div>
+                            </div>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="concept-body">
+                        <div class="explain-box">
+                            <strong>Simple:</strong> The pipe <code>|</code> sends the output of one command as input to
+                            another. Redirection <code>&gt;</code> saves output to a file. This is how Linux does
+                            complex tasks with simple commands.
+                        </div>
+                        <div class="analogy"><strong>Analogy:</strong> Imagine a water pipe. Each command is a filter —
+                            water flows through them in sequence, transformed at each step.</div>
+                        <table class="cmd-table">
+                            <tr>
+                                <td><code class="cmd">cmd1 | cmd2</code></td>
+                                <td class="cmd-desc">Send output of cmd1 into cmd2</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">cmd &gt; file</code></td>
+                                <td class="cmd-desc">Save output to file (overwrite)</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">cmd &gt;&gt; file</code></td>
+                                <td class="cmd-desc">Append output to file</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">cmd 2&gt; err.log</code></td>
+                                <td class="cmd-desc">Redirect errors to file</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">cmd &gt; /dev/null</code></td>
+                                <td class="cmd-desc">Throw output away (silence)</td>
+                            </tr>
+                        </table>
+                        <div class="code-block">
+                            <span class="comment"># Find all running nginx processes</span>
+                            <span class="prompt">$</span> <span class="cmd2">ps aux</span> <span class="flag">|</span>
+                            <span class="cmd2">grep</span> nginx
+
+                            <span class="comment"># Count how many files in /etc</span>
+                            <span class="prompt">$</span> <span class="cmd2">ls</span> /etc <span class="flag">|</span>
+                            <span class="cmd2">wc -l</span>
+                            <span class="output">186</span>
+
+                            <span class="comment"># Save all errors from a script to log</span>
+                            <span class="prompt">$</span> <span class="cmd2">./deploy.sh</span> 2<span
+                                class="flag">&gt;</span> error.log
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GREP & TEXT TOOLS -->
+                <div class="concept-card" data-section="intermediate">
+                    <div class="concept-header" onclick="toggle(this)">
+                        <div class="concept-title-row">
+                            <div>
+                                <div class="concept-name">grep, sed, awk</div>
+                                <div class="concept-desc">Search and manipulate text like a pro</div>
+                            </div>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="concept-body">
+                        <div class="cmd-group-title">grep — search text</div>
+                        <table class="cmd-table">
+                            <tr>
+                                <td><code class="cmd">grep "word" file</code></td>
+                                <td class="cmd-desc">Find lines containing "word"</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">grep -r "word" dir/</code></td>
+                                <td class="cmd-desc">Search recursively in directory</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">grep -i "word" file</code></td>
+                                <td class="cmd-desc">Case-insensitive search</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">grep -v "word" file</code></td>
+                                <td class="cmd-desc">Show lines NOT containing word</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">grep -n "word" file</code></td>
+                                <td class="cmd-desc">Show line numbers</td>
+                            </tr>
+                        </table>
+                        <div class="cmd-group-title">sed — stream editor</div>
+                        <table class="cmd-table">
+                            <tr>
+                                <td><code class="cmd">sed 's/old/new/g' file</code></td>
+                                <td class="cmd-desc">Replace "old" with "new" everywhere</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">sed -i 's/old/new/g' file</code></td>
+                                <td class="cmd-desc">Replace in-place (edits file directly)</td>
+                            </tr>
+                        </table>
+                        <div class="cmd-group-title">awk — column processor</div>
+                        <table class="cmd-table">
+                            <tr>
+                                <td><code class="cmd">awk '{print $1}' file</code></td>
+                                <td class="cmd-desc">Print first column of each line</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">awk -F: '{print $1}' /etc/passwd</code></td>
+                                <td class="cmd-desc">Split by : and show first field</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- PACKAGE MANAGEMENT -->
+                <div class="concept-card" data-section="intermediate">
+                    <div class="concept-header" onclick="toggle(this)">
+                        <div class="concept-title-row">
+                            <div>
+                                <div class="concept-name">Package Management</div>
+                                <div class="concept-desc">apt (Ubuntu/Debian) — installing software</div>
+                            </div>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="concept-body">
+                        <div class="explain-box">
+                            <strong>Simple:</strong> Linux has app stores from the command line. <code>apt</code> is for
+                            Ubuntu/Debian. <code>yum/dnf</code> is for CentOS/RHEL. Docker images are mostly
+                            Debian-based, so know <code>apt</code> well.
+                        </div>
+                        <table class="cmd-table">
+                            <tr>
+                                <td><code class="cmd">apt update</code></td>
+                                <td class="cmd-desc">Refresh package list (like "sync")</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">apt install nginx</code></td>
+                                <td class="cmd-desc">Install nginx</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">apt remove nginx</code></td>
+                                <td class="cmd-desc">Remove package</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">apt upgrade</code></td>
+                                <td class="cmd-desc">Update all installed packages</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">apt search python3</code></td>
+                                <td class="cmd-desc">Search for packages</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">which python3</code></td>
+                                <td class="cmd-desc">Find where a program is installed</td>
+                            </tr>
+                        </table>
+                        <div class="note note-info"><span class="note-icon">ℹ</span> In Dockerfiles you'll often see:
+                            <code>RUN apt-get update && apt-get install -y curl</code> — this is just package management
+                            inside the container build.</div>
+                    </div>
+                </div>
+
+                <!-- NETWORKING BASICS -->
+                <div class="concept-card" data-section="intermediate">
+                    <div class="concept-header" onclick="toggle(this)">
+                        <div class="concept-title-row">
+                            <div>
+                                <div class="concept-name">Networking Basics</div>
+                                <div class="concept-desc">ip, curl, netstat, ssh — essential network commands</div>
+                            </div>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="concept-body">
+                        <table class="cmd-table">
+                            <tr>
+                                <td><code class="cmd">ip addr</code></td>
+                                <td class="cmd-desc">Show IP addresses of all interfaces</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">ip route</code></td>
+                                <td class="cmd-desc">Show routing table (gateway info)</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">ping google.com</code></td>
+                                <td class="cmd-desc">Test connectivity to a host</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">curl http://url</code></td>
+                                <td class="cmd-desc">Fetch URL — test HTTP endpoints</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">wget http://url</code></td>
+                                <td class="cmd-desc">Download file from URL</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">ss -tulpn</code></td>
+                                <td class="cmd-desc">Show open ports and listening services</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">ssh user@host</code></td>
+                                <td class="cmd-desc">Connect to remote machine via SSH</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">scp file user@host:path</code></td>
+                                <td class="cmd-desc">Copy file to remote via SSH</td>
+                            </tr>
+                        </table>
+                        <div class="note note-info"><span class="note-icon">ℹ</span> <code>ss -tulpn</code> is critical
+                            for Docker — it shows which ports your containers are exposing on the host.</div>
+                    </div>
+                </div>
+
+                <!-- SHELL SCRIPTING -->
+                <div class="concept-card" data-section="intermediate">
+                    <div class="concept-header" onclick="toggle(this)">
+                        <div class="concept-title-row">
+                            <div>
+                                <div class="concept-name">Shell Scripting Basics</div>
+                                <div class="concept-desc">Automate tasks with bash scripts</div>
+                            </div>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="concept-body">
+                        <div class="code-block">
+                            <span class="comment">#!/bin/bash</span>
+                            <span class="comment"># First line tells Linux: use bash to run this</span>
+
+                            <span class="comment"># Variables</span>
+                            <span class="str">NAME</span>=<span class="output">"Rahul"</span>
+                            <span class="cmd2">echo</span> <span class="output">"Hello $NAME"</span>
+
+                            <span class="comment"># If/else</span>
+                            <span class="flag">if</span> [ -f <span class="output">"/etc/nginx.conf"</span> ]; <span
+                                class="flag">then</span>
+                            <span class="cmd2">echo</span> <span class="output">"nginx config exists"</span>
+                            <span class="flag">else</span>
+                            <span class="cmd2">echo</span> <span class="output">"not found"</span>
+                            <span class="flag">fi</span>
+
+                            <span class="comment"># Loop</span>
+                            <span class="flag">for</span> file <span class="flag">in</span> /var/log/*.log; <span
+                                class="flag">do</span>
+                            <span class="cmd2">echo</span> <span class="output">"Processing: $file"</span>
+                            <span class="flag">done</span>
+                        </div>
+                        <table class="cmd-table">
+                            <tr>
+                                <td><code class="cmd">chmod +x script.sh</code></td>
+                                <td class="cmd-desc">Make script executable</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">./script.sh</code></td>
+                                <td class="cmd-desc">Run the script</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">bash script.sh</code></td>
+                                <td class="cmd-desc">Run without making executable</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ENVIRONMENT VARIABLES -->
+                <div class="concept-card" data-section="intermediate">
+                    <div class="concept-header" onclick="toggle(this)">
+                        <div class="concept-title-row">
+                            <div>
+                                <div class="concept-name">Environment Variables</div>
+                                <div class="concept-desc">export, .env, $PATH — critical for Docker</div>
+                            </div>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="concept-body">
+                        <div class="explain-box">
+                            <strong>Simple:</strong> Env vars are key=value pairs available to all programs. They
+                            configure apps without changing code. Docker <code>-e</code> flag and <code>.env</code>
+                            files use this exact system.
+                        </div>
+                        <table class="cmd-table">
+                            <tr>
+                                <td><code class="cmd">export MY_VAR=hello</code></td>
+                                <td class="cmd-desc">Set env var for current session</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">echo $MY_VAR</code></td>
+                                <td class="cmd-desc">Print value of variable</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">env</code></td>
+                                <td class="cmd-desc">List all environment variables</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">echo $PATH</code></td>
+                                <td class="cmd-desc">Show where Linux looks for programs</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">printenv DB_URL</code></td>
+                                <td class="cmd-desc">Print specific env var</td>
+                            </tr>
+                        </table>
+                        <div class="note note-info"><span class="note-icon">ℹ</span> In Docker:
+                            <code>docker run -e DB_URL=postgres://... app</code> sets env vars inside the container —
+                            same concept!</div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- ══════════════════ END INTERMEDIATE ══════════════════════ -->
+
+
+            <!-- ════════════════════════ ADVANCED ════════════════════════ -->
+            <div class="section" id="section-advanced">
+                <div class="section-header">
+                    <div class="section-icon icon-advanced">🔥</div>
+                    <div>
+                        <div class="section-title">Advanced Linux</div>
+                        <div class="section-sub">Systemd, cron, filesystems, security, performance, namespaces</div>
+                    </div>
+                </div>
+
+                <!-- SYSTEMD -->
+                <div class="concept-card open" data-section="advanced">
+                    <div class="concept-header" onclick="toggle(this)">
+                        <div class="concept-title-row">
+                            <div>
+                                <div class="concept-name">Systemd & Services</div>
+                                <div class="concept-desc">Managing background services — nginx, mysql, docker daemon
+                                </div>
+                            </div>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="concept-body">
+                        <div class="explain-box">
+                            <strong>Simple:</strong> Systemd is Linux's init system — it starts all services when the
+                            machine boots. You use <code>systemctl</code> to manage these services.
+                        </div>
+                        <table class="cmd-table">
+                            <tr>
+                                <td><code class="cmd">systemctl status nginx</code></td>
+                                <td class="cmd-desc">Check if nginx is running</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">systemctl start nginx</code></td>
+                                <td class="cmd-desc">Start nginx service</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">systemctl stop nginx</code></td>
+                                <td class="cmd-desc">Stop nginx</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">systemctl restart nginx</code></td>
+                                <td class="cmd-desc">Stop and start again</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">systemctl enable nginx</code></td>
+                                <td class="cmd-desc">Auto-start on boot</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">systemctl disable nginx</code></td>
+                                <td class="cmd-desc">Don't auto-start on boot</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">journalctl -u nginx -f</code></td>
+                                <td class="cmd-desc">Follow logs for a specific service</td>
+                            </tr>
+                        </table>
+                        <div class="note note-info"><span class="note-icon">ℹ</span>
+                            <code>systemctl enable docker</code> makes the Docker daemon start on boot — important for
+                            servers.</div>
+                    </div>
+                </div>
+
+                <!-- CRON JOBS -->
+                <div class="concept-card" data-section="advanced">
+                    <div class="concept-header" onclick="toggle(this)">
+                        <div class="concept-title-row">
+                            <div>
+                                <div class="concept-name">Cron Jobs</div>
+                                <div class="concept-desc">Schedule tasks to run automatically</div>
+                            </div>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="concept-body">
+                        <div class="explain-box">
+                            <strong>Simple:</strong> Cron is Linux's task scheduler. You write a "crontab" entry with a
+                            time pattern and a command. Linux runs it automatically at that time.
+                        </div>
+                        <div class="code-block">
+                            <span class="comment"># crontab format:
+                                # MIN HOUR DAY MONTH WEEKDAY command
+                                # (0-59)(0-23)(1-31)(1-12)(0-6=sun-sat)</span>
+
+                            <span class="output">*/5 * * * *</span> <span class="cmd2">/scripts/backup.sh</span> <span
+                                class="comment"># every 5 min</span>
+                            <span class="output">0 2 * * *</span> <span class="cmd2">/scripts/cleanup.sh</span> <span
+                                class="comment"># daily at 2am</span>
+                            <span class="output">0 0 * * 1</span> <span class="cmd2">/scripts/report.sh</span> <span
+                                class="comment"># every Monday midnight</span>
+                        </div>
+                        <table class="cmd-table">
+                            <tr>
+                                <td><code class="cmd">crontab -e</code></td>
+                                <td class="cmd-desc">Edit your cron jobs</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">crontab -l</code></td>
+                                <td class="cmd-desc">List all current cron jobs</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- DISK & STORAGE -->
+                <div class="concept-card" data-section="advanced">
+                    <div class="concept-header" onclick="toggle(this)">
+                        <div class="concept-title-row">
+                            <div>
+                                <div class="concept-name">Disk & Storage</div>
+                                <div class="concept-desc">df, du, mount — disk usage and volumes</div>
+                            </div>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="concept-body">
+                        <table class="cmd-table">
+                            <tr>
+                                <td><code class="cmd">df -h</code></td>
+                                <td class="cmd-desc">Disk space of all partitions (human readable)</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">du -sh /var</code></td>
+                                <td class="cmd-desc">Size of a specific directory</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">du -sh /* 2>/dev/null</code></td>
+                                <td class="cmd-desc">Size of all top-level dirs</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">lsblk</code></td>
+                                <td class="cmd-desc">List block devices (disks, partitions)</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">mount /dev/sdb1 /mnt</code></td>
+                                <td class="cmd-desc">Mount a disk to a directory</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">umount /mnt</code></td>
+                                <td class="cmd-desc">Unmount</td>
+                            </tr>
+                        </table>
+                        <div class="note note-info"><span class="note-icon">ℹ</span> Docker volumes are essentially
+                            managed Linux mounts. Understanding <code>mount</code> makes Docker volumes click.</div>
+                    </div>
+                </div>
+
+                <!-- NAMESPACES & CGROUPS -->
+                <div class="concept-card" data-section="advanced">
+                    <div class="concept-header" onclick="toggle(this)">
+                        <div class="concept-title-row">
+                            <div>
+                                <div class="concept-name">Namespaces & cgroups</div>
+                                <div class="concept-desc">The kernel features that power Docker containers</div>
+                            </div>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="concept-body">
+                        <div class="explain-box">
+                            <strong>Simple:</strong> This is how Docker actually works at the kernel level. You don't
+                            need to use these directly, but understanding them makes Docker intuitive.
+                        </div>
+                        <div class="analogy">
+                            <strong>Namespaces</strong> = Isolation. Each container gets its own view of: process IDs
+                            (<code>pid</code>), network interfaces (<code>net</code>), filesystem (<code>mnt</code>),
+                            hostname (<code>uts</code>). Processes inside can't see outside.<br /><br />
+                            <strong>cgroups</strong> = Resource limits. They control how much CPU, RAM, and disk I/O a
+                            container can use. <code>docker run --memory=512m</code> uses cgroups under the hood.
+                        </div>
+                        <div class="code-block">
+                            <span class="comment"># See namespaces of a running process</span>
+                            <span class="prompt">$</span> <span class="cmd2">ls</span> -la /proc/1234/ns/
+
+                            <span class="comment"># Docker uses these automatically</span>
+                            <span class="comment"># docker run = new PID + net + mnt namespace</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PERFORMANCE -->
+                <div class="concept-card" data-section="advanced">
+                    <div class="concept-header" onclick="toggle(this)">
+                        <div class="concept-title-row">
+                            <div>
+                                <div class="concept-name">Performance & Debugging</div>
+                                <div class="concept-desc">strace, lsof, vmstat — diagnose issues</div>
+                            </div>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="concept-body">
+                        <table class="cmd-table">
+                            <tr>
+                                <td><code class="cmd">vmstat 1</code></td>
+                                <td class="cmd-desc">CPU, memory, I/O stats every 1 second</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">iostat</code></td>
+                                <td class="cmd-desc">Disk read/write stats</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">free -h</code></td>
+                                <td class="cmd-desc">RAM and swap usage</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">lsof -p PID</code></td>
+                                <td class="cmd-desc">Files opened by a process</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">lsof -i :80</code></td>
+                                <td class="cmd-desc">What process is using port 80</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">strace -p PID</code></td>
+                                <td class="cmd-desc">Trace system calls of a process — deep debugging</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">dmesg | tail</code></td>
+                                <td class="cmd-desc">Kernel messages — hardware errors, OOM kills</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- SSH ADVANCED -->
+                <div class="concept-card" data-section="advanced">
+                    <div class="concept-header" onclick="toggle(this)">
+                        <div class="concept-title-row">
+                            <div>
+                                <div class="concept-name">SSH Keys & Tunneling</div>
+                                <div class="concept-desc">Passwordless login, port forwarding</div>
+                            </div>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="concept-body">
+                        <div class="code-block">
+                            <span class="comment"># Generate SSH key pair</span>
+                            <span class="prompt">$</span> <span class="cmd2">ssh-keygen</span> <span class="flag">-t
+                                ed25519</span> -C <span class="str">"your@email.com"</span>
+                            <span class="comment"># Creates: ~/.ssh/id_ed25519 (private) + id_ed25519.pub
+                                (public)</span>
+
+                            <span class="comment"># Copy public key to remote server</span>
+                            <span class="prompt">$</span> <span class="cmd2">ssh-copy-id</span> user@server
+
+                            <span class="comment"># SSH tunnel: access remote port 5432 locally</span>
+                            <span class="prompt">$</span> <span class="cmd2">ssh</span> <span class="flag">-L</span>
+                            5432:localhost:5432 user@server
+                        </div>
+                        <div class="note note-info"><span class="note-icon">ℹ</span> SSH keys are used everywhere in
+                            DevOps — GitHub authentication, server access, CI/CD pipelines, and Docker image registry
+                            access.</div>
+                    </div>
+                </div>
+
+                <!-- FIREWALL -->
+                <div class="concept-card" data-section="advanced">
+                    <div class="concept-header" onclick="toggle(this)">
+                        <div class="concept-title-row">
+                            <div>
+                                <div class="concept-name">Firewall — ufw & iptables</div>
+                                <div class="concept-desc">Control network access in/out of the server</div>
+                            </div>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="concept-body">
+                        <table class="cmd-table">
+                            <tr>
+                                <td><code class="cmd">ufw status</code></td>
+                                <td class="cmd-desc">Check firewall status</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">ufw allow 80</code></td>
+                                <td class="cmd-desc">Allow HTTP traffic</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">ufw allow 22</code></td>
+                                <td class="cmd-desc">Allow SSH (do this before enabling!)</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">ufw deny 3306</code></td>
+                                <td class="cmd-desc">Block MySQL from outside</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">ufw enable</code></td>
+                                <td class="cmd-desc">Turn on the firewall</td>
+                            </tr>
+                        </table>
+                        <div class="note note-warn"><span class="note-icon">⚠</span> Docker bypasses ufw and writes
+                            directly to iptables! If you expose a Docker port with <code>-p</code>, it's publicly
+                            accessible even if ufw blocks it. Use Docker networks to limit exposure.</div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- ════════════════════ END ADVANCED ════════════════════════ -->
+
+
+            <!-- ════════════════════════ DOCKER PREP ═════════════════════ -->
+            <div class="section" id="section-docker">
+                <div class="section-header">
+                    <div class="section-icon icon-docker">🐳</div>
+                    <div>
+                        <div class="section-title">Docker Prep</div>
+                        <div class="section-sub">Linux knowledge you'll use daily with Docker</div>
+                    </div>
+                </div>
+
+                <!-- HOW DOCKER USES LINUX -->
+                <div class="concept-card open" data-section="docker">
+                    <div class="concept-header" onclick="toggle(this)">
+                        <div class="concept-title-row">
+                            <div>
+                                <div class="concept-name">How Docker Uses Linux</div>
+                                <div class="concept-desc">The connection between everything you've learned</div>
+                            </div>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="concept-body">
+                        <div class="explain-box">
+                            <strong>Simple:</strong> Docker is NOT a virtual machine. It's just Linux kernel features
+                            packaged nicely. Every container is a process on your Linux machine, isolated by namespaces
+                            and limited by cgroups.
+                        </div>
+                        <div class="docker-flow">
+                            <div class="df-box">Dockerfile</div>
+                            <span class="df-arrow">→</span>
+                            <div class="df-box">Image</div>
+                            <span class="df-arrow">→</span>
+                            <div class="df-box">Container</div>
+                            <span class="df-arrow">=</span>
+                            <div class="df-box">Linux Process</div>
+                        </div>
+                        <table class="cmd-table" style="margin-top:0.75rem">
+                            <tr>
+                                <td style="color:var(--muted);font-size:13px">Filesystem isolation</td>
+                                <td class="cmd-desc">→ Linux <code style="color:var(--cyan)">mount namespaces</code>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="color:var(--muted);font-size:13px">Network isolation</td>
+                                <td class="cmd-desc">→ Linux <code style="color:var(--cyan)">network namespaces</code>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="color:var(--muted);font-size:13px">Resource limits</td>
+                                <td class="cmd-desc">→ Linux <code style="color:var(--cyan)">cgroups</code></td>
+                            </tr>
+                            <tr>
+                                <td style="color:var(--muted);font-size:13px">Image layers</td>
+                                <td class="cmd-desc">→ Linux <code style="color:var(--cyan)">overlay filesystem</code>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- LINUX COMMANDS IN DOCKER -->
+                <div class="concept-card" data-section="docker">
+                    <div class="concept-header" onclick="toggle(this)">
+                        <div class="concept-title-row">
+                            <div>
+                                <div class="concept-name">Linux Commands Inside Docker</div>
+                                <div class="concept-desc">Exec into containers, debug like a Linux pro</div>
+                            </div>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="concept-body">
+                        <div class="code-block">
+                            <span class="comment"># Get a shell inside a running container</span>
+                            <span class="prompt">$</span> <span class="cmd2">docker exec</span> <span
+                                class="flag">-it</span> myapp <span class="str">bash</span>
+
+                            <span class="comment"># Now you're INSIDE the container — Linux commands work!</span>
+                            <span class="output">root@a1b2c3:/app#</span> <span class="cmd2">ls</span> -la
+                            <span class="output">root@a1b2c3:/app#</span> <span class="cmd2">cat</span> /etc/hosts
+                            <span class="output">root@a1b2c3:/app#</span> <span class="cmd2">ps aux</span>
+                            <span class="output">root@a1b2c3:/app#</span> <span class="cmd2">env</span> <span
+                                class="comment"># see env vars</span>
+                            <span class="output">root@a1b2c3:/app#</span> <span class="cmd2">tail -f</span>
+                            /app/logs/app.log
+                        </div>
+                        <div class="note note-info"><span class="note-icon">ℹ</span> All Linux commands you've learned
+                            work exactly the same inside a container. This is why learning Linux first matters so much.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DOCKERFILE LINUX CONCEPTS -->
+                <div class="concept-card" data-section="docker">
+                    <div class="concept-header" onclick="toggle(this)">
+                        <div class="concept-title-row">
+                            <div>
+                                <div class="concept-name">Linux in Dockerfiles</div>
+                                <div class="concept-desc">Every Dockerfile instruction maps to Linux concepts</div>
+                            </div>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="concept-body">
+                        <div class="code-block">
+                            <span class="comment"># FROM = base Linux image (Ubuntu, Alpine, Debian)</span>
+                            <span class="flag">FROM</span> ubuntu:22.04
+
+                            <span class="comment"># RUN = execute Linux commands during build</span>
+                            <span class="flag">RUN</span> <span class="cmd2">apt-get update</span> &amp;&amp; <span
+                                class="cmd2">apt-get install</span> <span class="flag">-y</span> python3
+
+                            <span class="comment"># WORKDIR = cd into this directory</span>
+                            <span class="flag">WORKDIR</span> /app
+
+                            <span class="comment"># COPY = cp files into the image</span>
+                            <span class="flag">COPY</span> . .
+
+                            <span class="comment"># ENV = export environment variables</span>
+                            <span class="flag">ENV</span> PORT=8000
+
+                            <span class="comment"># USER = run as non-root (security!)</span>
+                            <span class="flag">USER</span> 1001
+
+                            <span class="comment"># CMD = what process to start</span>
+                            <span class="flag">CMD</span> [<span class="str">"python3"</span>, <span
+                                class="str">"app.py"</span>]
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VOLUMES & PERMISSIONS -->
+                <div class="concept-card" data-section="docker">
+                    <div class="concept-header" onclick="toggle(this)">
+                        <div class="concept-title-row">
+                            <div>
+                                <div class="concept-name">Volumes & File Permissions</div>
+                                <div class="concept-desc">The #1 Docker headache — solved with Linux knowledge</div>
+                            </div>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="concept-body">
+                        <div class="explain-box">
+                            <strong>Common problem:</strong> You mount a volume into a container and get "permission
+                            denied." This happens because the container's user UID doesn't match the host file's owner
+                            UID.
+                        </div>
+                        <div class="code-block">
+                            <span class="comment"># Check who owns files on host</span>
+                            <span class="prompt">$</span> <span class="cmd2">ls -la</span> ./data
+                            <span class="output">drwxr-xr-x 1000 1000 data/</span> <span class="comment"># owned by UID
+                                1000</span>
+
+                            <span class="comment"># Check UID inside container</span>
+                            <span class="prompt">$</span> <span class="cmd2">docker exec</span> myapp id
+                            <span class="output">uid=0(root)</span> <span class="comment"># running as root = no
+                                permission issue</span>
+
+                            <span class="comment"># Fix: make your user own the directory</span>
+                            <span class="prompt">$</span> <span class="cmd2">chown</span> <span class="flag">-R</span>
+                            1000:1000 ./data
+                        </div>
+                        <div class="note note-warn"><span class="note-icon">⚠</span> Always think about file ownership
+                            when mounting Docker volumes. <code>chown</code> and <code>chmod</code> are your solutions.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NETWORKING DOCKER -->
+                <div class="concept-card" data-section="docker">
+                    <div class="concept-header" onclick="toggle(this)">
+                        <div class="concept-title-row">
+                            <div>
+                                <div class="concept-name">Networking — Container to Host</div>
+                                <div class="concept-desc">Ports, interfaces, host networking</div>
+                            </div>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="concept-body">
+                        <div class="code-block">
+                            <span class="comment"># Show Docker's virtual network interfaces on host</span>
+                            <span class="prompt">$</span> <span class="cmd2">ip addr</span>
+                            <span class="output">docker0: 172.17.0.1</span> <span class="comment"># Docker bridge
+                                network</span>
+                            <span class="output">veth123: ...</span> <span class="comment"># virtual interface for each
+                                container</span>
+
+                            <span class="comment"># See what ports containers are exposing</span>
+                            <span class="prompt">$</span> <span class="cmd2">ss -tulpn</span>
+                            <span class="output">tcp 0.0.0.0:8080 LISTEN docker-proxy</span>
+
+                            <span class="comment"># Inspect container's IP inside Docker network</span>
+                            <span class="prompt">$</span> <span class="cmd2">docker inspect</span> myapp <span
+                                class="flag">|</span> <span class="cmd2">grep</span> IPAddress
+                        </div>
+                        <table class="cmd-table">
+                            <tr>
+                                <td><code class="cmd">docker run -p 8080:80</code></td>
+                                <td class="cmd-desc">Map host port 8080 → container port 80</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">--network host</code></td>
+                                <td class="cmd-desc">Container shares host's network (no isolation)</td>
+                            </tr>
+                            <tr>
+                                <td><code class="cmd">--network none</code></td>
+                                <td class="cmd-desc">No network at all</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- LOG DEBUGGING -->
+                <div class="concept-card" data-section="docker">
+                    <div class="concept-header" onclick="toggle(this)">
+                        <div class="concept-title-row">
+                            <div>
+                                <div class="concept-name">Log Debugging with Linux Tools</div>
+                                <div class="concept-desc">grep + tail + docker logs = powerful debugging</div>
+                            </div>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="concept-body">
+                        <div class="code-block">
+                            <span class="comment"># Follow container logs (like tail -f)</span>
+                            <span class="prompt">$</span> <span class="cmd2">docker logs</span> <span
+                                class="flag">-f</span> myapp
+
+                            <span class="comment"># Pipe docker logs into grep — find errors only</span>
+                            <span class="prompt">$</span> <span class="cmd2">docker logs</span> myapp 2&gt;&amp;1 <span
+                                class="flag">|</span> <span class="cmd2">grep</span> <span class="flag">-i</span> <span
+                                class="str">"error"</span>
+
+                            <span class="comment"># Last 100 lines</span>
+                            <span class="prompt">$</span> <span class="cmd2">docker logs</span> <span
+                                class="flag">--tail</span> 100 myapp
+
+                            <span class="comment"># Show logs since 30 minutes ago</span>
+                            <span class="prompt">$</span> <span class="cmd2">docker logs</span> <span
+                                class="flag">--since</span> 30m myapp
+                        </div>
+                        <div class="note note-info"><span class="note-icon">ℹ</span> All your Linux knowledge (pipe,
+                            grep, tail, redirect) works perfectly with Docker output. That's the power of the Unix
+                            philosophy.</div>
+                    </div>
+                </div>
+
+                <!-- WHAT'S NEXT -->
+                <div class="concept-card" data-section="docker">
+                    <div class="concept-header" onclick="toggle(this)">
+                        <div class="concept-title-row">
+                            <div>
+                                <div class="concept-name">Ready for Docker — What's Next</div>
+                                <div class="concept-desc">The roadmap from here</div>
+                            </div>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="concept-body">
+                        <div class="explain-box">
+                            <strong>You now know:</strong> filesystem, permissions, processes, pipes, networking, env
+                            vars, namespaces, cgroups. You're fully prepared to understand Docker deeply — not just
+                            copy-paste commands.
+                        </div>
+                        <table class="cmd-table">
+                            <tr>
+                                <td style="color:var(--purple);font-size:13px;font-weight:600;">01</td>
+                                <td class="cmd-desc"><em>Docker basics</em> — images, containers, run, build</td>
+                            </tr>
+                            <tr>
+                                <td style="color:var(--purple);font-size:13px;font-weight:600;">02</td>
+                                <td class="cmd-desc"><em>Dockerfile</em> — write your own images</td>
+                            </tr>
+                            <tr>
+                                <td style="color:var(--purple);font-size:13px;font-weight:600;">03</td>
+                                <td class="cmd-desc"><em>docker-compose</em> — multi-container apps</td>
+                            </tr>
+                            <tr>
+                                <td style="color:var(--purple);font-size:13px;font-weight:600;">04</td>
+                                <td class="cmd-desc"><em>Volumes & networks</em> — persistent data</td>
+                            </tr>
+                            <tr>
+                                <td style="color:var(--purple);font-size:13px;font-weight:600;">05</td>
+                                <td class="cmd-desc"><em>Docker in production</em> — security, registry, CI/CD</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+            <!-- ════════════════════ END DOCKER PREP ═════════════════════ -->
+
+        </main>
+    </div>
+
+    <script>
+        const sections = ['basic', 'intermediate', 'advanced', 'docker'];
+        const sidebarData = {
+            basic: [
+                { id: 'basic-0', name: 'What is Linux?' },
+                { id: 'basic-1', name: 'File System Structure' },
+                { id: 'basic-2', name: 'Navigation' },
+                { id: 'basic-3', name: 'File Operations' },
+                { id: 'basic-4', name: 'Viewing Files' },
+                { id: 'basic-5', name: 'Permissions' },
+                { id: 'basic-6', name: 'Users & sudo' },
+            ],
+            intermediate: [
+                { id: 'int-0', name: 'Processes' },
+                { id: 'int-1', name: 'Pipes & Redirection' },
+                { id: 'int-2', name: 'grep, sed, awk' },
+                { id: 'int-3', name: 'Package Management' },
+                { id: 'int-4', name: 'Networking Basics' },
+                { id: 'int-5', name: 'Shell Scripting' },
+                { id: 'int-6', name: 'Environment Variables' },
+            ],
+            advanced: [
+                { id: 'adv-0', name: 'Systemd & Services' },
+                { id: 'adv-1', name: 'Cron Jobs' },
+                { id: 'adv-2', name: 'Disk & Storage' },
+                { id: 'adv-3', name: 'Namespaces & cgroups' },
+                { id: 'adv-4', name: 'Performance & Debugging' },
+                { id: 'adv-5', name: 'SSH Keys & Tunneling' },
+                { id: 'adv-6', name: 'Firewall' },
+            ],
+            docker: [
+                { id: 'doc-0', name: 'How Docker Uses Linux' },
+                { id: 'doc-1', name: 'Commands Inside Docker' },
+                { id: 'doc-2', name: 'Linux in Dockerfiles' },
+                { id: 'doc-3', name: 'Volumes & Permissions' },
+                { id: 'doc-4', name: 'Networking' },
+                { id: 'doc-5', name: 'Log Debugging' },
+                { id: 'doc-6', name: "What's Next" },
+            ]
+        };
+
+        const levelColors = { basic: 'level-basic', intermediate: 'level-intermediate', advanced: 'level-advanced', docker: 'level-docker' };
+        const levelLabels = { basic: '🌱 Basic', intermediate: '⚡ Intermediate', advanced: '🔥 Advanced', docker: '🐳 Docker' };
+
+        function buildSidebar(activeSection) {
+            const nav = document.getElementById('sidebarNav');
+            nav.innerHTML = '';
+            sections.forEach(sec => {
+                const label = document.createElement('div');
+                label.className = 'sidebar-label';
+                label.textContent = levelLabels[sec];
+                nav.appendChild(label);
+                sidebarData[sec].forEach((item, i) => {
+                    const a = document.createElement('a');
+                    a.className = `sidebar-item ${levelColors[sec]}`;
+                    a.href = '#';
+                    a.innerHTML = `<span class="dot"></span>${item.name}`;
+                    a.onclick = (e) => { e.preventDefault(); scrollToCard(sec, i); };
+                    nav.appendChild(a);
+                });
+            });
+        }
+
+        function scrollToCard(sec, idx) {
+            showSection(sec, null, 'active-' + sec);
+            setTimeout(() => {
+                const cards = document.querySelectorAll(`#section-${sec} .concept-card`);
+                if (cards[idx]) {
+                    cards[idx].scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    if (!cards[idx].classList.contains('open')) {
+                        cards[idx].classList.add('open');
+                    }
+                }
+            }, 50);
+        }
+
+        let activeTabClass = 'active-basic';
+        function showSection(name, btn, cls) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById('section-' + name).classList.add('active');
+            document.querySelectorAll('.tab-btn').forEach(b => {
+                b.classList.remove('active-basic', 'active-intermediate', 'active-advanced', 'active-docker');
+            });
+            if (btn) btn.classList.add(cls);
+            else {
+                document.querySelectorAll('.tab-btn').forEach(b => {
+                    if (b.getAttribute('onclick').includes("'" + name + "'")) b.classList.add(cls);
+                });
+            }
+            activeTabClass = cls;
+        }
+
+        function toggle(header) {
+            const card = header.parentElement;
+            card.classList.toggle('open');
+        }
+
+        function filterConcepts() {
+            const q = document.getElementById('searchInput').value.toLowerCase();
+            if (!q) {
+                document.querySelectorAll('.concept-card').forEach(c => c.style.display = '');
+                return;
+            }
+            document.querySelectorAll('.concept-card').forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(q) ? '' : 'none';
+            });
+        }
+
+        buildSidebar('basic');
+    </script>
+</body>
+
+</html>
